@@ -73,6 +73,7 @@ class SMS_Twilio_backend:
         return_values['status'] = request.values.get('Status', None)
         return_values['error_code'] = request.values.get('Error_code', None)
         return_values['error_message'] = request.values.get('Error_message', None)
+        return_values['from_city'] = request.values.get('FromCity', None)
 
         handler = messaging_handler.messaging_handler()
         handler.receiveMessage(return_values, request)
