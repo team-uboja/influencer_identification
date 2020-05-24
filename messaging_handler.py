@@ -25,7 +25,7 @@ class messaging_handler:
 
     def sendMessage(self, target_number, message_content):
 
-        status_values = self.backend.sendMessage(target_number, None, message_content)
+        status_values = self.backend.sendMessage(target_number, message_content)
         self.writeIntoMessagingDB(status_values, True)
 
     def receiveMessage(self, status_values, request):
