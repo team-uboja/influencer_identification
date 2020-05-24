@@ -2,10 +2,16 @@
 import SMS_Twilio_backend
 import system_constants
 from flask import Flask, request, redirect, render_template
+import os
 
 import werkzeug.utils as utils
 
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+
 app = Flask(__name__, static_folder= './static')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/", methods=['GET', 'POST'])
 def show_main():
@@ -24,8 +30,10 @@ def show_demo():
     if request.method=='POST':
         for file in request.files:
             file_name = utils.secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
 
-    return render_template('demo.html')
+
+    return render_template('demo.html', success_label = 'Upload was successful')
 
 
 
