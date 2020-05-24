@@ -75,4 +75,4 @@ class SMS_Twilio_backend:
         return_values['from_city'] = request.values.get('FromCity', None)
         return_values['from_zip'] = request.values.get('FromZip', None)
         handler = messaging_handler.messaging_handler()
-        handler.receiveMessage(return_values, request)
+        handler.receiveMessage(return_values)

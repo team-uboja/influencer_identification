@@ -28,11 +28,11 @@ class messaging_handler:
         status_values = self.backend.sendMessage(target_number, message_content)
         self.writeIntoMessagingDB(status_values, True)
 
-    def receiveMessage(self, status_values, request):
-        self.writeIntoMessagingDB(status_values, request, False)
+    def receiveMessage(self, status_values):
+        self.writeIntoMessagingDB(status_values, False)
 
 
-    def writeIntoMessagingDB(self, status_values, request, message_outgoing):
+    def writeIntoMessagingDB(self, status_values, message_outgoing):
 
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
@@ -59,7 +59,6 @@ class messaging_handler:
             print("Writing message into DB failed")
             print(error)
             print(status_values)
-            print(request.values)
 
         finally:
             if (connection.is_connected()):
