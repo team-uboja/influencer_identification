@@ -31,7 +31,7 @@ def show_demo():
         if 'file' in request.files:
             file = request.files['file']
             file_name = utils.secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+            file.save(file_name)
         return render_template('demo.html', success_label='Upload was successful')
 
 
