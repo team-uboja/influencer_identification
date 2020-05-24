@@ -29,7 +29,7 @@ def incoming_sms():
 def show_demo():
     if request.method=='POST':
         for file in request.files:
-            print(request.file)
+            print(file)
             file_name = utils.secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
         return render_template('demo.html', success_label='Upload was successful')
