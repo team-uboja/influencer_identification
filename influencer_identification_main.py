@@ -3,7 +3,7 @@ import SMS_Twilio_backend
 import system_constants
 from flask import Flask, request, redirect, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder= './static')
 
 @app.route("/", methods=['GET', 'POST'])
 def show_main():
