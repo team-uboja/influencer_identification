@@ -30,9 +30,10 @@ def incoming_sms():
 
 @app.route("/demo", methods=['GET','POST'])
 def show_demo():
+    req = request.form
+    print(req)
     if request.method=='POST':
         if 'file' in request.files:
-
             file = request.files['file']
             handler = messaging_handler.messaging_handler()
             handler.parseSubmittedCSVFiles(file)
@@ -40,10 +41,8 @@ def show_demo():
             #TODO: abfangen falls files mit gleichem Namen schon existieren
             #f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
             #f.close()
-
-        return render_template('demo.html', success_label = "Upload successful")
-
-
+            return render_template('demo.html', success_label = "Messages sent!")
+        
     return render_template('demo.html')
 
 
