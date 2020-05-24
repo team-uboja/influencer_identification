@@ -3,14 +3,15 @@
 import messaging_handler
 from twilio.rest import Client
 import system_constants
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, render_template
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
 
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def checker():
     print('Website visited')
+    return render_template('index.html')
 
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
