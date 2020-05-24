@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<title>Team Ubuntu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("images/community.jpg");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+
+.analysis {
+  display: block;
+}
+
+
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="index.html" class="w3-bar-item w3-button w3-wide">TEAM UBUNTU</a>
+
+  </div>
+</div>
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white" style="padding:48px">
+    <span class="w3-jumbo w3-hide-small">Team Ubuntu Live Demo</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">Team Ubuntu Live Demo</span><br>
+  </div>
+</header>
+
+<!-- About Section -->
+<div class="w3-container" style="padding:128px 16px" id="about">
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    <span class="w3-xxlarge">Step 1</span><br>
+    <span class="w3-medium">Upload a file with the recipients of the voting message.</span><br>
+    <div class="w3-row-padding w3-center" style="padding:50px 50px">
+      <input type="file" id="input">
+    </div>
+
+    <span class="w3-xxlarge">Step 2</span><br>
+    <span class="w3-medium">Send the voting messages to uploaded recipients.</span><br>
+    <div class="w3-row-padding w3-center" style="padding:50px 50px">
+      <a class="w3-center w3-large w3-button w3-black" onclick="location.href='/sendall'" type="submit">Send All Messages</a>
+    </div>
+
+    <span class="w3-xxlarge">Step 3</span><br>
+    <span class="w3-medium">Analyze the responses to identify community influencers.</span><br>
+    <div class="w3-row-padding w3-center" style="padding:50px 50px">
+      <a class="w3-center w3-large w3-button w3-black" onclick="location.href='/results'; showAnalysis();" type="submit">Analyze Data</a>
+    </div>
+
+
+    <div class="w3-panel w3-card-4 w3-light-grey" id="analysis" style="display:none">
+      <p class=" w3-large w3-serif">Top influencers</p>
+      <div class="w3-row-padding w3-center" style="margin-bottom:50px">
+        <img class="w3-image w3-round-large" src="images/output/analysis_result_2.png" alt="images/output/analysis_result_2.png" width="700" height="100%">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+  <div class="copyright">
+    &copy; Team Ubuntu 2020. All rights reserved.
+  </div>
+</footer>
+ 
+<script>
+
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+
+function showAnalysis() {
+  var x = document.getElementById("analysis");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+</script>
+
+</body>
+</html>
