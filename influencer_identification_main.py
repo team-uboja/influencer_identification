@@ -3,6 +3,8 @@ import SMS_Twilio_backend
 import system_constants
 from flask import Flask, request, redirect, render_template
 
+import werkzeug.utils as utils
+
 app = Flask(__name__, static_folder= './static')
 
 @app.route("/", methods=['GET', 'POST'])
@@ -17,9 +19,14 @@ def incoming_sms():
     backend=SMS_Twilio_backend.SMS_Twilio_backend()
     backend.receiveMessage(request)
 
-@app.route("/demo", methods=['GET', 'POST'])
+@app.route("/demo", methods=['GET','POST'])
 def show_demo():
+    if request.method=='POST':
+        for file in request.files:
+            file_name = utils.secure_filename(file.filename)
+
     return render_template('demo.html')
+
 
 
 if __name__ == "__main__":

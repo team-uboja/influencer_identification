@@ -57,7 +57,12 @@ body, html {
     <span class="w3-xxlarge">Step 1</span><br>
     <span class="w3-medium">Upload a file with the recipients of the voting message.</span><br>
     <div class="w3-row-padding w3-center" style="padding:50px 50px">
-      <input type="file" id="input">
+      <form action = "demo" method = "POST"
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" />
+         <input type = "submit"/>
+      </form>
+
     </div>
 
     <span class="w3-xxlarge">Step 2</span><br>
