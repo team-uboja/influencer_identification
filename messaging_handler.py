@@ -34,10 +34,10 @@ class messaging_handler:
                     status_values['content'], status_values['created'], status_values['sent'], status_values['updated'], \
                     status_values['status'], status_values['error_code'], status_values['error_message'])
             else:
-                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city, from_zip) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
                 insert_values = (status_values['from'], status_values['to'], status_values['cost'],status_values['currency'],\
                         status_values['content'],status_values['created'],status_values['sent'],status_values['updated'],\
-                        status_values['status'],status_values['error_code'],status_values['error_message'], status_values['from_city'])
+                        status_values['status'],status_values['error_code'],status_values['error_message'], status_values['from_city'], status_values['from_zip'])
             cursor.execute(sql_prepared_statement, insert_values)
             connection.commit()
             print('Wrote message into database')
