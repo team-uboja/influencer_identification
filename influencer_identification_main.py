@@ -7,7 +7,7 @@ import os
 import werkzeug.utils as utils
 
 UPLOAD_FOLDER = './uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
 
 
 app = Flask(__name__, static_folder= './static')
