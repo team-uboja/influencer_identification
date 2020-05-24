@@ -35,8 +35,7 @@ def show_demo():
     if request.method=='POST':
         if 'file' in request.files:
             file = request.files['file']
-            handler = messaging_handler.messaging_handler()
-            handler.parseSubmittedCSVFiles(file)
+
             file_name = utils.secure_filename(file.filename)
             #TODO: abfangen falls files mit gleichem Namen schon existieren
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], system_constants.CSV_FILENAME))
