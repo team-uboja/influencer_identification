@@ -6,7 +6,9 @@ import os
 
 import werkzeug.utils as utils
 
-UPLOAD_FOLDER = '/uploads'
+
+
+UPLOAD_FOLDER = str(os.getcwd())+ '/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
 
 
@@ -33,8 +35,8 @@ def show_demo():
             file = request.files['file']
             file_name = utils.secure_filename(file.filename)
             #TODO: abfangen falls files mit gleichem Namen schon existieren
-            f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
-            f.close()
+            #f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
+            #f.close()
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
         return render_template('demo.html', success_label='Upload was successful')
 
