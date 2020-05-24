@@ -15,6 +15,7 @@ def incoming_sms():
     backend=SMS_Twilio_backend()
     backend.receiveMessage(request)
 
+
 if __name__ == "__main__":
     app.run(debug=True)
 
@@ -54,6 +55,7 @@ class SMS_Twilio_backend:
 
 
     def receiveMessage(self, request):
+        print('Message received: ' + str(request))
         return_values = {}
         return_values['from'] = request.values.get('From_', None)
         return_values['to'] = request.values.get('To', None)
