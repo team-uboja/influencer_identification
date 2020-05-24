@@ -12,7 +12,7 @@ UPLOAD_FOLDER = '/home/ubuntu/influencer_identification/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
 
 
-app = Flask(__name__, static_folder= '/static')
+app = Flask(__name__, static_folder= './static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/", methods=['GET', 'POST'])
