@@ -6,4 +6,4 @@ import system_constants
 
 class analytics_backend:
 
-    def readFrom
+    def readFromUpdate

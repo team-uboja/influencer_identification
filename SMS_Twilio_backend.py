@@ -2,7 +2,26 @@
 
 import messaging_handler
 from twilio.rest import Client
+import system_constants
+from flask import Flask, request, redirect, render_template
 
+app = Flask(__name__)
+
+@app.route("/", methods=['GET', 'POST'])
+def checker():
+    print('Website visited')
+    return render_template('index.html')
+
+@app.route("/sms", methods=['GET', 'POST'])
+def incoming_sms():
+    """Send a dynamic reply to an incoming text message"""
+    # Get the message the user sent our Twilio number
+    backend=SMS_Twilio_backend()
+    backend.receiveMessage(request)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 class SMS_Twilio_backend:
@@ -16,7 +35,7 @@ class SMS_Twilio_backend:
             .create(
                 body=message_content,
                 from_=system_constants.TWILIO_PHONE_NUMBER,
-                status_callback='http://postb.in/1234abcd',
+                #status_callback='http://postb.in/1234abcd',
                 to=target_number
             )
 

@@ -3,13 +3,13 @@ import SMS_Twilio_backend
 import system_constants
 from flask import Flask, request, redirect, render_template
 import os
-
+import messaging_handler
 import werkzeug.utils as utils
 
 
 #TODO: Fix to relative folder
 UPLOAD_FOLDER = '/home/ubuntu/influencer_identification/uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
+ALLOWED_EXTENSIONS = {'csv'}
 
 
 app = Flask(__name__, static_folder= './static')
@@ -34,11 +34,13 @@ def show_demo():
         if 'file' in request.files:
 
             file = request.files['file']
-            file_name = utils.secure_filename(file.filename)
+            handler = messaging_handler.messaging_handler()
+            handler.parseSubmittedCSVFiles(file)
+            #file_name = utils.secure_filename(file.filename)
             #TODO: abfangen falls files mit gleichem Namen schon existieren
             #f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
             #f.close()
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+
         return render_template('demo.html', success_label = "Upload successful")
 
 
