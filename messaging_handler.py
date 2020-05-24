@@ -43,6 +43,7 @@ class messaging_handler:
         except connector.Error as error:
             print("Writing message into DB failed")
             print(error)
+            print(status_values)
 
         finally:
             if (connection.is_connected()):
