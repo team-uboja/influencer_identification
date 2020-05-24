@@ -38,7 +38,7 @@ def show_demo():
             #f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
             #f.close()
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
-        return return redirect(url_for('results'))
+        return redirect(url_for('results'))
 
 
     return render_template('demo.html')
