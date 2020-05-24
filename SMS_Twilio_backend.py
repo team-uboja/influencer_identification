@@ -17,7 +17,7 @@ def incoming_sms():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=80)
 
 
 class SMS_Twilio_backend:
@@ -31,7 +31,7 @@ class SMS_Twilio_backend:
             .create(
                 body=message_content,
                 from_=system_constants.TWILIO_PHONE_NUMBER,
-                #status_callback='http://postb.in/1234abcd',
+                status_callback='http://postb.in/1234abcd',
                 to=target_number
             )
 
