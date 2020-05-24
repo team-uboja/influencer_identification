@@ -17,6 +17,10 @@ def incoming_sms():
     backend=SMS_Twilio_backend.SMS_Twilio_backend()
     backend.receiveMessage(request)
 
+@app.route("/demo", methods=['GET', 'POST'])
+def show_demo():
+    return render_template('demo.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
