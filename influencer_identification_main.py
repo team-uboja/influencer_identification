@@ -16,6 +16,7 @@ app = Flask(__name__, static_folder= './static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 def show_main():
     print('Website visited')
     return render_template('index_new.html')
