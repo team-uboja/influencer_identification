@@ -4,6 +4,7 @@ import SMS_Twilio_backend
 import mysql.connector as connector
 import system_constants
 import csv
+import os
 
 
 class messaging_handler:
@@ -12,8 +13,8 @@ class messaging_handler:
         self.backend = SMS_Twilio_backend.SMS_Twilio_backend()
 
     #csv file format must be phonenumber, message
-    def parseSubmittedCSVFiles(self, file):
-        with open(file) as csvfile:
+    def parseSubmittedCSVFiles(self, ):
+        with open(os.path.join(system_constants.UPLOAD_FOLDER, system_constants.CSV_FILENAME)) as csvfile:
             reader = csv.reader(csvfile, delimiter=",")
             for row in reader:
                 print(row)

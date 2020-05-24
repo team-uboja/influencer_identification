@@ -8,12 +8,12 @@ import werkzeug.utils as utils
 
 
 #TODO: Fix to relative folder
-UPLOAD_FOLDER = '/home/ubuntu/influencer_identification/uploads'
+
 ALLOWED_EXTENSIONS = {'csv'}
 
 
 app = Flask(__name__, static_folder= './static')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = system_constants.UPLOAD_FOLDER
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
@@ -37,9 +37,12 @@ def show_demo():
             file = request.files['file']
             handler = messaging_handler.messaging_handler()
             handler.parseSubmittedCSVFiles(file)
-            #file_name = utils.secure_filename(file.filename)
+            file_name = utils.secure_filename(file.filename)
             #TODO: abfangen falls files mit gleichem Namen schon existieren
-            #f = open(os.path.join(app.config['UPLOAD_FOLDER'], file_name),"w")
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], system_constants.CSV_FILENAME))
+            handler = messaging_handler.messaging_handler()
+            handler.parseSubmittedCSVFiles()
+            #f = open(os.path.join(app.config['UPLOAD_FOLDER'], 'latest_csv.csv'),"w")
             #f.close()
             return render_template('demo.html', success_label = "Messages sent!")
         
