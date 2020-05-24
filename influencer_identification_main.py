@@ -28,8 +28,8 @@ def incoming_sms():
 @app.route("/demo", methods=['GET','POST'])
 def show_demo():
     if request.method=='POST':
-        for file in request.files:
-            print(file)
+        if 'file' in request.files:
+            file = request.files['file']
             file_name = utils.secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
         return render_template('demo.html', success_label='Upload was successful')
