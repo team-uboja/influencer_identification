@@ -30,6 +30,7 @@ class messaging_handler:
 
     def receiveMessage(self, status_values):
         self.writeIntoMessagingDB(status_values, False)
+        self.sendMessage(status_values['from'], 'Thanks a lot for your nomination.')
 
 
     def writeIntoMessagingDB(self, status_values, message_outgoing):
