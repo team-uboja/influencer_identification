@@ -6,11 +6,11 @@ import os
 
 import werkzeug.utils as utils
 
-UPLOAD_FOLDER = './uploads'
+UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
 
 
-app = Flask(__name__, static_folder= './static')
+app = Flask(__name__, static_folder= '/static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/", methods=['GET', 'POST'])
@@ -31,7 +31,7 @@ def show_demo():
         if 'file' in request.files:
             file = request.files['file']
             file_name = utils.secure_filename(file.filename)
-            file.save(file_name)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
         return render_template('demo.html', success_label='Upload was successful')
 
 
