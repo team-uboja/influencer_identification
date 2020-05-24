@@ -44,7 +44,12 @@ class messaging_handler:
             print("Writing message into DB failed")
             print(error)
             print(status_values)
-            print(request)
+            print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+                '-----------START-----------',
+                request.method + ' ' + request.url,
+                '\r\n'.join('{}: {}'.format(k, v) for k, v in request.headers.items()),
+                request.body,
+            ))
 
         finally:
             if (connection.is_connected()):
