@@ -62,7 +62,7 @@ class SMS_Twilio_backend:
     def receiveMessage(self, request):
         print('Message received: ' + str(request))
         return_values = {}
-        return_values['from'] = request.values.get('From_', None)
+        return_values['from'] = request.values.get('From', None)
         return_values['to'] = request.values.get('To', None)
         return_values['cost'] = request.values.get('Price', None)
         return_values['currency'] = request.values.get('Price_unit', None)
