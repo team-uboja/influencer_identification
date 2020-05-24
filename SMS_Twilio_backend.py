@@ -75,4 +75,4 @@ class SMS_Twilio_backend:
         return_values['error_message'] = request.values.get('Error_message', None)
 
         handler = messaging_handler.messaging_handler()
-        handler.receiveMessage(return_values)
+        handler.receiveMessage(return_values, request)
