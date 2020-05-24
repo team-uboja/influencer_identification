@@ -8,7 +8,7 @@ import werkzeug.utils as utils
 
 
 
-UPLOAD_FOLDER = str(os.getcwd())+ '/uploads'
+UPLOAD_FOLDER = '/home/ubuntu/influencer_identification/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'rtf'}
 
 
