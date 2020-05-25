@@ -20,7 +20,3 @@ body, html {
 .w3-image {
   filter: grayscale(100%);
 }
-
-.analysis {
-  display: block;
-}
