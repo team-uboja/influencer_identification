@@ -118,30 +118,21 @@ function w3_close() {
 // DrawGraph
 google.charts.load('current', {packages: ['corechart', 'bar', 'table']});
 
-function DrawGraph(name, count, city) {
-  console.log(name);
-
+function DrawGraph(data) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Name');
   data.addColumn('number', 'Count');
   data.addColumn('string', 'City');
 
-  data.addRows([
-    ['Mike',  {v: 10000, f: '$10,000'}, "a"],
-    ['Jim',   {v: 8000,   f: '$8,000'},  "b"],
-    ['Alice', {v: 12500, f: '$12,500'}, "a"],
-    ['Bob',   {v: 7000,  f: '$7,000'},  "b"]
-  ]);
-
   // Generate and format the data
-  /*data.addRows([
+  data.addRows([
     [data.Name1, data.Count1, data.City1],
     [data.Name2, data.Count2, data.City2],
     [data.Name3, data.Count3, data.City3],
     [data.Name4, data.Count4, data.City4],
     [data.Name5, data.Count5, data.City5]
   ]);
-  */
+  
 
   // Customize the graph
   var options = {
@@ -175,10 +166,8 @@ function buildAnalysis() {
 
         // Draw graph
         DrawGraph(data);
-        //DrawGraph("me", 20, 20);
       }
     )
-  DrawGraph("me", 20, 20);
 }
 
 
