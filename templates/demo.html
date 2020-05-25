@@ -134,10 +134,14 @@ function DrawGraph(name, count, city) {
   ]);
 
   // Generate and format the data
-  /*var data = google.visualization.arrayToDataTable([
-    ['Name', 'Count', 'City'],
-    [name, count, city]
-  ]);*/
+  /*data.addRows([
+    [data.Name1, data.Count1, data.City1],
+    [data.Name2, data.Count2, data.City2],
+    [data.Name3, data.Count3, data.City3],
+    [data.Name4, data.Count4, data.City4],
+    [data.Name5, data.Count5, data.City5]
+  ]);
+  */
 
   // Customize the graph
   var options = {
@@ -145,14 +149,17 @@ function DrawGraph(name, count, city) {
     chartArea: {width: '50%'},
     hAxis: {
       title: '% working title'
-    }
+    },
+    showRowNumber: true,
+    width: '100%',
+    height: '100%'
   };
 
   // Generate the graph
-  var chart = new google.visualization.Table(document.getElementById('chart'));
+  var table = new google.visualization.Table(document.getElementById('chart'));
 
   // Display the graph
-  chart.draw(data, options);
+  table.draw(data, options);
 
 }
 
@@ -167,8 +174,8 @@ function buildAnalysis() {
         console.log(data)
 
         // Draw graph
-        //DrawGraph(data.name1,data.count1, data.city1);
-        DrawGraph("me", 20, 20);
+        DrawGraph(data);
+        //DrawGraph("me", 20, 20);
       }
     )
   DrawGraph("me", 20, 20);
