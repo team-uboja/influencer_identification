@@ -65,7 +65,7 @@
     <div class="w3-panel w3-card-4 w3-light-grey" id="analysis" style="display:none">
       <p class=" w3-large w3-serif">Top influencers</p>
       <div class="w3-row-padding w3-center" style="margin-bottom:50px">
-        <img class="w3-image w3-round-large" src="{{url_for('static', filename='images/output/analysis_result_2.png')}}" alt="analysis" width="700" height="100%">
+        <!--<img class="w3-image w3-round-large" src="{{url_for('static', filename='images/output/analysis_result_2.png')}}" alt="analysis" width="700" height="100%">
         <table>
           <tr>
             <th>Month</th>
@@ -75,7 +75,7 @@
             <td>January</td>
             <td>$100</td>
           </tr>
-        </table>
+        </table>-->
         <div id="chart" style="text-align:center"> </div>
         <div id="location" style="text-align:center"> </div>
       </div>
@@ -119,13 +119,13 @@ function w3_close() {
 google.charts.load('current', {packages: ['corechart', 'bar', 'table']});
 
 function DrawGraph(data) {
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'Name');
-  data.addColumn('number', 'Count');
-  data.addColumn('string', 'City');
+  var tabledata = new google.visualization.DataTable();
+  tabledata.addColumn('string', 'Name');
+  tabledata.addColumn('number', 'Count');
+  tabledata.addColumn('string', 'City');
 
   // Generate and format the data
-  data.addRows([
+  tabledata.addRows([
     [data.Name1, data.Count1, data.City1],
     [data.Name2, data.Count2, data.City2],
     [data.Name3, data.Count3, data.City3],
@@ -150,7 +150,7 @@ function DrawGraph(data) {
   var table = new google.visualization.Table(document.getElementById('chart'));
 
   // Display the graph
-  table.draw(data, options);
+  table.draw(tabledata, options);
 
 }
 
