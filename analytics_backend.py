@@ -29,7 +29,11 @@ class analytics_backend:
                     ranking[key][0] = ranking[key][0]+1
                     ranking[key][1].append(vote[1].decode('utf-8'))
 
+
             sorted_ranking = sorted(ranking.items(), key=lambda x: x[0], reverse=False)
+
+            print(sorted_ranking)
+            print(ranking)
 
             return flask.jsonify({"Name1": sorted_ranking.keys[0],"Name2": sorted_ranking.keys[1],"Name3": sorted_ranking.keys[2], \
                                   "Name4": sorted_ranking.keys[3],"Name5": sorted_ranking.keys[4],"Count1": sorted_ranking.items[0][0], \
