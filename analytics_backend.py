@@ -30,19 +30,19 @@ class analytics_backend:
                     ranking[key][1].append(vote[1].decode('utf-8'))
 
 
-            sorted_ranking = sorted(ranking.items(), key=lambda x: x[0], reverse=False)
+            sorted_ranking = sorted(ranking.items(), key=lambda x: x[1], reverse=False)
 
             print(sorted_ranking)
             print(ranking)
 
-            return flask.jsonify({"Name1": sorted_ranking.keys[0],"Name2": sorted_ranking.keys[1],"Name3": sorted_ranking.keys[2], \
-                                  "Name4": sorted_ranking.keys[3],"Name5": sorted_ranking.keys[4],"Count1": sorted_ranking.items[0][0], \
-                                  "Count2": sorted_ranking.items[1][0],"Count3": sorted_ranking.items[2][0],"Count4": sorted_ranking.items[3][0], \
-                                  "Count5": sorted_ranking.items[4][0],"City1": max(set(sorted_ranking.items[0][1]), key=sorted_ranking.items[0][1].count),\
-                                  "City2": max(set(sorted_ranking.items[1][1]), key=sorted_ranking.items[1][1].count), \
-                                  "City3": max(set(sorted_ranking.items[2][1]), key=sorted_ranking.items[2][1].count), \
-                                  "City4": max(set(sorted_ranking.items[3][1]), key=sorted_ranking.items[3][1].count), \
-                                  "City5": max(set(sorted_ranking.items[4][1]), key=sorted_ranking.items[4][1].count)})
+            return flask.jsonify({"Name1": sorted_ranking[0][0],"Name2": sorted_ranking[1][0],"Name3": sorted_ranking[2][0], \
+                                  "Name4": sorted_ranking[3][0],"Name5": sorted_ranking[4][0],"Count1": sorted_ranking[0][1][0], \
+                                  "Count2": sorted_ranking[1][1][0],"Count3": sorted_ranking[2][1][0],"Count4": sorted_ranking[3][1][0], \
+                                  "Count5": sorted_ranking[4][1][0],"City1": max(set(sorted_ranking[0][1][1]), key=sorted_ranking.items[0][1][1].count),\
+                                  "City2": max(set(sorted_ranking[1][1][1]), key=sorted_ranking.items[1][1][1].count), \
+                                  "City3": max(set(sorted_ranking[2][1][1]), key=sorted_ranking.items[2][1][1].count), \
+                                  "City4": max(set(sorted_ranking[3][1][1]), key=sorted_ranking.items[3][1][1].count), \
+                                  "City5": max(set(sorted_ranking[4][1][1]), key=sorted_ranking.items[4][1][1].count)})
 
 
         except connector.Error as error:
