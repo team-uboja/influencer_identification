@@ -13,7 +13,7 @@ class analytics_backend:
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
 
             cursor=connection.cursor(prepared=True)
-            sql_statement = "select (content, from_city) from Incoming_messages"
+            sql_statement = "select content, from_city from Incoming_messages"
 
             cursor.execute(sql_statement)
             votes = cursor.fetchall()
@@ -40,7 +40,7 @@ class analytics_backend:
 
 
         except connector.Error as error:
-            print("Writing message into DB failed")
+            print("Reading from DB failed")
             print(error)
 
         finally:
