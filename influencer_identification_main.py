@@ -1,7 +1,7 @@
 #created by Steffen Schmidt on 5/24/2020
 import SMS_Twilio_backend
 import system_constants
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, jsonify
 import os
 import messaging_handler
 import werkzeug.utils as utils
@@ -33,6 +33,7 @@ def incoming_sms():
 def show_demo():
     req = request.form
     print(req)
+    
     if request.method=='POST':
         if 'file' in request.files:
             file = request.files['file']
@@ -48,6 +49,16 @@ def show_demo():
 
         
     return render_template('demo.html')
+
+
+@app.route("/checkpassword", methods=['GET','POST'])
+def check_password():
+    if 'password' in request.args:
+        password = request.args.get('password')
+        if (password == "TEAMUBOJA2020"):
+            print ("Demo access succeeded")
+            return jsonify({"success":True})
+
 
 @app.route("/results", methods=['GET','POST'])
 def show_results():

@@ -13,7 +13,7 @@
 
 
 
-<body onload="showAnalysis()">
+<body onload="initializePage()">
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
@@ -32,8 +32,17 @@
   </div>
 </header>
 
+<div class="w3-row-padding w3-center" style="padding:50px 50px" id="passwordSection">
+  <form id="passwordform" action="JavaScript:showDemo();" method="POST" enctype="multipart/form-data">
+    <span class="w3-medium">Enter Password</span><br>
+    <div class="form-group">
+       <input type="text" name="password" id="password"/>
+    </div>
+  </form>
+</div>
+
 <!-- About Section -->
-<div class="w3-container" style="padding:128px 16px" id="about">
+<div class="w3-container" style="padding:128px 16px" id="demoSection">
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     
     <!-- File Upload Section -->
@@ -97,23 +106,6 @@
 // Defining functions
 // ---------
 
-// Toggle between showing and hiding the sidebar when clicking the menu icon
-var mySidebar = document.getElementById("mySidebar");
-
-function w3_open() {
-  if (mySidebar.style.display === 'block') {
-    mySidebar.style.display = 'none';
-  } else {
-    mySidebar.style.display = 'block';
-  }
-}
-
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-}
-
-
 
 // DrawGraph
 google.charts.load('current', {packages: ['corechart', 'bar', 'table']});
@@ -158,7 +150,7 @@ function DrawGraph(data) {
 function showAnalysis() {
   console.log("Building analysis");
 
-  // Make API call to backend & draw graph
+  /*// Make API call to backend & draw graph
     $.getJSON("/results", function (data, status) {
 
         // Inspect the data returned from the API
@@ -167,7 +159,41 @@ function showAnalysis() {
         // Draw graph
         DrawGraph(data);
       }
-    )
+    )*/
+}
+
+
+function showDemo() {
+  console.log("Checking password and providing demo access");
+  // Make API call to backend & draw graph
+  enteredPassword = document.getElementById("passwordform").elements[0].value;
+  console.log("Entered password: " + enteredPassword);
+  $.getJSON("/checkpassword", {password : enteredPassword}, function (data, status) {
+
+    // Inspect the data returned from the API
+    console.log(data)
+    passwordSuccessValue = data.success;
+    if (passwordSuccessValue === true) {
+      demoSection.style.display = 'block';
+      passwordSection.style.display = 'none';
+      showAnalysis();
+    } else {
+      demoSection.style.display = 'none';
+      passwordSection.style.display = 'block';
+    }
+
+    // Draw graph
+    DrawGraph(data);
+    }
+  )
+}
+
+function initializePage() {
+  demoSection = document.getElementById("demoSection");
+  passwordSection = document.getElementById("passwordSection");
+  demoSection.style.display = 'none';
+  passwordSection.style.display = 'block';
+  showAnalysis();
 }
 
 </script>
