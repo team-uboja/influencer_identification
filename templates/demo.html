@@ -160,8 +160,8 @@ function DrawGraph(name, count, city) {
 function buildAnalysis() {
   console.log("Building analysis");
 
-  /*// Make API call to backend & draw graph
-    $.getJSON("/demo", function (data, status) {
+  // Make API call to backend & draw graph
+    $.getJSON("/results", function (data, status) {
 
         // Inspect the data returned from the API
         console.log(data)
@@ -170,7 +170,7 @@ function buildAnalysis() {
         //DrawGraph(data.name1,data.count1, data.city1);
         DrawGraph("me", 20, 20);
       }
-    )*/
+    )
   DrawGraph("me", 20, 20);
 }
 
