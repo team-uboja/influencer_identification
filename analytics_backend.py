@@ -21,11 +21,13 @@ class analytics_backend:
             ranking = {}
 
             for vote in votes:
-                if vote[0] not in ranking:
-                    ranking[vote[0]] = [1,[vote[1]]]
+                key=vote[0].decode('utf-8')
+                if key not in ranking:
+
+                    ranking[key] = [1,[vote[1].decode('utf-8')]]
                 else:
-                    ranking[vote[0]][0] = ranking[vote[0]][0]+1
-                    ranking[vote[0]][1].append(vote[1])
+                    ranking[key][0] = ranking[key][0]+1
+                    ranking[key][1].append(vote[1].decode('utf-8'))
 
             sorted_ranking = sorted(ranking.items(), key=lambda x: x[0], reverse=False)
 
