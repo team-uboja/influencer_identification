@@ -30,7 +30,7 @@ class analytics_backend:
                     ranking[key][1].append(vote[1].decode('utf-8'))
 
 
-            sorted_ranking = sorted(ranking.items(), key=lambda x: x[1], reverse=False)
+            sorted_ranking = sorted(ranking.items(), key=lambda x: x[1], reverse=True)
 
             print(sorted_ranking)
             print(ranking)
