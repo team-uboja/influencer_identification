@@ -43,7 +43,7 @@
   <div class="w3-display-left w3-text-white" style="padding:48px">
     <span class="w3-jumbo w3-hide-small">The Team Ubuntu Solution</span><br>
     <span class="w3-xxlarge w3-hide-large w3-hide-medium">The Team Ubuntu Solution</span><br>
-    <span class="w3-white w3-padding-large w3-large w3-margin-top w3-opacity">A local influencer identification mechanism using SMS-based community voting</span>
+    <span class="w3-large w3-white w3-padding-medium w3-margin-top w3-opacity">A local influencer identification mechanism using SMS-based community voting</span>
     <p><a href="demo" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Try our Demo here!</a></p>
   </div>
 </header>
@@ -149,7 +149,28 @@
   </div>
 </footer>
 
-<script src="{{ url_for('static', filename='function.js') }}"></script>
+<script>
+// Defining functions
+// ---------
+
+// Toggle between showing and hiding the sidebar when clicking the menu icon
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+  } else {
+    mySidebar.style.display = 'block';
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+}
+
+
+</script>
 
 </body>
 </html>
