@@ -5,6 +5,7 @@ from flask import Flask, request, redirect, render_template
 import os
 import messaging_handler
 import werkzeug.utils as utils
+import analytics_backend
 
 
 #TODO: Fix to relative folder
@@ -44,8 +45,14 @@ def show_demo():
             #f = open(os.path.join(app.config['UPLOAD_FOLDER'], 'latest_csv.csv'),"w")
             #f.close()
             return render_template('demo.html', success_label = "Messages sent!")
+
         
     return render_template('demo.html')
+
+@app.route("/results", methods=['GET','POST'])
+def show_results():
+    tools = analytics_backend.analytics_backend()
+    return tools.conductAnalysis()
 
 
 
