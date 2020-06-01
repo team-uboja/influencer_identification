@@ -107,7 +107,7 @@ def login():
 
 #login handling
 
-@login.user_loader
+@flask_login.user_loader
 def load_user(user_id):
     user_data = utils.utils.readFromUserDB(user_id)
     user = User.User(user_data['username'], user_data['mail'])
