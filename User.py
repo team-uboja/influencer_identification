@@ -13,6 +13,8 @@ class User(UserMixin):
         self.name = username
         self.mail = mail
         self.active = active
+        self.is_authenticated = False
+        self.is_anonymous = True
 
 
     def get_id(self):
