@@ -26,7 +26,7 @@ app = Flask(__name__, static_folder= './static')
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 login_manager.session_protection = "strong"
-#login_manager.login_view = 'login'
+login_manager.login_view = '/login'
 
 
 app.config['UPLOAD_FOLDER'] = system_constants.UPLOAD_FOLDER
