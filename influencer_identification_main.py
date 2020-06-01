@@ -44,7 +44,7 @@ def incoming_sms():
     backend.receiveMessage(request)
 
 @app.route("/demo", methods=['GET','POST'])
-@login_required
+@flask_login.login_required
 def show_demo():
     req = request.form
     print(req)

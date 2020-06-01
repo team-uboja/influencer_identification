@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+<div class="w3-row-padding w3-center" style="padding:50px 50px" id="passwordSection">
+    <form method="POST" action="/login">
+        <div>{{ form.username.label }}: {{ form.username(class="css_class") }}</div>
+        <div>{{ form.password.label }}: {{ form.password() }}</div>
+    </form>
+
+</body>
+</html>
