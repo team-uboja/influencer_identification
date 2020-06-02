@@ -19,7 +19,3 @@ class User(UserMixin):
 
     def get_id(self):
         return self.id
-
-    @property
-    def is_active(self):
-        return self.is_active
