@@ -100,7 +100,7 @@ def login():
         print(password)
         if myutils.check_password(username, password):
 
-            login_manager.login_user(User.User(form.username.data))
+            login_manager.login_user(User.User(username))
 
             flash('Logged in successfully.')
 
