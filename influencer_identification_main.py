@@ -134,8 +134,8 @@ def login():
 def load_user(user_id):
     print('User id to load: ' + str(user_id))
     myutils = utils.utils()
-    user_data = myutils.readFromUserDBByID(user_id)
-    user = User.User(user_data['username'], user_data['mail'])
+    user_data = myutils.readFromUserDB(user_id)
+    user = User.User(user_data['username'])
     print('User data:' +str(user_data))
     return user
 

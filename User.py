@@ -6,11 +6,11 @@ class User(UserMixin):
     def __init__(self, username, active = True):
         myutils= utils.utils()
         results = myutils.readFromUserDB(username)
-        self.initializeWithAllParams(results['id'],results['username'],results['mail'], active)
+        self.initializeWithAllParams(results['username'],results['mail'], active)
 
 
-    def initializeWithAllParams(self, id, username, mail, active = True):
-        self.id = id
+    def initializeWithAllParams(self, username, mail, active = True):
+        self.id = username
         self.name = username
         self.mail = mail
         self.active = active

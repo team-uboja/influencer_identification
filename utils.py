@@ -67,39 +67,7 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
-    def readFromUserDBByID(self, user_id):
-        try:
-            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
-                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
 
-            cursor=connection.cursor(prepared=True)
-            sql_prepared_statement = """select id,username,password,mail from Login_credentials where id = %s"""
-            insert_values=(user_id,)
-
-            print('Prepared statement: ' + sql_prepared_statement)
-
-            cursor.execute(sql_prepared_statement, insert_values)
-            userdata = cursor.fetchall()[0]
-
-            clean_return_data ={}
-            clean_return_data['id'] = userdata[0]
-            clean_return_data['username'] = userdata[1].decode('utf-8')
-            clean_return_data['password'] = userdata[2].decode('utf-8')
-            clean_return_data['mail'] = userdata[3].decode('utf-8')
-            print(clean_return_data)
-
-            return clean_return_data
-
-
-        except connector.Error as error:
-            print("Reading from DB failed")
-            print(error)
-
-        finally:
-            if (connection.is_connected()):
-                cursor.close()
-                connection.close()
-                print("Connection to DB has been closed")
 
 
     def check_password(self, username, password):
