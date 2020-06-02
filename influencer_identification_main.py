@@ -95,8 +95,8 @@ def login():
         # Login and validate the user.
         # user should be an instance of your `User` class
         myutils = utils.utils()
-        username, referer = form.username.data.split(',')
-        password, referer = form.username.data.split(',')
+        username, referer = str(form.username.data).split(',')
+        password, referer = str(form.password.data).split(',')
         print(form.password.data)
         if myutils.check_password(username, password):
 
