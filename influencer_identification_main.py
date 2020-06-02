@@ -25,9 +25,9 @@ app = Flask(__name__, static_folder= './static')
 
 #initialize Login session handler
 login_manager = flask_login.LoginManager(app)
-#login_manager.session_protection = "strong"
+login_manager.session_protection = "strong"
 login_manager.login_view = '/login'
-#app.secret_key = system_constants.SECRET_KEY
+app.secret_key = system_constants.SECRET_KEY
 
 
 
@@ -132,6 +132,7 @@ def login():
 
 @login_manager.user_loader
 def load_user(user_id):
+    print('User id to load: ' + str(user_id))
     myutils = utils.utils()
     user_data = myutils.readFromUserDB(user_id)
     user = User.User(user_data['username'], user_data['mail'])
