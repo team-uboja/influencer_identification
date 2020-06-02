@@ -73,8 +73,10 @@ class utils:
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
 
             cursor=connection.cursor(prepared=True)
-            sql_prepared_statement = """select id,username,password,mail from Login_credentials where username = %s"""
+            sql_prepared_statement = """select id,username,password,mail from Login_credentials where id = %s"""
             insert_values=(user_id,)
+
+
 
             cursor.execute(sql_prepared_statement, insert_values)
             userdata = cursor.fetchall()[0]
