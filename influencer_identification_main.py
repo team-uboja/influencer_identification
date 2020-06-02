@@ -88,8 +88,8 @@ def login():
     # Here we use a class of some kind to represent and validate our
     # client-side form data. For example, WTForms is a library that will
     # handle this for us, and we use a custom LoginForm to validate.
-    form = Forms.LoginForm()
-    if form.validate_on_submit():
+    form = Forms.LoginForm(request.form)
+    if form.validate():
         # Login and validate the user.
         # user should be an instance of your `User` class
         if utils.utils.check_password(form.username.data, form.password.data):
