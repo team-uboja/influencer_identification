@@ -99,17 +99,20 @@ def login():
 
         if myutils.check_password(username, password):
 
+            print('Login initiated')
             flask_login.login_user(User.User(username))
+            print('Login done')
 
-            flash('Logged in successfully.')
+
 
             next = request.args.get('next')
+            print('Next read')
             # is_safe_url should check if the url is safe for redirects.
             # See http://flask.pocoo.org/snippets/62/ for an example.
             if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
                 return abort(400)
 
-            return redirect(next or url_for('home'))
+            return redirect(next or url_for('/home'))
     return render_template('login.html', form=form)
 
 
