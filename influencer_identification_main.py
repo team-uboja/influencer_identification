@@ -85,6 +85,8 @@ def show_results():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if flask_login.current_user.is_authenticated:
+        return redirect(url_for('show_main'))
     # Here we use a class of some kind to represent and validate our
     # client-side form data. For example, WTForms is a library that will
     # handle this for us, and we use a custom LoginForm to validate.
