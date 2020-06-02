@@ -106,7 +106,7 @@ def login():
             flask_login.login_user(User.User(username))
             print('Login done')
 
-            next = str(request.referrer).split("=%2F")[1]
+            next = str(request.referrer).split("=%2F")[1].split(',')[0]
 
 
             print('Next read')
