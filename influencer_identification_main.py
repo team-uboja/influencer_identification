@@ -117,7 +117,8 @@ def login():
 
 @login_manager.user_loader
 def load_user(user_id):
-    user_data = utils.utils.readFromUserDB(user_id)
+    myutils = utils.utils()
+    user_data = myutils.readFromUserDB(user_id)
     user = User.User(user_data['username'], user_data['mail'])
     return user
 
