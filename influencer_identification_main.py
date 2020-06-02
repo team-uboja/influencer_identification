@@ -106,7 +106,7 @@ def login():
             flask_login.login_user(User.User(username))
             print('Login done')
 
-            next = '/' + str(request.referrer).split("=")[1]
+            next = '/' + str(request.referrer).split("=%2F")[1]
 
 
             print('Next read')
@@ -117,7 +117,7 @@ def login():
             #if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
             #    return abort(400)
 
-            return redirect(next or url_for('index'))
+            return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 
