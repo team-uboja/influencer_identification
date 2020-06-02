@@ -78,6 +78,19 @@ def show_results():
     tools = analytics_backend.analytics_backend()
     return tools.conductAnalysis()
 
+@app.route('/checkloginstatus', methods=['GET', 'POST'])
+def checkloginstatus():
+    flask_login.logout_user()
+
+    return redirect(url_for(show_main))
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    if flask_login.current_user.is_authenticated == True:
+        return {'login_status': 1}
+
+    return {'login_status': 0}
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if flask_login.current_user.is_authenticated:
@@ -114,8 +127,9 @@ def login():
             # See http://flask.pocoo.org/snippets/62/ for an example.
             #if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
             #    return abort(400)
-
-            return redirect(next or url_for('show_main'))
+            if next == None:
+                return redirect(url_for('show_main'))
+            return redirect(next)
     return render_template('login.html', form=form)
 
 
