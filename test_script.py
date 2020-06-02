@@ -5,5 +5,5 @@ import utils
 
 
 utils=utils.utils()
-utils.writeIntoUserDB('steffen','hallo','steffen@hallo.com')
+utils.writeIntoUserDB('steffen1','hallo123','steffen@hallo.com')
 print(utils.check_password('steffen','hallo'))

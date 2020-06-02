@@ -49,7 +49,7 @@ class utils:
             userdata = cursor.fetchall()[0]
 
             clean_return_data ={}
-            clean_return_data['id'] = userdata[0].decode('utf-8')
+            clean_return_data['id'] = userdata[0]
             clean_return_data['username'] = userdata[1].decode('utf-8')
             clean_return_data['password'] = userdata[2].decode('utf-8')
             clean_return_data['mail'] = userdata[3].decode('utf-8')
