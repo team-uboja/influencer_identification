@@ -24,9 +24,8 @@ ALLOWED_EXTENSIONS = {'csv'}
 app = Flask(__name__, static_folder= './static')
 
 #initialize Login session handler
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
-login_manager.session_protection = "strong"
+login_manager = flask_login.LoginManager(app)
+#login_manager.session_protection = "strong"
 login_manager.login_view = '/login'
 app.secret_key = system_constants.SECRET_KEY
 
