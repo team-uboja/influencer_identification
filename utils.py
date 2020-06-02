@@ -69,6 +69,5 @@ class utils:
 
 
     def check_password(self, username, password):
-        print(self.readFromUserDB(username)['password'])
         return check_password_hash(self.readFromUserDB(username)['password'], password)
 
