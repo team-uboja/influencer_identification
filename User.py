@@ -4,7 +4,8 @@ import utils
 class User(UserMixin):
 
     def __init__(self, username, active = True):
-        results = utils.utils.readFromUserDB(username)
+        myutils= utils.utils()
+        results = myutils.readFromUserDB(username)
         self.initializeWithAllParams(results['id'],results['username'],results['mail'], active)
 
 
