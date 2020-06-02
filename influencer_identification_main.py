@@ -123,8 +123,8 @@ def login():
             # See http://flask.pocoo.org/snippets/62/ for an example.
             #if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
             #    return abort(400)
-            print(url_for('show_main'))
-            return redirect(url_for('show_main'))
+
+            return redirect(next or url_for('show_main'))
     return render_template('login.html', form=form)
 
 
