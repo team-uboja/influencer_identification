@@ -76,7 +76,7 @@ class utils:
             sql_prepared_statement = """select id,username,password,mail from Login_credentials where id = %s"""
             insert_values=(user_id,)
 
-
+            print('Prepared statement: ' + sql_prepared_statement)
 
             cursor.execute(sql_prepared_statement, insert_values)
             userdata = cursor.fetchall()[0]
@@ -86,6 +86,7 @@ class utils:
             clean_return_data['username'] = userdata[1].decode('utf-8')
             clean_return_data['password'] = userdata[2].decode('utf-8')
             clean_return_data['mail'] = userdata[3].decode('utf-8')
+            print(clean_return_data)
 
             return clean_return_data
 

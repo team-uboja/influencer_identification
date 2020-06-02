@@ -136,6 +136,7 @@ def load_user(user_id):
     myutils = utils.utils()
     user_data = myutils.readFromUserDBByID(user_id)
     user = User.User(user_data['username'], user_data['mail'])
+    print('User data:' +str(user_data))
     return user
 
 
