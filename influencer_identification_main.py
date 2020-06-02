@@ -39,6 +39,7 @@ app.config['UPLOAD_FOLDER'] = system_constants.UPLOAD_FOLDER
 @app.route("/home", methods=['GET', 'POST'])
 def show_main():
     print('main visited')
+    print('main test')
     print('By user' + str(flask_login.current_user))
     return render_template('index.html')
 
