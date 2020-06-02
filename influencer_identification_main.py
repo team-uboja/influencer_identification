@@ -108,6 +108,7 @@ def login():
             next = request.args.get('next')
             print('Next read')
             print(next)
+            print(request)
             # is_safe_url should check if the url is safe for redirects.
             # See http://flask.pocoo.org/snippets/62/ for an example.
             #if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
