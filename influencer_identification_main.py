@@ -73,15 +73,6 @@ def show_demo():
     return render_template('demo.html')
 
 
-@app.route("/checkpassword", methods=['GET','POST'])
-def check_password():
-    if 'password' in request.args:
-        password = request.args.get('password')
-        if (password == "TEAMUBOJA2020"):
-            print ("Demo access succeeded")
-            return jsonify({"success":True})
-
-
 @app.route("/results", methods=['GET','POST'])
 def show_results():
     tools = analytics_backend.analytics_backend()

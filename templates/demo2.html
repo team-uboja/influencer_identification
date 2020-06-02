@@ -163,9 +163,38 @@ function showAnalysis() {
 }
 
 
+function showDemo() {
+  console.log("Checking password and providing demo access");
+  // Make API call to backend & draw graph
+  enteredPassword = document.getElementById("passwordform").elements[0].value;
+  console.log("Entered password: " + enteredPassword);
+  $.getJSON("/checkpassword", {password : enteredPassword}, function (data, status) {
 
+    // Inspect the data returned from the API
+    console.log(data)
+    passwordSuccessValue = data.success;
+    if (passwordSuccessValue === true) {
+      demoSection.style.display = 'block';
+      passwordSection.style.display = 'none';
+      showAnalysis();
+    } else {
+      demoSection.style.display = 'none';
+      passwordSection.style.display = 'block';
+    }
 
+    // Draw graph
+    DrawGraph(data);
+    }
+  )
+}
 
+function initializePage() {
+  demoSection = document.getElementById("demoSection");
+  passwordSection = document.getElementById("passwordSection");
+  demoSection.style.display = '';
+  //passwordSection.style.display = 'block';
+  showAnalysis();
+}
 
 </script>
 
