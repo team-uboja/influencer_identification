@@ -97,7 +97,7 @@ def login():
         myutils = utils.utils()
         username = str(form.username.data).split(',')[0]
         password = str(form.password.data).split(',')[0]
-        print(form.password.data)
+        print(password)
         if myutils.check_password(username, password):
 
             login_manager.login_user(User.User(form.username.data))
