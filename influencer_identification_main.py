@@ -15,6 +15,7 @@ import is_safe_url
 
 
 
+
 #TODO: Fix to relative folder
 
 ALLOWED_EXTENSIONS = {'csv'}
@@ -28,6 +29,7 @@ login_manager.init_app(app)
 login_manager.session_protection = "strong"
 login_manager.login_view = '/login'
 app.secret_key = system_constants.SECRET_KEY
+
 
 
 
@@ -106,7 +108,7 @@ def login():
         if myutils.check_password(username, password):
 
             print('Login initiated')
-            print(flask_login.login_user(User.User(username)))
+            #print(flask_login.login_user(User.User(username)))
             print('Login done')
 
             next = '/' + str(request.referrer).split("=%2F")[1]
