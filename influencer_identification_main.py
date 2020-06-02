@@ -90,6 +90,10 @@ def login():
     form = Forms.LoginForm(request.form)
     print(form)
     print(form.validate())
+    #this is a horrible hack
+    if request.args.get('next') != None:
+        next=request.args.get('next')
+
     if form.validate():
         # Login and validate the user.
         # user should be an instance of your `User` class
@@ -105,7 +109,7 @@ def login():
 
 
 
-            next = request.args.get('next')
+
             print('Next read')
             print(next)
             print(request)
