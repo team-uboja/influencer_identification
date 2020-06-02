@@ -29,7 +29,6 @@ login_manager.session_protection = "strong"
 login_manager.login_view = '/login'
 app.secret_key = system_constants.SECRET_KEY
 
-next = None
 
 
 app.config['UPLOAD_FOLDER'] = system_constants.UPLOAD_FOLDER
@@ -92,9 +91,7 @@ def login():
     form = Forms.LoginForm(request.form)
     print(form)
     print(form.validate())
-    #this is a horrible hack
-    if request.args.get('next') != None:
-        next=request.args.get('next')
+
 
     if form.validate():
         # Login and validate the user.
@@ -109,7 +106,7 @@ def login():
             flask_login.login_user(User.User(username))
             print('Login done')
 
-
+            next = str(request.referrer).split("=")[1]
 
 
             print('Next read')
