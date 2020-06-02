@@ -106,7 +106,7 @@ def login():
         if myutils.check_password(username, password):
 
             print('Login initiated')
-            flask_login.login_user(User.User(username))
+            print(flask_login.login_user(User.User(username)))
             print('Login done')
 
             next = '/' + str(request.referrer).split("=%2F")[1]
