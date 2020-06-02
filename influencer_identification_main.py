@@ -105,7 +105,7 @@ def login():
                 return flask.abort(400)
 
             return flask.redirect(next or flask.url_for('home'))
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 
 #login handling
