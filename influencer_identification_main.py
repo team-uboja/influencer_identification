@@ -38,7 +38,7 @@ app.config['UPLOAD_FOLDER'] = system_constants.UPLOAD_FOLDER
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def show_main():
-    print('Website visited')
+    print('main visited')
     print('By user' + str(flask_login.current_user))
     return render_template('index.html')
 
@@ -108,7 +108,7 @@ def login():
         if myutils.check_password(username, password):
 
             print('Login initiated')
-            #print(flask_login.login_user(User.User(username)))
+            print(flask_login.login_user(User.User(username)))
             print('Login done')
 
             next = '/' + str(request.referrer).split("=%2F")[1]
