@@ -95,9 +95,9 @@ def login():
         # Login and validate the user.
         # user should be an instance of your `User` class
         myutils = utils.utils()
-        print(form.username.data)
-        print(form.password.data)
-        if myutils.check_password(username=form.username.data, password=form.password.data):
+        print(form.username.data[0])
+        print(form.password.data[0])
+        if myutils.check_password(username=form.username.data[0], password=form.password.data[0]):
 
             login_manager.login_user(User.User(form.username.data))
 
