@@ -117,7 +117,7 @@ def login():
             #if not is_safe_url.is_safe_url(next,{'identifylocalinfluencers.com'}):
             #    return abort(400)
 
-            return redirect(url_for('demo'))
+            return redirect(url_for('show_demo'))
     return render_template('login.html', form=form)
 
 
