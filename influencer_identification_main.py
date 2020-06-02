@@ -27,7 +27,7 @@ app = Flask(__name__, static_folder= './static')
 login_manager = flask_login.LoginManager(app)
 #login_manager.session_protection = "strong"
 login_manager.login_view = '/login'
-app.secret_key = system_constants.SECRET_KEY
+#app.secret_key = system_constants.SECRET_KEY
 
 
 
