@@ -1,7 +1,7 @@
 #created by Steffen Schmidt on 5/24/2020
 import SMS_Twilio_backend
 import system_constants
-from flask import Flask, request, redirect, render_template, jsonify, flash
+from flask import Flask, request, redirect, render_template, jsonify, flash, abort, url_for
 import os
 import messaging_handler
 import werkzeug.utils
@@ -10,9 +10,8 @@ import flask_login
 import utils
 import User
 import wtforms
-import flask
 import Forms
-
+import is_safe_url
 
 
 
@@ -107,10 +106,10 @@ def login():
             next = request.args.get('next')
             # is_safe_url should check if the url is safe for redirects.
             # See http://flask.pocoo.org/snippets/62/ for an example.
-            if not flask.is_safe_url(next):
-                return flask.abort(400)
+            if not is_safe_url.is_safe_url(next):
+                return abort(400)
 
-            return flask.redirect(next or flask.url_for('home'))
+            return redirect(next or url_for('home'))
     return render_template('login.html', form=form)
 
 
