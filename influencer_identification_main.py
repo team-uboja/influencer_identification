@@ -65,7 +65,20 @@ def show_results():
     tools = analytics_backend.analytics_backend()
     return tools.conductAnalysis()
 
+@app.route("/dashboard", methods=['GET','POST'])
+def show_dashboard():
+    print('Opening dashboard')
+    return render_template('dashboard.html')
 
+@app.route("/account", methods=['GET','POST'])
+def show_account_info():
+    print('Opening Account')
+    return render_template('account.html')
+
+@app.route("/newcampaign", methods=['GET','POST'])
+def show_new_campaign_page():
+    print('Opening dashboard')
+    return render_template('newcampaign.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
