@@ -43,13 +43,13 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="dashboard">
-                            <i class="nc-icon nc-chart-bar-32"></i>
+                            <i class="nc-icon nc-Chart-bar-32"></i>
                             <p>CAMPAIGNS</p>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link" href="outgoing">
-                            <i class="nc-icon nc-chart-bar-32"></i>
+                            <i class="nc-icon nc-Chart-bar-32"></i>
                             <p>OUTGOING CAMPAIGN</p>
                         </a>
                     </li>
@@ -99,6 +99,42 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="section">
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card ">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Filters</h4>
+                                        <p class="card-category">Apply the following filters to all Charts below</p>
+                                    </div>
+                                    <div class="card-body ">
+                                        <select class="browser-default custom-select" id="campaignIDDropdownItems">
+                                          <option value="ALL" selected>Campaign ID</option>
+                                        </select>
+                                        <select class="browser-default custom-select" id="timePeriodDropdownItems">>
+                                          <option selected>Time Period</option>
+                                          <option value="ALL">All</option>
+                                          <option value="1 DAY">1 Day</option>
+                                          <option value="1 WEEK">1 Week</option>
+                                          <option value="1 MONTH">1 Month</option>
+                                          <option value="1 YEAR">1 Year</option>
+                                        </select>
+                                        <select class="browser-default custom-select" id="cityDropdownItems">
+                                          <option value="ALL" selected>City</option>
+                                        </select>
+                                        <select class="browser-default custom-select" id="votersDropdownItems">
+                                          <option value="ALL" selected>Voters</option>
+                                        </select>
+                                        <select class="browser-default custom-select" id="influencersDropdownItems">
+                                          <option value="ALL" selected>Influencers</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-default" onclick="refreshDashboard();" type="submit">Filter Results</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card ">
@@ -107,11 +143,10 @@
                                         <p class="card-category">Local community influencers identified within current search parameters and individual counts</p>
                                     </div>
                                     <div class="card-body ">
-                                        <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
+                                        <div id="barChart" class="ct-Chart ct-perfect-fourth"></div>
                                         <div class="legend">
                                             <i class="fa fa-circle text-info"></i> Open
                                             <i class="fa fa-circle text-danger"></i> Bounce
-                                            <i class="fa fa-circle text-warning"></i> Unsubscribe
                                         </div>
                                         <hr>
                                         <div class="stats">
@@ -127,13 +162,11 @@
                                         <p class="card-category">Responses received over time</p>
                                     </div>
                                     <div class="card-body ">
-                                        <div id="chartHours" class="ct-chart"></div>
+                                        <div id="timelineChart" class="ct-Chart"></div>
                                     </div>
                                     <div class="card-footer ">
                                         <div class="legend">
-                                            <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Click
-                                            <i class="fa fa-circle text-warning"></i> Click Second Time
+                                            <i class="fa fa-circle text-info"></i> Response Count
                                         </div>
                                         <hr>
                                         <div class="stats">
@@ -143,6 +176,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card ">
@@ -151,7 +185,7 @@
                                         <p class="card-category">Download</p>
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover" id="chart">
+                                        <table class="table table-hover" id="dataTable">
                                             <thead>
                                                 <th>ID</th>
                                                 <th>Name</th>
@@ -246,6 +280,169 @@
 
 // items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
+function DrawGraph(data) {
+  var tabledata = new google.visualization.DataTable();
+  tabledata.addColumn('string', 'Name');
+  tabledata.addColumn('number', 'Count');
+  tabledata.addColumn('string', 'City');
+
+  // Generate and format the data
+  tabledata.addRows([
+    [data.Name1, data.Count1, data.City1],
+    [data.Name2, data.Count2, data.City2],
+    [data.Name3, data.Count3, data.City3],
+    [data.Name4, data.Count4, data.City4],
+    [data.Name5, data.Count5, data.City5]
+  ]);
+  
+
+  // Customize the graph
+  var options = {
+    colors: ['#ffab91', '#ffab91'],
+    ChartArea: {width: '50%'},
+    hAxis: {
+      title: '% working title'
+    },
+    showRowNumber: true,
+    width: '100%',
+    height: '100%'
+  };
+
+  // Generate the graph
+  var table = new google.visualization.Table(document.getElementById('dataTable'));
+
+  // Display the graph
+  table.draw(tabledata, options);
+
+}
+
+
+function populateTimeSeriesChart() {
+    var dataSales = {
+      labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+      series: [
+         [287, 385, 490, 492, 554, 586, 698, 695, 752, 788, 846, 944]
+      ]
+    };
+
+    var optionsSales = {
+      lineSmooth: false,
+      low: 0,
+      high: 800,
+      showArea: true,
+      height: "245px",
+      axisX: {
+        showGrid: false,
+      },
+      lineSmooth: Chartist.Interpolation.simple({
+        divisor: 3
+      }),
+      showLine: false,
+      showPoint: false,
+    };
+
+    var responsiveSales = [
+      ['screen and (max-width: 640px)', {
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    Chartist.Line('#timelineChart', dataSales, optionsSales, responsiveSales);
+}
+
+
+function populateBarChart() {
+    var data = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      series: [
+        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
+        [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
+      ]
+    };
+
+    var options = {
+        seriesBarDistance: 10,
+        axisX: {
+            showGrid: false
+        },
+        height: "245px"
+    };
+
+    var responsiveOptions = [
+      ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    Chartist.Bar('#barChart', data, options, responsiveOptions);
+}
+
+
+function populateFilterOptions(data) {
+    
+    // Populating "Voters" filter
+    campaignIDDropdown = document.getElementById("campaignIDDropdownItems");
+    for (var i = 0; i < data.campaign_identifier.length; i++) {
+        var option = document.createElement("option");
+        option.value = data.campaign_identifier[i];
+        option.text = data.campaign_identifier[i];
+        campaignIDDropdown.appendChild(option);
+    }
+
+    // Populating "Influencers" filter
+    cityDropdown = document.getElementById("cityDropdownItems");
+    for (var i = 0; i < data.from_city.length; i++) {
+        var option = document.createElement("option");
+        option.value = data.from_city[i];
+        option.text = data.from_city[i];
+        cityDropdown.appendChild(option);
+    }
+
+    // Populating "Voters" filter
+    votersDropdown = document.getElementById("votersDropdownItems");
+    for (var i = 0; i < data.from_.length; i++) {
+        var option = document.createElement("option");
+        option.value = data.from_[i];
+        option.text = data.from_[i];
+        votersDropdown.appendChild(option);
+    }
+
+    // Populating "Voters" filter
+    influencersDropdown = document.getElementById("influencersDropdownItems");
+    for (var i = 0; i < data.voted_for.length; i++) {
+        var option = document.createElement("option");
+        option.value = data.voted_for[i];
+        option.text = data.voted_for[i];
+        influencersDropdown.appendChild(option);
+    }
+
+}
+
+function refreshDashboard() {
+    console.log("Refreshing Dashboard");
+    let filterValues = {};
+    var campaignIDDropdownItems = document.getElementById("campaignIDDropdownItems");
+    console.log(campaignIDDropdownItems.value);
+    filterValues["campaign_identifier"] = campaignIDDropdownItems.options[campaignIDDropdownItems.selectedIndex].value;
+    var votersDropdownItems = document.getElementById("votersDropdownItems");
+    filterValues["from_"] = votersDropdownItems.options[votersDropdownItems.selectedIndex].value;
+    var cityDropdownItems = document.getElementById("cityDropdownItems");
+    filterValues["from_city"] = cityDropdownItems.options[cityDropdownItems.selectedIndex].value;
+    var influencersDropdownItems = document.getElementById("influencersDropdownItems");
+    filterValues["voted_for"] = influencersDropdownItems.options[influencersDropdownItems.selectedIndex].value;
+    var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
+    filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
+    console.log(filterValues);
+}
 
 
 function initializePage() {
@@ -257,17 +454,19 @@ function initializePage() {
   */
   console.log("Initializing Campaign Dashboard");
 
-  /*// Make API call to backend & draw graph
+  // Make API call to backend & draw graph
     $.getJSON("/getFilters", function (data, status) {
 
         // Inspect the data returned from the API
         console.log(data)
 
         // Populate filter Options
-        //populateFilterOptions(data);
+        populateFilterOptions(data);
       }
     )
-    */
+    populateBarChart();
+    populateTimeSeriesChart();
+    
 }
 
 </script>
@@ -283,7 +482,7 @@ function initializePage() {
 <!--  Google Maps Plugin    -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <!--  Chartist Plugin  -->
-<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/js/plugins/Chartist.min.js')}}"></script>
 <!--  Notifications Plugin    -->
 <script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
 <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
