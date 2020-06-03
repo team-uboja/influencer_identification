@@ -91,7 +91,7 @@ def checkloginstatus():
 def logout():
     flask_login.logout_user()
 
-    return redirect(url_for(show_main))
+    return redirect(url_for('show_main'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -132,6 +132,8 @@ def login():
             if next == None:
                 return redirect(url_for('show_main'))
             return redirect(next)
+        else:
+            render_template('login.html', form=form, success_label = "False username or password")
     return render_template('login.html', form=form)
 
 
