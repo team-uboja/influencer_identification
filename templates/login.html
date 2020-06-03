@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<title>Team Uboja</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript"> google.charts.load('current', {packages: ['corechart', 'bar']});</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<body onload="initializePage()">
+
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide">TEAM UBOJA</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="home#about" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="demo" class="w3-bar-item w3-button"><i class="fa fa-th"></i> DEMO</a>
+      <a href="home#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
+      <a href="home#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
+      <a href="login" class="w3-bar-item w3-button" id="login_button">LOGIN</a>
+      <a href="logout" class="w3-bar-item w3-button" id="logout_button">LOGOUT</a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Header with full-height image -->
+
+
+<div class="w3-row-padding w3-center" style="padding:50px 50px" id="passwordSection">
+    <form method="POST" action="/login">
+        <div>{{ form.username.label }}: {{ form.username(class="css_class") }}</div>
+        <div>{{ form.password.label }}: {{ form.password() }}</div>
+        <div>{{ success_label}}</div>
+        <div class="form-group" style="padding:50px">
+          <input class="w3-center w3-large w3-button w3-black" type="submit" value="Submit" id="submit" name="submit" />
+        </div>
+    </form>
+
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+  <div class="copyright">
+    &copy; Team Uboja 2020. All rights reserved.
+  </div>
+</footer>
+<script>
+    function initializePage() {
+  login_button = document.getElementById("login_button");
+  logout_button = document.getElementById("logout_button");
+  $.getJSON("/checkloginstatus", {}, function (data, status) {
+
+    // Inspect the data returned from the API
+    console.log(data)
+    login_status = data.login_status;
+    if (login_status === 1) {
+        login_button.style.display = 'none';
+        logout_button.style.display = 'block';
+      } else {
+        login_button.style.display = 'block';
+        logout_button.style.display = 'none';
+      }
+
+    }
+  )
+}
+</script>
+</body>

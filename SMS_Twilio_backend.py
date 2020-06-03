@@ -27,7 +27,7 @@ if __name__ == "__main__":
 class SMS_Twilio_backend:
 
 
-    def sendMessage(self, target_number, message_content):
+    def sendMessage(self, target_number, message_content, campaign_identifier):
 
         client = Client(system_constants.TWILIO_SID, system_constants.TWILIO_TOKEN)
 
@@ -54,6 +54,7 @@ class SMS_Twilio_backend:
         return_values['status'] = message.status
         return_values['error_code'] = message.error_code
         return_values['error_message'] = message.error_message
+        return_values['campaign_identifier'] = campaign_identifier
 
         return return_values
 
@@ -74,5 +75,8 @@ class SMS_Twilio_backend:
         return_values['error_message'] = request.values.get('Error_message', None)
         return_values['from_city'] = request.values.get('FromCity', None)
         return_values['from_zip'] = request.values.get('FromZip', None)
+        return_values['campaign_identifier'] = request.values.get('Campaign_identifier', None)
+        return_values['voted_for'] = request.values.get('voted_for', None)
+        return_values['age'] = request.values.get('age', 0)
         handler = messaging_handler.messaging_handler()
-        handler.receiveMessage(return_values)
+        handler.receiveMessage(return_values, None)
