@@ -3,6 +3,7 @@ import system_constants
 import csv
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
+import flask
 
 class utils:
 
@@ -84,11 +85,11 @@ class utils:
 
                 temp_list=[]
                 for row in userdata:
-                    temp_list.append(row[0].decoder('utf-8'))
+                    temp_list.append(row[0].decode('utf-8'))
 
                 selector_filling_dict[distinct_column] = temp_list
 
-            return selector_filling_dict
+            return flask.jsonify(selector_filling_dict)
 
 
         except connector.Error as error:
@@ -101,31 +102,54 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
-    #items in restriction_dict must be orders from_, to, from_city, campaign_identifier, voted_for, age
-    def fillGetSelectedData(self, restriction_dict):
+    #items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
+    def getSelectedDataIncoming(self, restriction_dict):
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
 
             cursor=connection.cursor(prepared=True)
-            sql_prepared_statement = """select * from Incoming_messages WHERE %s = %s AND %s = %s AND %s = %s \
-                            AND %s = %s AND %s = %s"""
+            #TODO: this is bad style and should be changed at a later point
+            insert_values = ()
+            sql_prepared_statement = "select * from Incoming_messages WHERE "
+            for key in restriction_dict.keys():
+                if restriction_dict[key] == None:
+                    sql_prepared_statement+= "'a'=%s AND "
+                    insert_values+=('a',)
+                else:
+                    sql_prepared_statement+= key +"=%s AND "
+                    insert_values+=(restriction_dict[key],)
+            sql_prepared_statement += "'a'=%s"
+            insert_values += ('a',)
 
-            for key in restriction_dict.keys:
-                if
 
-                insert_values=(distinct_column,)
+            print(sql_prepared_statement)
 
-                cursor.execute(sql_prepared_statement, insert_values)
-                userdata = cursor.fetchall()
+            print('Insert values: ' + str(insert_values))
+            cursor.execute(sql_prepared_statement, insert_values)
+            print('Command executed')
+            userdata = cursor.fetchall()
+            print('Raw user data: ' + str(userdata))
+            temp_list_for_json=[]
+            for row in userdata:
+                return_values = {}
+                return_values['timestamp'] = str(row[1])
+                return_values['from'] = row[2].decode('utf-8')
+                return_values['to'] = row[3].decode('utf-8')
+                return_values['cost'] = row[4].decode('utf-8')
+                return_values['currency'] = row[5].decode('utf-8')
+                return_values['content'] = row[6].decode('utf-8')
+                return_values['from_city'] = row[13].decode('utf-8')
+                return_values['from_zip'] = row[14].decode('utf-8')
+                return_values['campaign_identifier'] = row[15].decode('utf-8')
+                return_values['voted_for'] = row[16].decode('utf-8')
+                return_values['age'] = str(row[17])
+                print('Return values: ' + str(return_values))
+                temp_list_for_json.append(return_values)
 
-                temp_list=[]
-                for row in userdata:
-                    temp_list.append(row[0].decoder('utf-8'))
 
-                selector_filling_dict[distinct_column] = temp_list
 
-            return selector_filling_dict
+            return flask.jsonify(temp_list_for_json)
 
 
         except connector.Error as error:

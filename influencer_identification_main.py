@@ -78,6 +78,14 @@ def show_results():
     tools = analytics_backend.analytics_backend()
     return tools.conductAnalysis()
 
+@app.route("/getFilters", methods=['GET','POST'])
+def get_filters():
+    return utils.utils().fillSelectorsIncoming()
+
+@app.route("/getFilteredIncomingMsgData", methods=['GET','POST'])
+def get_filtered_incoming_message_data(restriction_dict):
+    return utils.utils().getSelectedDataIncoming(restriction_dict)
+
 @app.route('/checkloginstatus', methods=['GET', 'POST'])
 def checkloginstatus():
     print('check log-in status')
