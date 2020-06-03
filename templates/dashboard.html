@@ -68,21 +68,8 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navigation">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="no-icon">Dropdown</span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                            </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#pablo">
+                                <a class="nav-link" href="logout">
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>
@@ -136,7 +123,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card ">
                                     <div class="card-header ">
                                         <h4 class="card-title">Top Influencers</h4>
@@ -145,17 +132,12 @@
                                     <div class="card-body ">
                                         <div id="barChart" class="ct-Chart ct-perfect-fourth"></div>
                                         <div class="legend">
-                                            <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Bounce
-                                        </div>
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> Other relevant info
-                                        </div>
+                                            <i class="fa fa-circle text-info"></i> Response Count
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="card ">
                                     <div class="card-header ">
                                         <h4 class="card-title">Campaign Activity over time</h4>
@@ -186,57 +168,7 @@
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
                                         <table class="table table-hover" id="dataTable">
-                                            <thead>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Salary</th>
-                                                <th>Country</th>
-                                                <th>City</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Dakota Rice</td>
-                                                    <td>$36,738</td>
-                                                    <td>Niger</td>
-                                                    <td>Oud-Turnhout</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Minerva Hooper</td>
-                                                    <td>$23,789</td>
-                                                    <td>Curaçao</td>
-                                                    <td>Sinaai-Waas</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Sage Rodriguez</td>
-                                                    <td>$56,142</td>
-                                                    <td>Netherlands</td>
-                                                    <td>Baileux</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Philip Chaney</td>
-                                                    <td>$38,735</td>
-                                                    <td>Korea, South</td>
-                                                    <td>Overland Park</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Doris Greene</td>
-                                                    <td>$63,542</td>
-                                                    <td>Malawi</td>
-                                                    <td>Feldkirchen in Kärnten</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Mason Porter</td>
-                                                    <td>$78,615</td>
-                                                    <td>Chile</td>
-                                                    <td>Gloucester</td>
-                                                </tr>
-                                            </tbody>
+                                            
                                         </table>
                                     </div>
                                 </div>
@@ -280,44 +212,35 @@
 
 // items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
-function DrawGraph(data) {
-  var tabledata = new google.visualization.DataTable();
-  tabledata.addColumn('string', 'Name');
-  tabledata.addColumn('number', 'Count');
-  tabledata.addColumn('string', 'City');
+function populateTable(dataObj) {
+    var tabledata = document.getElementById('dataTable');
+    var columnHeaders = {"Voter":1, "City":6, "Voted For":9, "Age":10, "Cost":3, "Response":5};
+    var headers = Object.keys(columnHeaders);
 
-  // Generate and format the data
-  tabledata.addRows([
-    [data.Name1, data.Count1, data.City1],
-    [data.Name2, data.Count2, data.City2],
-    [data.Name3, data.Count3, data.City3],
-    [data.Name4, data.Count4, data.City4],
-    [data.Name5, data.Count5, data.City5]
-  ]);
-  
+    var tr = tabledata.insertRow(-1);
 
-  // Customize the graph
-  var options = {
-    colors: ['#ffab91', '#ffab91'],
-    ChartArea: {width: '50%'},
-    hAxis: {
-      title: '% working title'
-    },
-    showRowNumber: true,
-    width: '100%',
-    height: '100%'
-  };
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement("th");
+        th.innerHTML = headers[i];
+        tr.appendChild(th);
+    }
 
-  // Generate the graph
-  var table = new google.visualization.Table(document.getElementById('dataTable'));
+    // ADD JSON DATA TO THE TABLE AS ROWS.
+    for (var i = 0; i < dataObj.length; i++) {
+        console.log(dataObj[i]);
 
-  // Display the graph
-  table.draw(tabledata, options);
+        tr = tabledata.insertRow(-1);
+
+        for (var j = 0; j < headers.length; j++) {
+            var tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = dataObj[i][columnHeaders[headers[j]]];
+        }
+    }
 
 }
 
 
-function populateTimeSeriesChart() {
+function populateTimeSeriesChart(dataObj) {
     var dataSales = {
       labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
       series: [
@@ -355,14 +278,10 @@ function populateTimeSeriesChart() {
 }
 
 
-function populateBarChart() {
-    var data = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-        [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
-      ]
-    };
+function populateBarChart(dataObj) {
+
+    var data = {labels : Object.keys(dataObj), series : [Object.values(dataObj)]}
+    console.log(data)
 
     var options = {
         seriesBarDistance: 10,
@@ -442,6 +361,37 @@ function refreshDashboard() {
     var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
     filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
     console.log(filterValues);
+
+    $.getJSON("/getFilteredResultsBarChart", filterValues, function (data, status) {
+
+        // Inspect the data returned from the API
+        console.log(data)
+
+        // Populate filter Options
+        populateBarChart(data);
+      }
+    )
+
+    $.getJSON("/getFilteredResultsTable", filterValues, function (data, status) {
+
+        // Inspect the data returned from the API
+        console.log(data)
+
+        // Populate filter Options
+        populateTable(data);
+      }
+    )
+
+    $.getJSON("/getFilteredResultsTimeseries", filterValues, function (data, status) {
+
+        // Inspect the data returned from the API
+        console.log(data)
+
+        // Populate filter Options
+        populateTimeSeriesChart(data);
+      }
+    )
+
 }
 
 
@@ -464,8 +414,7 @@ function initializePage() {
         populateFilterOptions(data);
       }
     )
-    populateBarChart();
-    populateTimeSeriesChart();
+    refreshDashboard();
     
 }
 
