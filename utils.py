@@ -174,7 +174,7 @@ class utils:
             insert_values = ()
             sql_prepared_statement = "select * from Incoming_messages WHERE "
             for key in restriction_dict.keys():
-                if restriction_dict[key] == None:
+                if restriction_dict[key] == 'ALL':
                     sql_prepared_statement+= "'a'=%s AND "
                     insert_values+=('a',)
                 else:
@@ -254,6 +254,123 @@ class utils:
         except connector.Error as error:
             print("Reading from credential DB failed")
             print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+    def updateUserInfo(self, organization, username, mail, first_name, last_name, city, country):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+            print(username)
+
+            cursor=connection.cursor(prepared=True)
+            insert_values = (mail, first_name,last_name, organization, city, country, username)
+            print(insert_values)
+            #TODO: this is bad style and should be changed at a later point
+            sql_prepared_statement = "UPDATE Login_credentials SET mail=%s, first_name=%s, last_name=%s, organization=%s, city=%s, \
+             country=%s WHERE username = %s"
+            print(sql_prepared_statement)
+            cursor.execute(sql_prepared_statement, insert_values)
+            connection.commit()
+
+            return True
+
+
+        except connector.Error as error:
+            print("Updating credential DB failed")
+            print(error)
+            return False
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+    def filteredBarChartData(self, restriction_dict):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
+                                           password=system_constants.AMAZON_RDS_DB1_PASSWORD \
+                                           , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com',
+                                           port='3306', database='Ubuntu')
+
+            cursor = connection.cursor(prepared=True)
+            # TODO: this is bad style and should be changed at a later point
+
+
+            sql_prepared_statement = "select distinct voted_for from Incoming_messages"
+
+            cursor.execute(sql_prepared_statement)
+
+            userdata = cursor.fetchall()
+            print(userdata)
+            influencer_dict={}
+            #get vote count
+            for row in userdata:
+                voted_for=row[0].decode('utf-8')
+                insert_values=(voted_for,)
+                sql_prepared_statement = "select count(*) from Incoming_messages WHERE voted_for=%s "
+
+                for key in restriction_dict.keys():
+                    if restriction_dict[key] == 'ALL':
+                        sql_prepared_statement += "'a'=%s AND "
+                        insert_values += ('a',)
+                    else:
+                        sql_prepared_statement += key + "=%s AND "
+                        insert_values += (restriction_dict[key],)
+                sql_prepared_statement += "'a'=%s"
+                insert_values += ('a',)
+
+                cursor.execute(sql_prepared_statement, insert_values)
+                count_data=cursor.fetchall()[0]
+                influencer_dict[voted_for]=count_data[0]
+
+            sorted_ranking = sorted(influencer_dict.items(), key=lambda x: x[1], reverse=True)
+            print(sorted_ranking)
+            influencer_dict={}
+            for element in sorted_ranking:
+                influencer_dict[element[0]]=element[1]
+            print(influencer_dict)
+            return flask.jsonify(influencer_dict)
+
+        except connector.Error as error:
+            print("Reading from incoming message DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+
+    def writeCampaignInfo(self, organization, username, mail, geography, collaborators, description, campaign_identifier):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+            print(username)
+
+            cursor=connection.cursor(prepared=True)
+            insert_values = (organization, username, mail, geography, collaborators, description, campaign_identifier)
+            print(insert_values)
+            #TODO: this is bad style and should be changed at a later point
+            sql_prepared_statement = "insert into Campaign (organization, username, mail, geography, collaborators, description, \
+            campaign_identifier) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+            print(sql_prepared_statement)
+            cursor.execute(sql_prepared_statement, insert_values)
+            connection.commit()
+
+            return True
+
+
+        except connector.Error as error:
+            print("Writing into campaign DB failed")
+            print(error)
+            return False
 
         finally:
             if (connection.is_connected()):

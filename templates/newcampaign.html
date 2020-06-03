@@ -19,7 +19,7 @@
 </head>
 
 
-<body>
+<body onload="initializePage()">
     <div class="wrapper">
         <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
             <div class="sidebar-wrapper">
@@ -95,21 +95,145 @@
 
 
 
-            <!-- Begin Content -->
+<!-- Begin Content -->
             <div class="content">
                 <div class="container-fluid">
-                    <div class="section">
-                        <div class="row">
-                            <!-- Row 1 content in cards -->
-                        </div>
-                        <div class="row">
-                            <!-- Row 2 content in cards -->
-                        </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Edit campaign info</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>Campaign identifier </label>
+                                                    <input type="text" class="form-control" placeholder="Campaign name" id="campaign_identifier">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>Organization </label>
+                                                    <input type="text" class="form-control" disabled="" placeholder="Organization" id="organization">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 px-1">
+                                                <div class="form-group">
+                                                    <label>Campaign Leader</label>
+                                                    <input type="text" class="form-control" disabled="" placeholder="Username" id="username">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Campaign Email</label>
+                                                    <input type="email" class="form-control" placeholder="Email" id="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Campaign Target Geography</label>
+                                                    <input type="text" class="form-control" placeholder="Geography" id="geography">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label>Campaign Collaborators</label>
+                                                    <input type="text" class="form-control" placeholder="Collaborators" id="collaborators">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                    </div>
-                </div>
-            </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Campaign Description</label>
+                                                    <input type="text" class="form-control" placeholder="Description" id="description">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                            <div class="col-md-12">
+                                <div class="card ">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Campaign</h4>
+                                        <p class="card-category">Outreach data</p>
+                                    </div>
+                                    <div class="card-body table-full-width table-responsive">
+                                        <table class="table table-hover" id="chart">
+                                            <thead>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Salary</th>
+                                                <th>Country</th>
+                                                <th>City</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Dakota Rice</td>
+                                                    <td>$36,738</td>
+                                                    <td>Niger</td>
+                                                    <td>Oud-Turnhout</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Minerva Hooper</td>
+                                                    <td>$23,789</td>
+                                                    <td>Curaçao</td>
+                                                    <td>Sinaai-Waas</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Sage Rodriguez</td>
+                                                    <td>$56,142</td>
+                                                    <td>Netherlands</td>
+                                                    <td>Baileux</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Philip Chaney</td>
+                                                    <td>$38,735</td>
+                                                    <td>Korea, South</td>
+                                                    <td>Overland Park</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Doris Greene</td>
+                                                    <td>$63,542</td>
+                                                    <td>Malawi</td>
+                                                    <td>Feldkirchen in Kärnten</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>Mason Porter</td>
+                                                    <td>$78,615</td>
+                                                    <td>Chile</td>
+                                                    <td>Gloucester</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                </div>
+                            </div>
+
+
+
+                                        <button type="submit" onclick="launchCampaign()" class="btn btn-info btn-fill pull-right">Launch Campaign</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
             <!-- End Content -->
+
 
 
 
@@ -140,7 +264,43 @@
     </div>
     
 
+<script>
 
+    function initializePage() {
+  organization_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+
+
+  $.getJSON("/getaccountdata", {}, function (data, status) {
+
+    // Inspect the data returned from the API
+    console.log(data)
+    organization_field.value = data.organization;
+    username_field.value = data.username;
+    email_field.value = data.email;
+
+
+    }
+  )
+}
+
+        function launchCampaign() {
+  campaign_identifier_field = document.getElementById("campaign_identifier");
+  organization_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+  geography_field = document.getElementById("geography");
+  collaborators_field = document.getElementById("collaborators");
+  description_field = document.getElementById("description");
+  console.log(username_field.value)
+
+  $.getJSON("/LaunchCampaign", {campaign_identifier: campaign_identifier_field.value, organization: organization_field.value, username: username_field.value, mail: email_field.value, geography: geography_field.value, collaborators: collaborators_field.value, description: description_field.value}, function (data, status) {
+
+    }
+  )
+}
+</script>
 
 
 

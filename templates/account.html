@@ -131,7 +131,7 @@
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
                                                     <label>First Name</label>
-                                                    <input type="text" class="form-control" placeholder="Company" id="first_name">
+                                                    <input type="text" class="form-control" placeholder="First Name" id="first_name">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 pl-1">
@@ -156,7 +156,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" action="/UpdateProfile" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                        <button type="submit" onclick="updateProfile()" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>
@@ -201,7 +201,7 @@
   first_name_field = document.getElementById("first_name");
   last_name_field = document.getElementById("last_name");
   city_field = document.getElementById("city");
-  country_field = document.getElementById("city");
+  country_field = document.getElementById("country");
 
   $.getJSON("/getaccountdata", {}, function (data, status) {
 
@@ -214,6 +214,21 @@
     last_name_field.value = data.last_name;
     city_field.value = data.city;
     country_field.value = data.country;
+
+    }
+  )
+}
+
+    function updateProfile() {
+  organization_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+  first_name_field = document.getElementById("first_name");
+  last_name_field = document.getElementById("last_name");
+  city_field = document.getElementById("city");
+  country_field = document.getElementById("country");
+
+  $.getJSON("/UpdateProfile", {organization: organization_field.value, username: username_field.value, mail: email_field.value, first_name: first_name_field.value, last_name: last_name_field.value, city: city_field.value, country: country_field.value}, function (data, status) {
 
     }
   )

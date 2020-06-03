@@ -82,9 +82,23 @@ def show_results():
 def get_filters():
     return utils.utils().fillFilters()
 
-@app.route("/getFilteredIncomingMsgData", methods=['GET','POST'])
-def get_filtered_incoming_message_data(restriction_dict):
+@app.route("/getFilteredResultsTable", methods=['GET','POST'])
+def get_filtered_incoming_message_data():
+    filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
+    restriction_dict = {}
+    for key in filter_keys:
+        restriction_dict[key] = request.args.get(key)
     return utils.utils().getSelectedDataIncoming(restriction_dict)
+
+@app.route('/getFilteredResultsBarChart', methods=['GET', 'POST'])
+def getFilteredResultsBarChart():
+    filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
+    restriction_dict = {}
+    for key in filter_keys:
+        restriction_dict[key] = request.args.get(key)
+    return utils.utils().filteredBarChartData(restriction_dict)
+
+
 
 @app.route("/dashboard", methods=['GET','POST'])
 @flask_login.login_required
@@ -94,8 +108,29 @@ def show_dashboard():
 
 
 @app.route('/getaccountdata', methods=['GET','POST'])
+@flask_login.login_required
 def get_account_data():
     return utils.utils().getUserInfo(flask_login.current_user.get_id())
+
+@app.route('/UpdateProfile', methods=['GET','POST'])
+@flask_login.login_required
+def update_account_data():
+
+    utils.utils().updateUserInfo(request.args.get('organization'), request.args.get('username'), \
+                                 request.args.get('mail'), request.args.get('first_name'), \
+                                 request.args.get('last_name'), request.args.get('city'), \
+                                 request.args.get('country'))
+    return redirect(url_for('show_account_info'))
+
+#TODO: add actual send out functions
+@app.route('/LaunchCampaign', methods=['GET','POST'])
+#@flask_login.login_required
+def launch_campaign():
+    print('launch campaign called')
+    utils.utils().writeCampaignInfo(request.args.get('organization'), request.args.get('username'), \
+                                 request.args.get('mail'), request.args.get('geography'), \
+                                 request.args.get('collaborators'), request.args.get('description'),request.args.get('campaign_identifier'))
+    return redirect(url_for('launch_campaign'))
 
 
 @app.route("/account", methods=['GET','POST'])
@@ -183,7 +218,6 @@ def load_user(user_id):
     myutils = utils.utils()
     user_data = myutils.readFromUserDB(user_id)
     user = User.User(user_data['username'])
-    print('User data:' +str(user_data))
     return user
 
 
