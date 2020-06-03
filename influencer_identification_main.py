@@ -80,6 +80,7 @@ def show_results():
 
 @app.route('/checkloginstatus', methods=['GET', 'POST'])
 def checkloginstatus():
+    print('check log-in status')
     if flask_login.current_user.is_authenticated == True:
         return {'login_status': 1}
 
