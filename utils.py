@@ -117,6 +117,16 @@ class utils:
 
                 return flask.jsonify(return_values)
 
+        except connector.Error as error:
+            print("Writing into DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
     # items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
     def getSelectedDataIncoming(self, restriction_dict):
