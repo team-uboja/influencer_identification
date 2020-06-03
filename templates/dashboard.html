@@ -43,13 +43,13 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="dashboard">
-                            <i class="nc-icon nc-Chart-bar-32"></i>
+                            <i class="nc-icon nc-chart-bar-32"></i>
                             <p>CAMPAIGNS</p>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link" href="outgoing">
-                            <i class="nc-icon nc-Chart-bar-32"></i>
+                            <i class="nc-icon nc-audio-92"></i>
                             <p>OUTGOING CAMPAIGN</p>
                         </a>
                     </li>
@@ -57,6 +57,7 @@
             </div>
         </div>
         <div class="main-panel">
+
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
@@ -116,7 +117,7 @@
                                         <select class="browser-default custom-select" id="influencersDropdownItems">
                                           <option value="ALL" selected>Influencers</option>
                                         </select>
-                                        <button class="btn btn-default" onclick="refreshDashboard();" type="submit">Filter Results</button>
+                                        <button class="btn btn-info btn-fill pull-right" onclick="refreshDashboard();" type="submit">Filter Results</button>
                                     </div>
                                 </div>
                             </div>
@@ -218,6 +219,9 @@ function populateTable(dataObj) {
     var headers = Object.keys(columnHeaders);
 
     var tr = tabledata.insertRow(-1);
+    var th = document.createElement("th");
+    th.innerHTML = "#";
+    tr.appendChild(th);
 
     for (var i = 0; i < headers.length; i++) {
         var th = document.createElement("th");
@@ -230,6 +234,8 @@ function populateTable(dataObj) {
         console.log(dataObj[i]);
 
         tr = tabledata.insertRow(-1);
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = i;
 
         for (var j = 0; j < headers.length; j++) {
             var tabCell = tr.insertCell(-1);
