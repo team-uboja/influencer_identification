@@ -86,6 +86,22 @@ def get_filters():
 def get_filtered_incoming_message_data(restriction_dict):
     return utils.utils().getSelectedDataIncoming(restriction_dict)
 
+@app.route("/dashboard", methods=['GET','POST'])
+def show_dashboard():
+    print('Opening dashboard')
+    return render_template('dashboard.html')
+
+@app.route("/account", methods=['GET','POST'])
+def show_account_info():
+    print('Opening Account')
+    return render_template('account.html')
+
+@app.route("/newcampaign", methods=['GET','POST'])
+def show_new_campaign_page():
+    print('Opening dashboard')
+    return render_template('newcampaign.html')
+
+
 @app.route('/checkloginstatus', methods=['GET', 'POST'])
 def checkloginstatus():
     print('check log-in status')
@@ -155,7 +171,6 @@ def load_user(user_id):
     user = User.User(user_data['username'])
     print('User data:' +str(user_data))
     return user
-
 
 
 if __name__ == "__main__":
