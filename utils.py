@@ -68,7 +68,7 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
-    def fillFilters(self):
+    def getAllTableData(self):
         try:
                 connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
                                                password=system_constants.AMAZON_RDS_DB1_PASSWORD \
@@ -116,6 +116,41 @@ class utils:
 
 
                 return flask.jsonify(return_values)
+
+        except connector.Error as error:
+            print("Writing into DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+    def fillFilters(self):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
+                                           password=system_constants.AMAZON_RDS_DB1_PASSWORD \
+                                           , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com',
+                                           port='3306', database='Ubuntu')
+
+            cursor = connection.cursor(prepared=True)
+            # TODO: this is bad style and should be changed at a later point
+            filter_keys =['from_', 'from_city', 'campaign_identifier', 'voted_for']
+            filter_values={}
+            for key in filter_keys:
+
+                sql_prepared_statement = "select distinct " + key +" from Incoming_messages"
+
+                cursor.execute(sql_prepared_statement)
+
+                userdata = cursor.fetchall()
+                temp_list=[]
+                for row in userdata:
+                    temp_list.append(row[0].decode('utf-8'))
+                filter_values[key]=temp_list
+
+            return flask.jsonify(filter_values)
 
         except connector.Error as error:
             print("Writing into DB failed")
@@ -192,12 +227,13 @@ class utils:
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+            print(username)
 
             cursor=connection.cursor(prepared=True)
             insert_values = (username,)
             #TODO: this is bad style and should be changed at a later point
-            sql_prepared_statement = "select (username, mail, first_name, last_name, organization, city, \
-             country) from Login_credentials WHERE username = %s"
+            sql_prepared_statement = "select username, mail, first_name, last_name, organization, city, \
+             country from Login_credentials WHERE username = %s"
 
 
             cursor.execute(sql_prepared_statement, insert_values)
@@ -205,7 +241,7 @@ class utils:
 
             return_values = {}
             return_values['username'] = row[0].decode('utf-8')
-            return_values['mail'] = row[1].decode('utf-8')
+            return_values['email'] = row[1].decode('utf-8')
             return_values['first_name'] = row[2].decode('utf-8')
             return_values['last_name'] = row[3].decode('utf-8')
             return_values['organization'] = row[4].decode('utf-8')
@@ -216,7 +252,7 @@ class utils:
 
 
         except connector.Error as error:
-            print("Reading from DB failed")
+            print("Reading from credential DB failed")
             print(error)
 
         finally:

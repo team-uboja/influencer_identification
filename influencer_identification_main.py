@@ -97,12 +97,15 @@ def show_dashboard():
 def get_account_data():
     return utils.utils().getUserInfo(flask_login.current_user.get_id())
 
+
 @app.route("/account", methods=['GET','POST'])
+@flask_login.login_required
 def show_account_info():
     print('Opening Account')
     return render_template('account.html')
 
 @app.route("/newcampaign", methods=['GET','POST'])
+@flask_login.login_required
 def show_new_campaign_page():
     print('Opening New Campaign Page')
     return render_template('newcampaign.html')

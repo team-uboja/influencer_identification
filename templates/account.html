@@ -20,7 +20,7 @@
 </head>
 
 
-<body>
+<body onload="initializePage()">
     <div class="wrapper">
         <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
             <div class="sidebar-wrapper">
@@ -111,7 +111,7 @@
                                             <div class="col-md-5 pr-1">
                                                 <div class="form-group">
                                                     <label>Organization </label>
-                                                    <input type="text" class="form-control" disabled="" placeholder="Organization" value="Creative Code Inc." id="organization">
+                                                    <input type="text" class="form-control" disabled="" placeholder="Organization" id="organization">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 px-1">
@@ -156,7 +156,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                        <button type="submit" action="/UpdateProfile" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                         <div class="clearfix"></div>
                                     </form>
                                 </div>
@@ -195,7 +195,7 @@
 
 <script>
     function initializePage() {
-  company_field = document.getElementById("organization");
+  organization_field = document.getElementById("organization");
   username_field = document.getElementById("username");
   email_field = document.getElementById("email");
   first_name_field = document.getElementById("first_name");
@@ -206,13 +206,14 @@
   $.getJSON("/getaccountdata", {}, function (data, status) {
 
     // Inspect the data returned from the API
-    organization_filed.label = data.organization;
-    username_field = data.username;
-    email_field = data.email;
-    first_name_field = data.first_name;
-    last_name_field = data.last_name;
-    city_field = data.city;
-    country_field = data.country;
+    console.log(data)
+    organization_field.value = data.organization;
+    username_field.value = data.username;
+    email_field.value = data.email;
+    first_name_field.value = data.first_name;
+    last_name_field.value = data.last_name;
+    city_field.value = data.city;
+    country_field.value = data.country;
 
     }
   )
