@@ -80,16 +80,17 @@ def show_results():
 
 @app.route('/checkloginstatus', methods=['GET', 'POST'])
 def checkloginstatus():
-    flask_login.logout_user()
-
-    return redirect(url_for(show_main))
-
-@app.route('/logout', methods=['GET', 'POST'])
-def logout():
     if flask_login.current_user.is_authenticated == True:
         return {'login_status': 1}
 
     return {'login_status': 0}
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    flask_login.logout_user()
+
+    return redirect(url_for(show_main))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
