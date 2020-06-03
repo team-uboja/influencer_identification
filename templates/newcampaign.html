@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
@@ -16,6 +18,12 @@
     <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+    <style>
+        .btn-bot {
+              position: relative;
+              bottom: 0px;
+            }
+    </style>
 </head>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -101,7 +109,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Edit campaign info</h4>
@@ -158,6 +166,24 @@
                                                     <input type="text" class="form-control" placeholder="Description" id="description">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Recipient Number</label>
+                                                    <input type="text" class="form-control" placeholder="Recipient Number" id="recipient_number">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Message</label>
+                                                    <input type="text" class="form-control" placeholder="Message" id="message">
+                                                </div>
+                                            </div>
+
+                                            <button type="button" onclick="addRow()" style="height: 40px; vertical-align: bottom" class="btn btn-info btn-fill">Add Row</button>
+
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -359,6 +385,34 @@
     }
 </script>
 <script>
+
+    function addRow(){
+    // ref: https://www.aspsnippets.com/Articles/Get-Count-Number-of-Rows-in-HTML-Table-using-JavaScript-and-jQuery.aspx
+        var table = document.getElementById("recipient_table")
+        var recipient = document.getElementById("recipient_number")
+        var message = document.getElementById("message")
+        var rowCount = 0;
+        var totalRowCount = 0;
+        var rows = table.getElementsByTagName("tr")
+        for (var i = 0; i < rows.length; i++) {
+            totalRowCount++;
+            if (rows[i].getElementsByTagName("td").length > 0) {
+                rowCount++;
+            }
+        }
+
+        var row = table.insertRow(rowCount+1)
+        var cell0 = row.insertCell(0)
+        var cell1 = row.insertCell(1)
+        var cell2 = row.insertCell(2)
+        cell0.innerHTML = rowCount + 1
+        cell1.innerHTML = recipient.value
+        cell2.innerHTML = message.value
+
+        recipient.value = ""
+        message.value = ""
+
+    }
 
     function initializePage() {
   organization_field = document.getElementById("organization");
