@@ -87,6 +87,7 @@ def get_filtered_incoming_message_data(restriction_dict):
     return utils.utils().getSelectedDataIncoming(restriction_dict)
 
 @app.route("/dashboard", methods=['GET','POST'])
+@flask_login.login_required
 def show_dashboard():
     print('Opening dashboard')
     return render_template('dashboard.html')
