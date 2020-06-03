@@ -29,12 +29,14 @@ import messaging_handler
 #
 #     messaging_handler.messaging_handler().writeIntoMessagingDB(return_values, False)
 
-restriction_dict={}
-restriction_dict['from_'] = None
-restriction_dict['to'] = None
-restriction_dict['from_city'] = None
-restriction_dict['campaign_identifier'] = 'campaign_maboko_1'
-restriction_dict['voted_for'] = None
-restriction_dict['age'] = '24'
+# restriction_dict={}
+# restriction_dict['from_'] = None
+# restriction_dict['to'] = None
+# restriction_dict['from_city'] = None
+# restriction_dict['campaign_identifier'] = 'campaign_maboko_1'
+# restriction_dict['voted_for'] = None
+# restriction_dict['age'] = '24'
+#
+# print(utils.utils().getSelectedDataIncoming(restriction_dict))
 
-print(utils.utils().getSelectedDataIncoming(restriction_dict))
+utils.utils().barChartData()

@@ -7,3 +7,4 @@ Html
 
 Not urgent
 - Add All Campaigns table view
+- Add checking logic for duplicate campaign_identifiers
