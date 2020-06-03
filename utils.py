@@ -174,7 +174,7 @@ class utils:
             insert_values = ()
             sql_prepared_statement = "select * from Incoming_messages WHERE "
             for key in restriction_dict.keys():
-                if restriction_dict[key] == None:
+                if restriction_dict[key] == 'ALL':
                     sql_prepared_statement+= "'a'=%s AND "
                     insert_values+=('a',)
                 else:
@@ -254,6 +254,36 @@ class utils:
         except connector.Error as error:
             print("Reading from credential DB failed")
             print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+    def updateUserInfo(self, organization, username, mail, first_name, last_name, city, country):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+            print(username)
+
+            cursor=connection.cursor(prepared=True)
+            insert_values = (mail, first_name,last_name, organization, city, country, username)
+            print(insert_values)
+            #TODO: this is bad style and should be changed at a later point
+            sql_prepared_statement = "UPDATE Login_credentials SET mail=%s, first_name=%s, last_name=%s, organization=%s, city=%s, \
+             country=%s WHERE username = %s"
+            print(sql_prepared_statement)
+            cursor.execute(sql_prepared_statement, insert_values)
+            connection.commit()
+
+            return True
+
+
+        except connector.Error as error:
+            print("Updating credential DB failed")
+            print(error)
+            return False
 
         finally:
             if (connection.is_connected()):
