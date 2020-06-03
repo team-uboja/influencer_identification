@@ -16,6 +16,7 @@
     <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
 
@@ -98,17 +99,69 @@
             <!-- Begin Content -->
             <div class="content">
                 <div class="container-fluid">
-                    <div class="section">
-                        <div class="row">
-                            <!-- Row 1 content in cards -->
-                        </div>
-                        <div class="row">
-                            <!-- Row 2 content in cards -->
-                        </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Edit Profile</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-5 pr-1">
+                                                <div class="form-group">
+                                                    <label>Organization </label>
+                                                    <input type="text" class="form-control" disabled="" placeholder="Organization" value="Creative Code Inc." id="organization">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 px-1">
+                                                <div class="form-group">
+                                                    <label>Username</label>
+                                                    <input type="text" class="form-control" disabled="" placeholder="Username" id="username">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pl-1">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Email address</label>
+                                                    <input type="email" class="form-control" placeholder="Email" id="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input type="text" class="form-control" placeholder="Company" id="first_name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label>Last Name</label>
+                                                    <input type="text" class="form-control" placeholder="Last Name" id="last_name">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                    </div>
-                </div>
-            </div>
+                                        <div class="row">
+                                            <div class="col-md-4 pr-1">
+                                                <div class="form-group">
+                                                    <label>City</label>
+                                                    <input type="text" class="form-control" placeholder="City" id="city">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 px-1">
+                                                <div class="form-group">
+                                                    <label>Country</label>
+                                                    <input type="text" class="form-control" placeholder="Country" id="country">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
             <!-- End Content -->
 
 
@@ -140,6 +193,31 @@
     </div>
     
 
+<script>
+    function initializePage() {
+  company_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+  first_name_field = document.getElementById("first_name");
+  last_name_field = document.getElementById("last_name");
+  city_field = document.getElementById("city");
+  country_field = document.getElementById("city");
+
+  $.getJSON("/getaccountdata", {}, function (data, status) {
+
+    // Inspect the data returned from the API
+    organization_filed.label = data.organization;
+    username_field = data.username;
+    email_field = data.email;
+    first_name_field = data.first_name;
+    last_name_field = data.last_name;
+    city_field = data.city;
+    country_field = data.country;
+
+    }
+  )
+}
+</script>
 
 
 

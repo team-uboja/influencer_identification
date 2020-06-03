@@ -68,39 +68,55 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
-    def fillSelectorsIncoming(self):
+    def fillFilters(self):
         try:
-            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
-                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+            try:
+                connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
+                                               password=system_constants.AMAZON_RDS_DB1_PASSWORD \
+                                               , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com',
+                                               port='3306', database='Ubuntu')
 
-            cursor=connection.cursor(prepared=True)
-            selector_filling_dict={}
-            listForDistinctColumns =['from_', 'to', 'from_city', 'campaign_identifier', 'voted_for', 'age']
-            for distinct_column in listForDistinctColumns:
-                sql_prepared_statement = """select distinct %s from Incoming_messages"""
-                insert_values=(distinct_column,)
+                cursor = connection.cursor(prepared=True)
+                # TODO: this is bad style and should be changed at a later point
+                insert_values = ()
+                sql_prepared_statement = "select * from Incoming_messages"
 
+                print(sql_prepared_statement)
+
+                print('Insert values: ' + str(insert_values))
                 cursor.execute(sql_prepared_statement, insert_values)
+                print('Command executed')
                 userdata = cursor.fetchall()
-
-                temp_list=[]
+                print('Raw user data: ' + str(userdata))
+                return_values = {}
+                return_values['timestamp'] = []
+                return_values['from'] = []
+                return_values['to'] = []
+                return_values['cost'] = []
+                return_values['currency'] = []
+                return_values['content'] = []
+                return_values['from_city'] = []
+                return_values['from_zip'] = []
+                return_values['campaign_identifier'] = []
+                return_values['voted_for'] = []
+                return_values['age'] = []
                 for row in userdata:
-                    temp_list.append(row[0].decode('utf-8'))
 
-                selector_filling_dict[distinct_column] = temp_list
+                    return_values['timestamp'].append(str(row[1]))
+                    return_values['from'].append(row[2].decode('utf-8'))
+                    return_values['to'].append(row[3].decode('utf-8'))
+                    return_values['cost'].append(row[4].decode('utf-8'))
+                    return_values['currency'].append(row[5].decode('utf-8'))
+                    return_values['content'].append(row[6].decode('utf-8'))
+                    return_values['from_city'].append(row[13].decode('utf-8'))
+                    return_values['from_zip'].append(row[14].decode('utf-8'))
+                    return_values['campaign_identifier'].append(row[15].decode('utf-8'))
+                    return_values['voted_for'].append(row[16].decode('utf-8'))
+                    return_values['age'].append(str(row[17]))
+                    print('Return values: ' + str(return_values))
 
-            return flask.jsonify(selector_filling_dict)
 
-
-        except connector.Error as error:
-            print("Reading from DB failed")
-            print(error)
-
-        finally:
-            if (connection.is_connected()):
-                cursor.close()
-                connection.close()
-                print("Connection to DB has been closed")
+                return flask.jsonify(return_values)
 
     #items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
     def getSelectedDataIncoming(self, restriction_dict):
@@ -162,6 +178,42 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
+    def getUserInfo(self, username):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+            insert_values = (username,)
+            #TODO: this is bad style and should be changed at a later point
+            sql_prepared_statement = "select (username, mail, first_name, last_name, organization, city, \
+             country) from Login_credentials WHERE username = %s"
+
+
+            cursor.execute(sql_prepared_statement, insert_values)
+            row = cursor.fetchall()[0]
+
+            return_values = {}
+            return_values['username'] = row[0].decode('utf-8')
+            return_values['mail'] = row[1].decode('utf-8')
+            return_values['first_name'] = row[2].decode('utf-8')
+            return_values['last_name'] = row[3].decode('utf-8')
+            return_values['organization'] = row[4].decode('utf-8')
+            return_values['city'] = row[5].decode('utf-8')
+            return_values['country'] = row[6].decode('utf-8')
+
+            return flask.jsonify(return_values)
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
 
 
     def check_password(self, username, password):

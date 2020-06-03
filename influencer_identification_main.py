@@ -80,7 +80,7 @@ def show_results():
 
 @app.route("/getFilters", methods=['GET','POST'])
 def get_filters():
-    return utils.utils().fillSelectorsIncoming()
+    return utils.utils().fillFilters()
 
 @app.route("/getFilteredIncomingMsgData", methods=['GET','POST'])
 def get_filtered_incoming_message_data(restriction_dict):
@@ -91,6 +91,11 @@ def get_filtered_incoming_message_data(restriction_dict):
 def show_dashboard():
     print('Opening dashboard')
     return render_template('dashboard.html')
+
+
+@app.route('/getaccountdata', methods=['GET','POST'])
+def get_account_data():
+    return utils.utils().getUserInfo(flask_login.current_user.get_id())
 
 @app.route("/account", methods=['GET','POST'])
 def show_account_info():
