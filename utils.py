@@ -322,7 +322,7 @@ class utils:
             for row in userdata:
                 voted_for=row[0].decode('utf-8')
                 insert_values=(voted_for,)
-                sql_prepared_statement = "select count(*) from Incoming_messages WHERE voted_for=%s "
+                sql_prepared_statement = "select count(*) from Incoming_messages WHERE voted_for=%s AND "
 
                 for key in restriction_dict.keys():
                     if restriction_dict[key] == 'ALL':
