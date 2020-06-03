@@ -3,6 +3,7 @@ TODO
 Html
 - Convert navbar and sidebar to reusable components
 - Allow downloading data from table (as spreadsheet)
+- Add send-out capability
 
 Not urgent
 - Add All Campaigns table view
