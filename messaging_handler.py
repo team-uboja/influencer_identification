@@ -18,19 +18,19 @@ class messaging_handler:
             reader = csv.reader(csvfile, delimiter=",")
             for row in reader:
                 print(row)
-                self.sendMessage(row[0], row[1])
+                self.sendMessage(row[0], row[1], row[2])
             csvfile.close()
 
 
 
-    def sendMessage(self, target_number, message_content):
+    def sendMessage(self, target_number, message_content, campaign_identifier):
 
-        status_values = self.backend.sendMessage(target_number, message_content)
+        status_values = self.backend.sendMessage(target_number, message_content, campaign_identifier)
         self.writeIntoMessagingDB(status_values, True)
 
-    def receiveMessage(self, status_values):
+    def receiveMessage(self, status_values, campaign_identifier):
         self.writeIntoMessagingDB(status_values, False)
-        self.sendMessage(status_values['from'], 'Thanks a lot for your nomination.')
+        self.sendMessage(status_values['from'], 'Thanks a lot for your nomination.', campaign_identifier)
 
 
     def writeIntoMessagingDB(self, status_values, message_outgoing):
@@ -43,15 +43,16 @@ class messaging_handler:
 
             #important: don't put variable table name into statement other than through prepared statements
             if message_outgoing:
-                sql_prepared_statement = """INSERT INTO Outgoing_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                sql_prepared_statement = """INSERT INTO Outgoing_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
                 insert_values = (status_values['from'], status_values['to'], status_values['cost'], status_values['currency'], \
                     status_values['content'], status_values['created'], status_values['sent'], status_values['updated'], \
-                    status_values['status'], status_values['error_code'], status_values['error_message'])
+                    status_values['status'], status_values['error_code'], status_values['error_message'], status_values['campaign_identifier'])
             else:
-                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city, from_zip) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city, from_zip) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
                 insert_values = (status_values['from'], status_values['to'], status_values['cost'],status_values['currency'],\
                         status_values['content'],status_values['created'],status_values['sent'],status_values['updated'],\
-                        status_values['status'],status_values['error_code'],status_values['error_message'], status_values['from_city'], status_values['from_zip'])
+                        status_values['status'],status_values['error_code'],status_values['error_message'], status_values['from_city'], status_values['from_zip'],\
+                        status_values['campaign_identifier'], status_values['voted_for'], status_values['age'])
             cursor.execute(sql_prepared_statement, insert_values)
             connection.commit()
             print('Wrote message into database')

@@ -67,6 +67,76 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
+    def fillSelectorsIncoming(self):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+            selector_filling_dict={}
+            listForDistinctColumns =['from_', 'to', 'from_city', 'campaign_identifier', 'voted_for', 'age']
+            for distinct_column in listForDistinctColumns:
+                sql_prepared_statement = """select distinct %s from Incoming_messages"""
+                insert_values=(distinct_column,)
+
+                cursor.execute(sql_prepared_statement, insert_values)
+                userdata = cursor.fetchall()
+
+                temp_list=[]
+                for row in userdata:
+                    temp_list.append(row[0].decoder('utf-8'))
+
+                selector_filling_dict[distinct_column] = temp_list
+
+            return selector_filling_dict
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+    #items in restriction_dict must be orders from_, to, from_city, campaign_identifier, voted_for, age
+    def fillGetSelectedData(self, restriction_dict):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+            sql_prepared_statement = """select * from Incoming_messages WHERE %s = %s AND %s = %s AND %s = %s \
+                            AND %s = %s AND %s = %s"""
+
+            for key in restriction_dict.keys:
+                if
+
+                insert_values=(distinct_column,)
+
+                cursor.execute(sql_prepared_statement, insert_values)
+                userdata = cursor.fetchall()
+
+                temp_list=[]
+                for row in userdata:
+                    temp_list.append(row[0].decoder('utf-8'))
+
+                selector_filling_dict[distinct_column] = temp_list
+
+            return selector_filling_dict
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
 
 
 
