@@ -72,6 +72,21 @@ def show_demo():
         
     return render_template('demo.html')
 
+@app.route("/processCSV", methods=['GET','POST'])
+@flask_login.login_required
+def processCSV():
+    if request.method=='POST':
+        if 'file' in request.files:
+            file = request.files['file']
+
+            file_name = werkzeug.utils.secure_filename(file.filename)
+            #TODO: abfangen falls files mit gleichem Namen schon existieren
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], system_constants.CSV_FILENAME))
+            #handler = messaging_handler.messaging_handler()
+            #handler.parseSubmittedCSVFiles()
+            #f = open(os.path.join(app.config['UPLOAD_FOLDER'], 'latest_csv.csv'),"w")
+            #f.close()
+            return True
 
 @app.route("/results", methods=['GET','POST'])
 def show_results():
