@@ -70,7 +70,6 @@ class utils:
 
     def fillFilters(self):
         try:
-            try:
                 connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
                                                password=system_constants.AMAZON_RDS_DB1_PASSWORD \
                                                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com',
@@ -118,7 +117,8 @@ class utils:
 
                 return flask.jsonify(return_values)
 
-    #items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
+    # items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
+
     def getSelectedDataIncoming(self, restriction_dict):
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
