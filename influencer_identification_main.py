@@ -117,10 +117,10 @@ def login():
             print('Login initiated')
             print(flask_login.login_user(User.User(username)))
             print('Login done')
-
-            next = '/' + str(request.referrer).split("=%2F")[1]
-
-
+            if str(request.referrer).split("=%2F").__len__() >= 2:
+                next = '/' + str(request.referrer).split("=%2F")[1]
+            else:
+                next = None
             print('Next read')
             print(next)
             print(request)
