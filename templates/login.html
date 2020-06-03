@@ -63,17 +63,17 @@
     function initializePage() {
   login_button = document.getElementById("login_button");
   logout_button = document.getElementById("logout_button");
-$.getJSON("/checkloginstatus", {}, function (data, status) {
+  $.getJSON("/checkloginstatus", {}, function (data, status) {
 
     // Inspect the data returned from the API
     console.log(data)
     login_status = data.login_status;
     if (login_status === 1) {
-        login_button.style.display = 'block';
-        logout_button.style.display = 'none';
-      } else {
         login_button.style.display = 'none';
         logout_button.style.display = 'block';
+      } else {
+        login_button.style.display = 'block';
+        logout_button.style.display = 'none';
       }
 
     }

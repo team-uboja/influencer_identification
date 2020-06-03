@@ -183,11 +183,11 @@ function initializePage() {
     console.log(data)
     login_status = data.login_status;
     if (login_status === 1) {
-        login_button.style.display = 'block';
-        logout_button.style.display = 'none';
-      } else {
         login_button.style.display = 'none';
         logout_button.style.display = 'block';
+      } else {
+        login_button.style.display = 'block';
+        logout_button.style.display = 'none';
       }
 
     }
