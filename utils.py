@@ -191,35 +191,26 @@ class utils:
             print('Command executed')
             userdata = cursor.fetchall()
             print('Raw user data: ' + str(userdata))
-            return_values = {}
-            return_values['timestamp'] = []
-            return_values['from'] = []
-            return_values['to'] = []
-            return_values['cost'] = []
-            return_values['currency'] = []
-            return_values['content'] = []
-            return_values['from_city'] = []
-            return_values['from_zip'] = []
-            return_values['campaign_identifier'] = []
-            return_values['voted_for'] = []
-            return_values['age'] = []
+            temp_list_for_json=[]
             for row in userdata:
-                return_values['timestamp'].append(str(row[1]))
-                return_values['from'].append(row[2].decode('utf-8'))
-                return_values['to'].append(row[3].decode('utf-8'))
-                return_values['cost'].append(row[4].decode('utf-8'))
-                return_values['currency'].append(row[5].decode('utf-8'))
-                return_values['content'].append(row[6].decode('utf-8'))
-                return_values['from_city'].append(row[13].decode('utf-8'))
-                return_values['from_zip'].append(row[14].decode('utf-8'))
-                return_values['campaign_identifier'].append(row[15].decode('utf-8'))
-                return_values['voted_for'].append(row[16].decode('utf-8'))
-                return_values['age'].append(str(row[17]))
+                return_values = []
+                return_values.append(str(row[1]))
+                return_values.append(row[2].decode('utf-8'))
+                return_values.append(row[3].decode('utf-8'))
+                return_values.append(row[4].decode('utf-8'))
+                return_values.append(row[5].decode('utf-8'))
+                return_values.append(row[6].decode('utf-8'))
+                return_values.append(row[13].decode('utf-8'))
+                return_values.append(row[14].decode('utf-8'))
+                return_values.append(row[15].decode('utf-8'))
+                return_values.append(row[16].decode('utf-8'))
+                return_values.append(str(row[17]))
                 print('Return values: ' + str(return_values))
+                temp_list_for_json.append(return_values)
 
 
 
-            return flask.jsonify(return_values)
+            return flask.jsonify(temp_list_for_json)
 
 
         except connector.Error as error:
