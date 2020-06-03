@@ -98,8 +98,13 @@ def show_account_info():
 
 @app.route("/newcampaign", methods=['GET','POST'])
 def show_new_campaign_page():
-    print('Opening dashboard')
+    print('Opening New Campaign Page')
     return render_template('newcampaign.html')
+
+@app.route("/outgoing", methods=['GET','POST'])
+def show_new_outgoing_campaign_page():
+    print('Opening New Outgoing Campaign Page')
+    return render_template('newoutgoing.html')
 
 
 @app.route('/checkloginstatus', methods=['GET', 'POST'])

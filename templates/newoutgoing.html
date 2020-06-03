@@ -19,7 +19,7 @@
 </head>
 
 
-<body onload="initializePage()">
+<body>
     <div class="wrapper">
         <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
             <div class="sidebar-wrapper">
@@ -41,13 +41,13 @@
                             <p>NEW CAMPAIGN</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li>
                         <a class="nav-link" href="dashboard">
                             <i class="nc-icon nc-chart-bar-32"></i>
                             <p>CAMPAIGNS</p>
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item active">
                         <a class="nav-link" href="outgoing">
                             <i class="nc-icon nc-chart-bar-32"></i>
                             <p>OUTGOING CAMPAIGN</p>
@@ -100,114 +100,12 @@
                 <div class="container-fluid">
                     <div class="section">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Top Influencers</h4>
-                                        <p class="card-category">Local community influencers identified within current search parameters and individual counts</p>
-                                    </div>
-                                    <div class="card-body ">
-                                        <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-                                        <div class="legend">
-                                            <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Bounce
-                                            <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                        </div>
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-clock-o"></i> Other relevant info
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Campaign Activity over time</h4>
-                                        <p class="card-category">Responses received over time</p>
-                                    </div>
-                                    <div class="card-body ">
-                                        <div id="chartHours" class="ct-chart"></div>
-                                    </div>
-                                    <div class="card-footer ">
-                                        <div class="legend">
-                                            <i class="fa fa-circle text-info"></i> Open
-                                            <i class="fa fa-circle text-danger"></i> Click
-                                            <i class="fa fa-circle text-warning"></i> Click Second Time
-                                        </div>
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-history"></i> Updated 3 minutes ago
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Row 1 content in cards -->
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="card ">
-                                    <div class="card-header ">
-                                        <h4 class="card-title">Influencer Data</h4>
-                                        <p class="card-category">Download</p>
-                                    </div>
-                                    <div class="card-body table-full-width table-responsive">
-                                        <table class="table table-hover" id="chart">
-                                            <thead>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Salary</th>
-                                                <th>Country</th>
-                                                <th>City</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Dakota Rice</td>
-                                                    <td>$36,738</td>
-                                                    <td>Niger</td>
-                                                    <td>Oud-Turnhout</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Minerva Hooper</td>
-                                                    <td>$23,789</td>
-                                                    <td>Curaçao</td>
-                                                    <td>Sinaai-Waas</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Sage Rodriguez</td>
-                                                    <td>$56,142</td>
-                                                    <td>Netherlands</td>
-                                                    <td>Baileux</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Philip Chaney</td>
-                                                    <td>$38,735</td>
-                                                    <td>Korea, South</td>
-                                                    <td>Overland Park</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Doris Greene</td>
-                                                    <td>$63,542</td>
-                                                    <td>Malawi</td>
-                                                    <td>Feldkirchen in Kärnten</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Mason Porter</td>
-                                                    <td>$78,615</td>
-                                                    <td>Chile</td>
-                                                    <td>Gloucester</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Row 2 content in cards -->
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -242,35 +140,8 @@
     </div>
     
 
-<script>
-
-// items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
 
-
-function initializePage() {
-  /*demoSection = document.getElementById("demoSection");
-  passwordSection = document.getElementById("passwordSection");
-  demoSection.style.display = 'none';
-  passwordSection.style.display = 'block';
-  showAnalysis();
-  */
-  console.log("Initializing Campaign Dashboard");
-
-  /*// Make API call to backend & draw graph
-    $.getJSON("/getFilters", function (data, status) {
-
-        // Inspect the data returned from the API
-        console.log(data)
-
-        // Populate filter Options
-        //populateFilterOptions(data);
-      }
-    )
-    */
-}
-
-</script>
 
 
 </body>
