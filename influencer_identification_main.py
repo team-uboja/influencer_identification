@@ -143,15 +143,6 @@ def getFilteredResultsTimeseries():
     return utils.utils().filteredTimeSeriesData(restriction_dict)
 
 
-@app.route('/runOutgoingCampaign', methods=['GET', 'POST'])
-def getInfluencersForCampaign():
-    print(request.args)
-    campaignID = request.args.get('campaignID')
-    isFinalRun = request.args.get('isFinalRun')
-    runMessage = request.args.get('runMessage')
-    return utils.utils().influencerListForCampaign(campaignID)
-
-
 @app.route("/dashboard", methods=['GET','POST'])
 @flask_login.login_required
 def show_dashboard():
@@ -185,15 +176,14 @@ def launch_campaign():
     print('Message array: ' + str(request.args.getlist('message_array[0][]')))
     messaging_handler.messaging_handler().sendOutMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'))
     print('here')
-    #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason
-    return render_template('success.html')
+    return redirect(url_for('show_success'))
+
 
 @app.route('/LaunchInfoCampaign', methods=['GET','POST'])
 @flask_login.login_required
 def launch_info_campaign():
     print('launch campaign')
     print(request.args)
-
     messaging_handler.messaging_handler().sendOutInfoMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'),request.args.get('message'))
     print('here')
     #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason

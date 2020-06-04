@@ -130,7 +130,7 @@
 
 
                                     <div>
-                                        <button type="button" onclick="launchCampaign()" class="btn btn-info btn-fill pull-right">Launch Outgoing Campaign</button>
+                                        <button type="button" onclick="launchCampaign();location.href='success'" class="btn btn-info btn-fill pull-right">Launch Outgoing Campaign</button>
                                     </div>
                                 </div>
                             </div>
@@ -182,17 +182,24 @@ function populateInfluencerTable(dataObj) {
     var th = document.createElement("th");
     th.innerHTML = "Influencer";
     tr.appendChild(th);
+    var th = document.createElement("th");
+    th.innerHTML = "Vote Count";
+    tr.appendChild(th);
 
 
     // ADD JSON DATA TO THE TABLE AS ROWS.
-    for (var i = 0; i < dataObj.length; i++) {
+    var influencers = Object.keys(dataObj);
+    var counts = Object.values(dataObj);
+    for (var i = 0; i < influencers.length; i++) {
 
         tr = tabledata.insertRow(-1);
         var tabCell = tr.insertCell(-1);
         tabCell.innerHTML = i+1;
 
         var tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = dataObj[i];
+        tabCell.innerHTML = influencers[i];
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = counts[i];
     }
 }
 
@@ -201,14 +208,15 @@ function getInfluencers() {
     console.log(campaignIDDropdownItems.value);
     var campaignID = campaignIDDropdownItems.options[campaignIDDropdownItems.selectedIndex].value;
 
-    $.getJSON("/runOutgoingCampaign", {campaignID: campaignID}, function (data, status) {
+    $.getJSON("/getFilteredResultsBarChart", {campaign_identifier: campaignID, from_: "ALL", from_city: "ALL", voted_for: "ALL"}, function (data, status) {
+
         // Inspect the data returned from the API
         console.log(data)
 
-        // Populate influencer table
+        // Populate filter Options
         populateInfluencerTable(data);
     }
-  )
+    )
 }
 
 
