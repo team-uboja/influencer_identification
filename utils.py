@@ -86,13 +86,10 @@ class utils:
                 insert_values = ()
                 sql_prepared_statement = "select * from Incoming_messages"
 
-                print(sql_prepared_statement)
 
-                print('Insert values: ' + str(insert_values))
                 cursor.execute(sql_prepared_statement, insert_values)
                 print('Command executed')
                 userdata = cursor.fetchall()
-                print('Raw user data: ' + str(userdata))
                 return_values = {}
                 return_values['timestamp'] = []
                 return_values['from'] = []
@@ -118,7 +115,6 @@ class utils:
                     return_values['campaign_identifier'].append(row[15].decode('utf-8'))
                     return_values['voted_for'].append(row[16].decode('utf-8'))
                     return_values['age'].append(str(row[17]))
-                    print('Return values: ' + str(return_values))
 
 
                 return flask.jsonify(return_values)
@@ -192,13 +188,10 @@ class utils:
             insert_values += ('a',)
 
 
-            print(sql_prepared_statement)
 
-            print('Insert values: ' + str(insert_values))
             cursor.execute(sql_prepared_statement, insert_values)
             print('Command executed')
             userdata = cursor.fetchall()
-            print('Raw user data: ' + str(userdata))
             temp_list_for_json=[]
             for row in userdata:
                 return_values = []
@@ -213,7 +206,6 @@ class utils:
                 return_values.append(row[15].decode('utf-8'))
                 return_values.append(row[16].decode('utf-8'))
                 return_values.append(str(row[17]))
-                print('Return values: ' + str(return_values))
                 temp_list_for_json.append(return_values)
 
 
@@ -240,12 +232,12 @@ class utils:
             cursor=connection.cursor(prepared=True)
             insert_values = (phone_number,)
             #TODO: this is bad style and should be changed at a later point
-            sql_prepared_statement = "select campaign_identifier from Outgoing_messages WHERE to = %s"
+            sql_prepared_statement = "select campaign_identifier from Outgoing_messages WHERE to = %s order by timestamp"
 
 
             cursor.execute(sql_prepared_statement, insert_values)
             row = cursor.fetchall()[0]
-
+            print('Row: ' + str(row))
             return row[0].decode('utf-8')
 
 
@@ -305,11 +297,9 @@ class utils:
 
             cursor=connection.cursor(prepared=True)
             insert_values = (mail, first_name,last_name, organization, city, country, username)
-            print(insert_values)
             #TODO: this is bad style and should be changed at a later point
             sql_prepared_statement = "UPDATE Login_credentials SET mail=%s, first_name=%s, last_name=%s, organization=%s, city=%s, \
              country=%s WHERE username = %s"
-            print(sql_prepared_statement)
             cursor.execute(sql_prepared_statement, insert_values)
             connection.commit()
 
@@ -366,11 +356,9 @@ class utils:
                 influencer_dict[voted_for]=count_data[0]
 
             sorted_ranking = sorted(influencer_dict.items(), key=lambda x: x[1], reverse=True)
-            print(sorted_ranking)
             influencer_dict={}
             for element in sorted_ranking:
                 influencer_dict[element[0]]=element[1]
-            print(influencer_dict)
             return flask.jsonify(influencer_dict)
 
         except connector.Error as error:
@@ -406,13 +394,10 @@ class utils:
             insert_values += ('a',)
 
 
-            print(sql_prepared_statement)
 
-            print('Insert values: ' + str(insert_values))
             cursor.execute(sql_prepared_statement, insert_values)
             print('Command executed')
             userdata = cursor.fetchall()
-            print('Raw user data: ' + str(userdata))
             temp_list_for_json=[]
             for row in userdata:
                 temp_list_for_json.append(str(row[0]))
@@ -439,11 +424,9 @@ class utils:
 
             cursor=connection.cursor(prepared=True)
             insert_values = (organization, username, mail, geography, collaborators, description, campaign_identifier)
-            print(insert_values)
             #TODO: this is bad style and should be changed at a later point
             sql_prepared_statement = "insert into Campaign (organization, username, mail, geography, collaborators, description, \
             campaign_identifier) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-            print(sql_prepared_statement)
             cursor.execute(sql_prepared_statement, insert_values)
             connection.commit()
 
