@@ -231,13 +231,15 @@ class utils:
 
             cursor=connection.cursor(prepared=True)
             insert_values = (phone_number,)
-            print('INsert values:' + str(insert_values))
+            print('Insert values:' + str(insert_values))
             #TODO: this is bad style and should be changed at a later point
             sql_prepared_statement = "select campaign_identifier from Outgoing_messages where to_=%s order by timestamp"
 
 
             cursor.execute(sql_prepared_statement, insert_values)
-            row = cursor.fetchall()[0]
+            data = cursor.fetchall()
+            row = data[0]
+            print('All data: ' + str(data))
             print('Row: ' + str(row))
             return row[0].decode('utf-8')
 
