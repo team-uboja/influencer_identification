@@ -295,10 +295,9 @@ function populateTimeSeriesChart(dataObj) {
 }
 
 
-function populateBarChart(dataObj) {
+function populateBarChart(newkeys, newvalues) {
 
-    var data = {labels : Object.keys(dataObj), series : [Object.values(dataObj)]}
-    console.log(data)
+    var data = {labels : newkeys, series : [newvalues]}
 
     var options = {
         seriesBarDistance: 10,
@@ -382,10 +381,28 @@ function refreshDashboard() {
     $.getJSON("/getFilteredResultsBarChart", filterValues, function (data, status) {
 
         // Inspect the data returned from the API
-        console.log(data)
+        console.log(data);
+        //ref: https://stackoverflow.com/questions/25500316/sort-a-dictionary-by-value-in-javascript
+
+        // Create items array
+        var items = Object.keys(data).sort(function(a, b) {
+            console.log(data[b] - data[a])
+            return data[b] - data[a];
+        });
+
+        var newvalues = [];
+        for (var i = 0; i < items.length; i++) {
+            console.log(data[items[i]]);
+            newvalues.push(data[items[i]]);
+        }
+        console.log(newvalues);
+
+
+        console.log("Items");
+        console.log(items);
 
         // Populate filter Options
-        populateBarChart(data);
+        populateBarChart(items,newvalues);
       }
     )
 

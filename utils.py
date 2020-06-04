@@ -356,8 +356,14 @@ class utils:
 
             sorted_ranking = sorted(influencer_dict.items(), key=lambda x: x[1], reverse=True)
             influencer_dict={}
+            i=0
             for element in sorted_ranking:
+                if i >= 3:
+                    break
                 influencer_dict[element[0]]=element[1]
+                i+=1
+
+            print(influencer_dict)
             return flask.jsonify(influencer_dict)
 
         except connector.Error as error:
