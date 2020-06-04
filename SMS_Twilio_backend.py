@@ -81,7 +81,7 @@ class SMS_Twilio_backend:
         myUtils.setupNLTK()
         phone_numbers = myUtils.extract_phone_numbers(return_values['content'])
         if len(phone_numbers)>0:
-            return_values['voted_for'] = phone_numbers[0]
+            return_values['voted_for'] = '+' + str(phone_numbers[0])
         else:
             return_values['voted_for'] = 'None'
         return_values['age'] = request.values.get('age', 0)
