@@ -233,7 +233,7 @@ class utils:
             insert_values = (phone_number,)
             print('Insert values:' + str(insert_values))
             #TODO: this is bad style and should be changed at a later point
-            sql_prepared_statement = "select campaign_identifier from Outgoing_messages where to_=%s order by timestamp"
+            sql_prepared_statement = "select campaign_identifier from Outgoing_messages where to_=%s order by timestamp desc"
 
 
             cursor.execute(sql_prepared_statement, insert_values)
