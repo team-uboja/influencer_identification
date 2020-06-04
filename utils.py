@@ -232,7 +232,7 @@ class utils:
             cursor=connection.cursor(prepared=True)
             insert_values = (phone_number,)
             #TODO: this is bad style and should be changed at a later point
-            sql_prepared_statement = "select campaign_identifier from Outgoing_messages WHERE to = %s order by timestamp"
+            sql_prepared_statement = "select campaign_identifier from Outgoing_messages where to_=%s order by timestamp"
 
 
             cursor.execute(sql_prepared_statement, insert_values)
@@ -242,7 +242,7 @@ class utils:
 
 
         except connector.Error as error:
-            print("Reading from credential DB failed")
+            print("Reading from Outgoing Message DB failed")
             print(error)
 
         finally:
