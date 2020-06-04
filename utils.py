@@ -240,7 +240,7 @@ class utils:
             data = cursor.fetchall()
             row = data[0]
             print('All data: ' + str(data))
-            print('Row: ' + str(row))
+            print('Row: ' + str(row[0]))
             return row[0].decode('utf-8')
 
 

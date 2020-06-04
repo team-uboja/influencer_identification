@@ -85,5 +85,6 @@ class SMS_Twilio_backend:
         else:
             return_values['voted_for'] = 'None'
         return_values['age'] = request.values.get('age', 0)
+        print(return_values)
         handler = messaging_handler.messaging_handler()
         handler.receiveMessage(return_values, None)
