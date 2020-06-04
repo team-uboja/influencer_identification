@@ -9,10 +9,11 @@ Html
 Not urgent
 - Add All Campaigns table view
 - Move all javascript code from script tag to its own script
+- Time Period filter needs to work
 
-
-UI 
+DB 
 - Add checking logic for duplicate campaign_identifiers
+- Add logic to attribute a campaign ID with a phone number
 
 Steffen:
 - Infinite Loop (IMPORTANT!!!!) 

@@ -163,44 +163,6 @@ class utils:
                 print("Connection to DB has been closed")
 
 
-    def influencerListForCampaign(self, campaignID):
-        try:
-            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
-                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
-
-            cursor=connection.cursor(prepared=True)
-
-            #TODO: this is bad style and should be changed at a later point
-            #TODO: Fix hack to group by timestamp here (and not on the UI)
-            insert_values = ()
-            sql_prepared_statement = "select distinct voted_for from Incoming_messages WHERE campaign_identifier=%s"
-            insert_values+=(campaignID,)
-
-            print(sql_prepared_statement)
-
-            print('Insert values: ' + str(insert_values))
-            cursor.execute(sql_prepared_statement, insert_values)
-            print('Command executed')
-            userdata = cursor.fetchall()
-            print('Raw user data: ' + str(userdata))
-            temp_list_for_json=[]
-            for row in userdata:
-                temp_list_for_json.append(row[0].decode('utf-8'))
-
-            return flask.jsonify(temp_list_for_json)
-
-
-        except connector.Error as error:
-            print("Reading from DB failed")
-            print(error)
-
-        finally:
-            if (connection.is_connected()):
-                cursor.close()
-                connection.close()
-                print("Connection to DB has been closed")
-
-
 
     # items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 

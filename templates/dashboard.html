@@ -377,7 +377,7 @@ function refreshDashboard() {
     filterValues["voted_for"] = influencersDropdownItems.options[influencersDropdownItems.selectedIndex].value;
     var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
     filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
-    console.log(6);
+    console.log(filterValues);
 
     $.getJSON("/getFilteredResultsBarChart", filterValues, function (data, status) {
 
