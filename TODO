@@ -12,6 +12,8 @@ Not urgent
 
 
 UI 
-- Filters in one line
-- Bar chart resize to half the page
 - Add checking logic for duplicate campaign_identifiers
+
+Steffen:
+- Infinite Loop (IMPORTANT!!!!) 
+- Error Handling (IMPORTANT)
