@@ -193,19 +193,15 @@ class utils:
             print('Command executed')
             userdata = cursor.fetchall()
             temp_list_for_json=[]
+            index_list=[1,2,3,4,5,6,13,14,15,16,17]
             for row in userdata:
                 return_values = []
-                return_values.append(str(row[1]))
-                return_values.append(row[2].decode('utf-8'))
-                return_values.append(row[3].decode('utf-8'))
-                return_values.append(row[4].decode('utf-8'))
-                return_values.append(row[5].decode('utf-8'))
-                return_values.append(row[6].decode('utf-8'))
-                return_values.append(row[13].decode('utf-8'))
-                return_values.append(row[14].decode('utf-8'))
-                return_values.append(row[15].decode('utf-8'))
-                return_values.append(row[16].decode('utf-8'))
-                return_values.append(str(row[17]))
+                for index in index_list:
+                    try:
+                        return_values.append(row[index].decode('utf-8'))
+                    except(AttributeError):
+                        return_values.append(str(row[index]))
+
                 temp_list_for_json.append(return_values)
 
 

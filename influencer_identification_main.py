@@ -50,7 +50,7 @@ def incoming_sms():
     # Get the message the user sent our Twilio number
     backend=SMS_Twilio_backend.SMS_Twilio_backend()
     backend.receiveMessage(request)
-    return True
+    return 'True'
 
 @app.route("/demo", methods=['GET','POST'])
 @flask_login.login_required
