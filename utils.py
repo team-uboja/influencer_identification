@@ -250,7 +250,7 @@ class utils:
 
 
 
-            return flask.jsonify(temp_list_for_json)
+            return temp_list_for_json
 
 
         except connector.Error as error:
@@ -262,6 +262,18 @@ class utils:
                 cursor.close()
                 connection.close()
                 print("Connection to DB has been closed")
+
+
+    def getDownloadFile(self, restriction_dict):
+
+        data_list = self.getSelectedDataIncoming(restriction_dict)
+        with open('temp.csv', 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile, delimiter=' ',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            for row in data_list:
+                csv_writer.writerow(row)
+        return csvfile
+
 
     def getUserInfo(self, username):
         try:

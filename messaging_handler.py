@@ -27,6 +27,11 @@ class messaging_handler:
             self.sendMessage(message_array[i+1], message_array[i+2], campaign_identifier)
             i+=3
 
+    def sendOutInfoMessages(self, message_array, campaign_identifier, message):
+        i=0
+        while i<len(message_array):
+            self.sendMessage(message_array[i+1], message, campaign_identifier)
+            i+=2
 
 
     def sendMessage(self, target_number, message_content, campaign_identifier):

@@ -1,7 +1,7 @@
 #created by Steffen Schmidt on 5/24/2020
 import SMS_Twilio_backend
 import system_constants
-from flask import Flask, request, redirect, render_template, jsonify, flash, abort, url_for
+from flask import Flask, request, redirect, render_template, jsonify, flash, abort, url_for, send_file
 import os
 import messaging_handler
 import werkzeug.utils
@@ -103,7 +103,7 @@ def get_filtered_incoming_message_data():
     restriction_dict = {}
     for key in filter_keys:
         restriction_dict[key] = request.args.get(key)
-    return utils.utils().getSelectedDataIncoming(restriction_dict)
+    return jsonify(utils.utils().getSelectedDataIncoming(restriction_dict))
 
 @app.route('/getFilteredResultsBarChart', methods=['GET', 'POST'])
 def getFilteredResultsBarChart():
@@ -112,6 +112,17 @@ def getFilteredResultsBarChart():
     for key in filter_keys:
         restriction_dict[key] = request.args.get(key)
     return utils.utils().filteredBarChartData(restriction_dict)
+
+@app.route('/downloadResults', methods=['GET', 'POST'])
+def download_results():
+    print('Called downloadFilteredResults')
+    filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
+    restriction_dict = {}
+    for key in filter_keys:
+        restriction_dict[key] = request.args.get(key)
+    csv_file = utils.utils().getDownloadFile(restriction_dict)
+    print('created csv file')
+    return send_file(csv_file, mimetype='text/csv')
 
 
 @app.route('/getFilteredResultsTimeseries', methods=['GET', 'POST'])
@@ -154,7 +165,6 @@ def update_account_data():
                                  request.args.get('country'))
     return redirect(url_for('show_account_info'))
 
-#TODO: add actual send out functions
 @app.route('/LaunchCampaign', methods=['GET','POST'])
 @flask_login.login_required
 def launch_campaign():
@@ -165,6 +175,17 @@ def launch_campaign():
                                  request.args.get('collaborators'), request.args.get('description'),request.args.get('campaign_identifier'))
     print('Message array: ' + str(request.args.getlist('message_array[0][]')))
     messaging_handler.messaging_handler().sendOutMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'))
+    print('here')
+    #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason
+    return render_template('success.html')
+
+@app.route('/LaunchInfoCampaign', methods=['GET','POST'])
+@flask_login.login_required
+def launch_info_campaign():
+    print('launch campaign')
+    print(request.args)
+
+    messaging_handler.messaging_handler().sendOutInfoMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'),request.args.get('message'))
     print('here')
     #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason
     return render_template('success.html')

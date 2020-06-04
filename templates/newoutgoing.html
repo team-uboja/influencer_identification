@@ -99,7 +99,7 @@
                                                 <div class="col-md-5 pr-1">
                                                     <div class="form-group">
                                                         <select class="browser-default custom-select" onchange="getInfluencers()" id="campaignIDDropdownItems">
-                                                            <option value="ALL" selected>Campaign ID</option>
+                                                            <option id="campaign_id" value="ALL" selected >Campaign ID</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -108,7 +108,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>New Outgoing Message to send to influencers</label>
-                                                        <input type="text" class="form-control" placeholder="Message" id="description">
+                                                        <input type="text" class="form-control" placeholder="Message" id="message">
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,6 +238,28 @@ function initializePage() {
     }
     )
     
+}
+
+function launchCampaign() {
+  campaign_identifier_field = document.getElementById("campaign_id");
+  message_field = document.getElementById("message");
+
+  var myTableArray = [];
+  //ref: https://stackoverflow.com/questions/9579721/convert-html-table-to-array-in-javascript
+  $("table#recipient_table").each(function() {
+    var arrayOfThisRow = [];
+    var tableData = $(this).find('td');
+    if (tableData.length > 0) {
+        tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+        myTableArray.push(arrayOfThisRow);
+    }
+});
+
+
+  $.getJSON("/LaunchInfoCampaign", {campaign_identifier: campaign_identifier_field.value, message: message_field.value, message_array: myTableArray}, function (data, status) {
+
+    }
+  )
 }
 
 </script>

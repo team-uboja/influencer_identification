@@ -118,6 +118,7 @@
                                           <option value="ALL" selected>Influencers</option>
                                         </select>
                                         <button class="btn btn-info btn-fill pull-right" onclick="refreshDashboard();" type="submit">Filter Results</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -160,8 +161,9 @@
                             <div class="col-md-12">
                                 <div class="card ">
                                     <div class="card-header ">
-                                        <h4 class="card-title">Campaign Results</h4>
-                                        <p class="card-category">Download All Data</p>
+                                        <h4 class="card-title col-md-6">Campaign Results</h4>
+                                        <button class="btn btn-info btn-fill" onclick="downloadCSV();" type="button">Download as File</button>
+                                        <!--<p class="card-category">Download All Data</p>-->
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
                                         <table class="table table-hover" id="dataTable">
@@ -375,7 +377,7 @@ function refreshDashboard() {
     filterValues["voted_for"] = influencersDropdownItems.options[influencersDropdownItems.selectedIndex].value;
     var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
     filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
-    console.log(filterValues);
+    console.log(6);
 
     $.getJSON("/getFilteredResultsBarChart", filterValues, function (data, status) {
 
@@ -406,6 +408,31 @@ function refreshDashboard() {
         populateTimeSeriesChart(data);
       }
     )
+
+}
+
+function downloadCSV() {
+    console.log("Refreshing Dashboard");
+    let filterValues = {};
+    var campaignIDDropdownItems = document.getElementById("campaignIDDropdownItems");
+    console.log(campaignIDDropdownItems.value);
+    filterValues["campaign_identifier"] = campaignIDDropdownItems.options[campaignIDDropdownItems.selectedIndex].value;
+    var votersDropdownItems = document.getElementById("votersDropdownItems");
+    filterValues["from_"] = votersDropdownItems.options[votersDropdownItems.selectedIndex].value;
+    var cityDropdownItems = document.getElementById("cityDropdownItems");
+    filterValues["from_city"] = cityDropdownItems.options[cityDropdownItems.selectedIndex].value;
+    var influencersDropdownItems = document.getElementById("influencersDropdownItems");
+    filterValues["voted_for"] = influencersDropdownItems.options[influencersDropdownItems.selectedIndex].value;
+    var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
+    filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
+    console.log(filterValues);
+
+    $.getJSON("/downloadResults", filterValues, function (data, status) {
+        // Inspect the data returned from the API
+        console.log(data)
+      }
+    )
+
 
 }
 
