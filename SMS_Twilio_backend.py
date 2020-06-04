@@ -87,4 +87,4 @@ class SMS_Twilio_backend:
         return_values['age'] = request.values.get('age', 0)
         print('Return values: ' +str(return_values))
         handler = messaging_handler.messaging_handler()
-        handler.receiveMessage(return_values, None)
+        handler.receiveMessage(return_values, return_values['campaign_identifier'])
