@@ -12,6 +12,7 @@ import User
 import wtforms
 import Forms
 import is_safe_url
+import csv
 
 
 
@@ -113,16 +114,24 @@ def getFilteredResultsBarChart():
         restriction_dict[key] = request.args.get(key)
     return utils.utils().filteredBarChartData(restriction_dict)
 
-@app.route('/downloadResults', methods=['GET', 'POST'])
-def download_results():
-    print('Called downloadFilteredResults')
+@app.route('/getFilteredFile', methods=['GET', 'POST'])
+def getFileFiltered():
+    print('Called getFileFiltered')
     filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
     restriction_dict = {}
     for key in filter_keys:
         restriction_dict[key] = request.args.get(key)
-    csv_file = utils.utils().getDownloadFile(restriction_dict)
-    print('created csv file')
-    return send_file(csv_file, mimetype='text/csv')
+    data_list = utils.utils().getSelectedDataIncoming(restriction_dict)
+    with open('campaign_results.csv', 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for row in data_list:
+            csv_writer.writerow(row)
+            print('current row: ' + str(row))
+
+    print('csv_file ready')
+    return send_file('campaign_results.csv', mimetype='text/csv', as_attachment=True)
+
 
 
 @app.route('/getFilteredResultsTimeseries', methods=['GET', 'POST'])
