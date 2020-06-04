@@ -123,6 +123,14 @@ def getFilteredResultsTimeseries():
     return utils.utils().filteredTimeSeriesData(restriction_dict)
 
 
+@app.route('/runOutgoingCampaign', methods=['GET', 'POST'])
+def getInfluencersForCampaign():
+    print(request.args)
+    campaignID = request.args.get('campaignID')
+    isFinalRun = request.args.get('isFinalRun')
+    runMessage = request.args.get('runMessage')
+    return utils.utils().influencerListForCampaign(campaignID)
+
 
 @app.route("/dashboard", methods=['GET','POST'])
 @flask_login.login_required
