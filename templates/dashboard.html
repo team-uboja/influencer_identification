@@ -163,8 +163,7 @@
                                     <div class="card-header ">
                                         <h4 class="card-title">Campaign Results</h4>
                                         <p class="card-category">All responses (influencer votes) received from this campaign</p>
-                                        <button class="btn btn-info btn-xs" onclick="downloadCSV();" type="button">Download File</button>
-                                        <!--<p class="card-category">Download All Data</p>-->
+                                        <a class="card-category text-info" href="/getFilteredFile?campaign_identifier=ALL&from_=ALL&from_city=ALL&voted_for=ALL&time_period=Time%20Period">Download All Data</a> <!--TODO: Hack-->
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
                                         <table class="table table-hover" id="dataTable">
@@ -428,7 +427,7 @@ function downloadCSV() {
     filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
     console.log(filterValues);
 
-    $.getJSON("/downloadResults", filterValues, function (data, status) {
+    $.getJSON("/getFilteredFile", filterValues, function (data, status) {
         // Inspect the data returned from the API
         console.log(data)
       }

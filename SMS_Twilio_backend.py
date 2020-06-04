@@ -4,6 +4,7 @@ import messaging_handler
 from twilio.rest import Client
 import system_constants
 from flask import Flask, request, redirect, render_template
+import utils
 
 app = Flask(__name__)
 
@@ -75,8 +76,14 @@ class SMS_Twilio_backend:
         return_values['error_message'] = request.values.get('Error_message', None)
         return_values['from_city'] = request.values.get('FromCity', None)
         return_values['from_zip'] = request.values.get('FromZip', None)
-        return_values['campaign_identifier'] = request.values.get('Campaign_identifier', None)
-        return_values['voted_for'] = request.values.get('voted_for', None)
+        myUtils = utils.utils()
+        return_values['campaign_identifier'] = myUtils.getCampaignIdentifierFromNumber(str(return_values['from']))
+        myUtils.setupNLTK()
+        phone_numbers = myUtils.extract_phone_numbers(return_values['content'])
+        if len(phone_numbers)>0:
+            return_values['voted_for'] = phone_numbers[0]
+        else:
+            return_values['voted_for'] = 'None'
         return_values['age'] = request.values.get('age', 0)
         handler = messaging_handler.messaging_handler()
         handler.receiveMessage(return_values, None)

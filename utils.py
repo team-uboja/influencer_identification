@@ -5,6 +5,17 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import flask
 
+import nltk
+nltk.download('punkt')
+import re
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop = stopwords.words('english')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+
 class utils:
 
     def writeIntoUserDB(self, username, password, mail):
@@ -226,16 +237,32 @@ class utils:
                 print("Connection to DB has been closed")
 
 
-    def getDownloadFile(self, restriction_dict):
+    def getCampaignIdentifierFromNumber(self, phone_number):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
 
-        data_list = self.getSelectedDataIncoming(restriction_dict)
-        with open('temp.csv', 'w', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile, delimiter=' ',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            for row in data_list:
-                csv_writer.writerow(row)
-        return csvfile
+            cursor=connection.cursor(prepared=True)
+            insert_values = (phone_number,)
+            #TODO: this is bad style and should be changed at a later point
+            sql_prepared_statement = "select campaign_identifier from Outgoing_messages WHERE to = %s"
 
+
+            cursor.execute(sql_prepared_statement, insert_values)
+            row = cursor.fetchall()[0]
+
+            return row[0].decode('utf-8')
+
+
+        except connector.Error as error:
+            print("Reading from credential DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
 
     def getUserInfo(self, username):
         try:
@@ -443,3 +470,35 @@ class utils:
     def check_password(self, username, password):
         return check_password_hash(self.readFromUserDB(username)['password'], password)
 
+
+    ############################################# NLP engine ###################################
+
+    def setupNLTK(self):
+        nltk.download('punkt')
+        nltk.download('stopwords')
+        self.stop = stopwords.words('english')
+        nltk.download('averaged_perceptron_tagger')
+        nltk.download('maxent_ne_chunker')
+        nltk.download('words')
+
+    def extract_phone_numbers(self,string):
+        r = re.compile(r'(\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
+        phone_numbers = r.findall(string)
+        return [re.sub(r'\D', '', number) for number in phone_numbers]
+
+    def ie_preprocess(self,document):
+        document = ' '.join([i for i in document.split() if i not in stop])
+        sentences = nltk.sent_tokenize(document)
+        sentences = [nltk.word_tokenize(sent) for sent in sentences]
+        sentences = [nltk.pos_tag(sent) for sent in sentences]
+        return sentences
+
+    def extract_names(self,document):
+        names = []
+        sentences = self.ie_preprocess(document)
+        for tagged_sentence in sentences:
+            for chunk in nltk.ne_chunk(tagged_sentence):
+                if type(chunk) == nltk.tree.Tree:
+                    if chunk.label() == 'PERSON':
+                        names.append(' '.join([c[0] for c in chunk]))
+        return names

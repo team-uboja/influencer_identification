@@ -2,6 +2,8 @@ ngrok
 .idea*
 *.pem
 system_constants.py
+campaign_results.csv
+temp.csv
 
 # Mac/OSX
 .DS_Store
