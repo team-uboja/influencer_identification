@@ -470,7 +470,7 @@ class utils:
         return [re.sub(r'\D', '', number) for number in phone_numbers]
 
     def ie_preprocess(self,document):
-        document = ' '.join([i for i in document.split() if i not in stop])
+        document = ' '.join([i for i in document.split() if i not in self.stop])
         sentences = nltk.sent_tokenize(document)
         sentences = [nltk.word_tokenize(sent) for sent in sentences]
         sentences = [nltk.pos_tag(sent) for sent in sentences]
