@@ -13,13 +13,19 @@ class messaging_handler:
         self.backend = SMS_Twilio_backend.SMS_Twilio_backend()
 
     #csv file format must be phonenumber, message
-    def parseSubmittedCSVFiles(self, ):
+    def parseSubmittedCSVFiles(self):
         with open(os.path.join(system_constants.UPLOAD_FOLDER, system_constants.CSV_FILENAME)) as csvfile:
             reader = csv.reader(csvfile, delimiter=",")
             for row in reader:
                 print(row)
                 self.sendMessage(row[0], row[1], row[2])
             csvfile.close()
+
+    def sendOutMessages(self, message_array, campaign_identifier):
+        i=0
+        while i<len(message_array):
+            self.sendMessage(message_array[i+1], message_array[i+2], campaign_identifier)
+            i+=3
 
 
 
@@ -48,7 +54,7 @@ class messaging_handler:
                     status_values['content'], status_values['created'], status_values['sent'], status_values['updated'], \
                     status_values['status'], status_values['error_code'], status_values['error_message'], status_values['campaign_identifier'])
             else:
-                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city, from_zip, campaign_identifier, voted_for, age) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                sql_prepared_statement = """INSERT INTO Incoming_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, from_city, from_zip) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
                 insert_values = (status_values['from'], status_values['to'], status_values['cost'],status_values['currency'],\
                         status_values['content'],status_values['created'],status_values['sent'],status_values['updated'],\
                         status_values['status'],status_values['error_code'],status_values['error_message'], status_values['from_city'], status_values['from_zip'],\

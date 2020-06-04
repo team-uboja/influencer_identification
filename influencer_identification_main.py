@@ -148,14 +148,22 @@ def update_account_data():
 
 #TODO: add actual send out functions
 @app.route('/LaunchCampaign', methods=['GET','POST'])
-#@flask_login.login_required
+@flask_login.login_required
 def launch_campaign():
-    print('launch campaign called')
+    print('launch campaign')
+    print(request.args)
     utils.utils().writeCampaignInfo(request.args.get('organization'), request.args.get('username'), \
                                  request.args.get('mail'), request.args.get('geography'), \
                                  request.args.get('collaborators'), request.args.get('description'),request.args.get('campaign_identifier'))
-    return redirect(url_for('launch_campaign'))
+    print('Message array: ' + str(request.args.getlist('message_array[0][]')))
+    messaging_handler.messaging_handler().sendOutMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'))
+    return redirect(url_for('show_success'))
 
+@app.route("/success", methods=['GET','POST'])
+@flask_login.login_required
+def show_success():
+    print('success')
+    return render_template('success.html')
 
 @app.route("/account", methods=['GET','POST'])
 @flask_login.login_required

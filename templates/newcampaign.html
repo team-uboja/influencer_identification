@@ -271,13 +271,25 @@
                 console.log(data)
                 var table = document.getElementById("recipient_table");
 
+                var rowCount = 0;
+                var totalRowCount = 0;
+                var rows = table.getElementsByTagName("tr")
+                for (var i = 0; i < rows.length; i++) {
+                    totalRowCount++;
+                    if (rows[i].getElementsByTagName("td").length > 0) {
+                        rowCount++;
+                    }
+                }
+
+
                 var i;
                 for(i=0; i<data.length;i++){
-                    var row = table.insertRow(i+1)
+                    var row = table.insertRow(rowCount+i+1)
+                    console.log(rowCount)
                     var cell0 = row.insertCell(0)
                     var cell1 = row.insertCell(1)
                     var cell2 = row.insertCell(2)
-                    cell0.innerHTML = i
+                    cell0.innerHTML = rowCount+i+1
                     cell1.innerHTML = data[i][0]
                     cell2.innerHTML = data[i][1]
                 }
@@ -434,9 +446,21 @@
   geography_field = document.getElementById("geography");
   collaborators_field = document.getElementById("collaborators");
   description_field = document.getElementById("description");
-  console.log(username_field.value)
+  console.log(organization_field.value)
 
-  $.getJSON("/LaunchCampaign", {campaign_identifier: campaign_identifier_field.value, organization: organization_field.value, username: username_field.value, mail: email_field.value, geography: geography_field.value, collaborators: collaborators_field.value, description: description_field.value}, function (data, status) {
+  var myTableArray = [];
+  //ref: https://stackoverflow.com/questions/9579721/convert-html-table-to-array-in-javascript
+  $("table#recipient_table").each(function() {
+    var arrayOfThisRow = [];
+    var tableData = $(this).find('td');
+    if (tableData.length > 0) {
+        tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+        myTableArray.push(arrayOfThisRow);
+    }
+});
+
+
+  $.getJSON("/LaunchCampaign", {campaign_identifier: campaign_identifier_field.value, organization: organization_field.value, username: username_field.value, mail: email_field.value, geography: geography_field.value, collaborators: collaborators_field.value, description: description_field.value, message_array: myTableArray}, function (data, status) {
 
     }
   )
