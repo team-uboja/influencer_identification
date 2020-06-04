@@ -19,7 +19,7 @@
 </head>
 
 
-<body>
+<body onload="initializePage()">
     <div class="wrapper">
         <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
             <div class="sidebar-wrapper">
@@ -98,10 +98,9 @@
                                             <div class="row">
                                                 <div class="col-md-5 pr-1">
                                                     <div class="form-group">
-                                                        <label>Original Campaign identifier </label>
-                                                        <input type="text" class="form-control" placeholder="Campaign name" id="campaign_identifier">
-                                                        <button type="button" onclick="getInfluencers()" style="vertical-align: baseline" class="btn btn-info btn-fill col-md-4">Get Influencers</button>
-
+                                                        <select class="browser-default custom-select" onchange="getInfluencers()" id="campaignIDDropdownItems">
+                                                            <option value="ALL" selected>Campaign ID</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,17 +197,47 @@ function populateInfluencerTable(dataObj) {
 }
 
 function getInfluencers() {
-  campaign_identifier_field = document.getElementById("campaign_identifier");
-  console.log(campaign_identifier_field.value)
+    var campaignIDDropdownItems = document.getElementById("campaignIDDropdownItems");
+    console.log(campaignIDDropdownItems.value);
+    var campaignID = campaignIDDropdownItems.options[campaignIDDropdownItems.selectedIndex].value;
 
-  $.getJSON("/runOutgoingCampaign", {campaignID: campaign_identifier_field.value}, function (data, status) {
-    // Inspect the data returned from the API
+    $.getJSON("/runOutgoingCampaign", {campaignID: campaignID}, function (data, status) {
+        // Inspect the data returned from the API
         console.log(data)
 
-        // Populate filter Options
+        // Populate influencer table
         populateInfluencerTable(data);
     }
   )
+}
+
+
+function initializePage() {
+  /*demoSection = document.getElementById("demoSection");
+  passwordSection = document.getElementById("passwordSection");
+  demoSection.style.display = 'none';
+  passwordSection.style.display = 'block';
+  showAnalysis();
+  */
+  console.log("Initializing Campaign Dashboard");
+
+  // Make API call to backend & draw graph
+    $.getJSON("/getFilters", function (data, status) {
+
+        // Inspect the data returned from the API
+        console.log(data)
+
+        // Populate filter Options
+        campaignIDDropdown = document.getElementById("campaignIDDropdownItems");
+        for (var i = 0; i < data.campaign_identifier.length; i++) {
+            var option = document.createElement("option");
+            option.value = data.campaign_identifier[i];
+            option.text = data.campaign_identifier[i];
+            campaignIDDropdown.appendChild(option);
+        }      
+    }
+    )
+    
 }
 
 </script>
