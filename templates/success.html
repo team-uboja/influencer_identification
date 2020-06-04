@@ -20,7 +20,7 @@
 </head>
 
 
-<body onload="initializePage()">
+<body >
     <div class="wrapper">
         <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
             <div class="sidebar-wrapper">
@@ -128,47 +128,6 @@
     </div>
     
 
-<script>
-    function initializePage() {
-  organization_field = document.getElementById("organization");
-  username_field = document.getElementById("username");
-  email_field = document.getElementById("email");
-  first_name_field = document.getElementById("first_name");
-  last_name_field = document.getElementById("last_name");
-  city_field = document.getElementById("city");
-  country_field = document.getElementById("country");
-
-  $.getJSON("/getaccountdata", {}, function (data, status) {
-
-    // Inspect the data returned from the API
-    console.log(data)
-    organization_field.value = data.organization;
-    username_field.value = data.username;
-    email_field.value = data.email;
-    first_name_field.value = data.first_name;
-    last_name_field.value = data.last_name;
-    city_field.value = data.city;
-    country_field.value = data.country;
-
-    }
-  )
-}
-
-    function updateProfile() {
-  organization_field = document.getElementById("organization");
-  username_field = document.getElementById("username");
-  email_field = document.getElementById("email");
-  first_name_field = document.getElementById("first_name");
-  last_name_field = document.getElementById("last_name");
-  city_field = document.getElementById("city");
-  country_field = document.getElementById("country");
-
-  $.getJSON("/UpdateProfile", {organization: organization_field.value, username: username_field.value, mail: email_field.value, first_name: first_name_field.value, last_name: last_name_field.value, city: city_field.value, country: country_field.value}, function (data, status) {
-
-    }
-  )
-}
-</script>
 
 
 

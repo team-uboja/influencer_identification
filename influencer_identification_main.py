@@ -165,7 +165,9 @@ def launch_campaign():
                                  request.args.get('collaborators'), request.args.get('description'),request.args.get('campaign_identifier'))
     print('Message array: ' + str(request.args.getlist('message_array[0][]')))
     messaging_handler.messaging_handler().sendOutMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'))
-    return redirect(url_for('show_success'))
+    print('here')
+    #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason
+    return render_template('success.html')
 
 @app.route("/success", methods=['GET','POST'])
 @flask_login.login_required
