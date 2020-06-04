@@ -348,6 +348,53 @@ class utils:
                 print("Connection to DB has been closed")
 
 
+    def filteredTimeSeriesData(self, restriction_dict):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+
+            #TODO: this is bad style and should be changed at a later point
+            #TODO: Fix hack to group by timestamp here (and not on the UI)
+            insert_values = ()
+            sql_prepared_statement = "select timestamp from Incoming_messages WHERE "
+            for key in restriction_dict.keys():
+                if restriction_dict[key] == 'ALL':
+                    sql_prepared_statement+= "'a'=%s AND "
+                    insert_values+=('a',)
+                else:
+                    sql_prepared_statement+= key +"=%s AND "
+                    insert_values+=(restriction_dict[key],)
+            sql_prepared_statement += "'a'=%s"
+            insert_values += ('a',)
+
+
+            print(sql_prepared_statement)
+
+            print('Insert values: ' + str(insert_values))
+            cursor.execute(sql_prepared_statement, insert_values)
+            print('Command executed')
+            userdata = cursor.fetchall()
+            print('Raw user data: ' + str(userdata))
+            temp_list_for_json=[]
+            for row in userdata:
+                temp_list_for_json.append(str(row[0]))
+
+            return flask.jsonify(temp_list_for_json)
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+
     def writeCampaignInfo(self, organization, username, mail, geography, collaborators, description, campaign_identifier):
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\

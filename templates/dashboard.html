@@ -131,7 +131,7 @@
                                         <p class="card-category">Local community influencers identified within current search parameters and individual counts</p>
                                     </div>
                                     <div class="card-body ">
-                                        <div id="barChart" class="ct-Chart ct-perfect-fourth"></div>
+                                        <div id="barChart" class="ct-Chart"></div>
                                         <div class="legend">
                                             <i class="fa fa-circle text-info"></i> Response Count
                                         </div>                                        
@@ -151,10 +151,6 @@
                                         <div class="legend">
                                             <i class="fa fa-circle text-info"></i> Response Count
                                         </div>
-                                        <hr>
-                                        <div class="stats">
-                                            <i class="fa fa-history"></i> Updated 3 minutes ago
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -164,8 +160,8 @@
                             <div class="col-md-12">
                                 <div class="card ">
                                     <div class="card-header ">
-                                        <h4 class="card-title">Influencer Data</h4>
-                                        <p class="card-category">Download</p>
+                                        <h4 class="card-title">Campaign Results</h4>
+                                        <p class="card-category">Download All Data</p>
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
                                         <table class="table table-hover" id="dataTable">
@@ -217,6 +213,7 @@ function populateTable(dataObj) {
     var tabledata = document.getElementById('dataTable');
     var columnHeaders = {"Voter":1, "City":6, "Voted For":9, "Age":10, "Cost":3, "Response":5};
     var headers = Object.keys(columnHeaders);
+    $("#dataTable tr").remove(); 
 
     var tr = tabledata.insertRow(-1);
     var th = document.createElement("th");
@@ -231,7 +228,6 @@ function populateTable(dataObj) {
 
     // ADD JSON DATA TO THE TABLE AS ROWS.
     for (var i = 0; i < dataObj.length; i++) {
-        console.log(dataObj[i]);
 
         tr = tabledata.insertRow(-1);
         var tabCell = tr.insertCell(-1);
@@ -247,19 +243,32 @@ function populateTable(dataObj) {
 
 
 function populateTimeSeriesChart(dataObj) {
+
+    dataSeries = {};
+    for (var i = 0; i < dataObj.length; i++) {
+        var date = dataObj[i].substr(0,16);
+        console.log(date);
+        if (date in dataSeries) {
+            dataSeries[date] += 1;
+        }
+        else {
+            dataSeries[date] = 1;
+        }
+    }
+    console.log(dataSeries);
+
+
     var dataSales = {
-      labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-      series: [
-         [287, 385, 490, 492, 554, 586, 698, 695, 752, 788, 846, 944]
-      ]
+      labels: Object.keys(dataSeries),
+      series: [Object.values(dataSeries)]
     };
 
     var optionsSales = {
       lineSmooth: false,
       low: 0,
-      high: 800,
+      high: 200,
       showArea: true,
-      height: "245px",
+      height: "350px",
       axisX: {
         showGrid: false,
       },
@@ -294,7 +303,7 @@ function populateBarChart(dataObj) {
         axisX: {
             showGrid: false
         },
-        height: "245px"
+        height: "350px"
     };
 
     var responsiveOptions = [

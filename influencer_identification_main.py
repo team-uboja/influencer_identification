@@ -114,6 +114,15 @@ def getFilteredResultsBarChart():
     return utils.utils().filteredBarChartData(restriction_dict)
 
 
+@app.route('/getFilteredResultsTimeseries', methods=['GET', 'POST'])
+def getFilteredResultsTimeseries():
+    filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
+    restriction_dict = {}
+    for key in filter_keys:
+        restriction_dict[key] = request.args.get(key)
+    return utils.utils().filteredTimeSeriesData(restriction_dict)
+
+
 
 @app.route("/dashboard", methods=['GET','POST'])
 @flask_login.login_required
