@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/img/favicon.ico')}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+
+<body onload="initializePage()">
+    <div class="wrapper">
+        <div class="sidebar" data-color="black" data-image="{{url_for('static', filename='images/homeimage.jpg')}}">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="home" class="simple-text">
+                      UBOJA
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link" href="account">
+                            <i class="nc-icon nc-badge"></i>
+                            <p>ACCOUNT</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="newcampaign">
+                            <i class="nc-icon nc-bulb-63"></i>
+                            <p>NEW CAMPAIGN</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="dashboard">
+                            <i class="nc-icon nc-chart-bar-32"></i>
+                            <p>CAMPAIGNS</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="outgoing">
+                            <i class="nc-icon nc-audio-92"></i>
+                            <p>OUTGOING CAMPAIGN</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">
+                    <a class="navbar-brand">Dashboard</a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="logout">
+                                    <span class="no-icon">Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+
+
+
+
+            <!-- Begin Content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Campaign Successfully Sent!</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Content -->
+
+
+
+
+           <!-- Begin Footer -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav>
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="home">
+                                    Home
+                                </a>
+                            </li>
+                        </ul>
+                        <p class="copyright text-center">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>
+                            <a href="http://identifylocalinfluencers.com">Team Uboja</a>. All rights reserved. | Template: <a href="http://www.creative-tim.com">Creative Tim</a>
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+            <!-- End Footer -->
+        </div>
+    </div>
+    
+
+<script>
+    function initializePage() {
+  organization_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+  first_name_field = document.getElementById("first_name");
+  last_name_field = document.getElementById("last_name");
+  city_field = document.getElementById("city");
+  country_field = document.getElementById("country");
+
+  $.getJSON("/getaccountdata", {}, function (data, status) {
+
+    // Inspect the data returned from the API
+    console.log(data)
+    organization_field.value = data.organization;
+    username_field.value = data.username;
+    email_field.value = data.email;
+    first_name_field.value = data.first_name;
+    last_name_field.value = data.last_name;
+    city_field.value = data.city;
+    country_field.value = data.country;
+
+    }
+  )
+}
+
+    function updateProfile() {
+  organization_field = document.getElementById("organization");
+  username_field = document.getElementById("username");
+  email_field = document.getElementById("email");
+  first_name_field = document.getElementById("first_name");
+  last_name_field = document.getElementById("last_name");
+  city_field = document.getElementById("city");
+  country_field = document.getElementById("country");
+
+  $.getJSON("/UpdateProfile", {organization: organization_field.value, username: username_field.value, mail: email_field.value, first_name: first_name_field.value, last_name: last_name_field.value, city: city_field.value, country: country_field.value}, function (data, status) {
+
+    }
+  )
+}
+</script>
+
+
+
+
+</body>
+<!--   Core JS Files   -->
+<script src="{{url_for('static', filename='assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-switch.js')}}"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
+<!--  Notifications Plugin    -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="{{url_for('static', filename='assets/js/light-bootstrap-dashboard.js')}}" type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="{{url_for('static', filename='assets/js/demo.js')}}"></script>
+
+</html>
