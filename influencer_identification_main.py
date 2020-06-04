@@ -123,6 +123,7 @@ def getFileFiltered():
     for key in filter_keys:
         restriction_dict[key] = request.args.get(key)
     data_list = utils.utils().getSelectedDataIncoming(restriction_dict)
+    os.chmod("campaign_results.csv", 0o777)
     with open('campaign_results.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=' ',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
