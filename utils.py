@@ -6,15 +6,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import flask
 
 import nltk
-nltk.download('punkt')
 import re
 import nltk
-nltk.download('stopwords')
 from nltk.corpus import stopwords
-stop = stopwords.words('english')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
+
 
 class utils:
 
