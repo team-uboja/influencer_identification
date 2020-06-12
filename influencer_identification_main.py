@@ -52,7 +52,7 @@ def incoming_sms():
     backend.receiveMessage(request)
     return 'True'
 
-@app.route("/.well-known/pki-identification/F9CB136F4965BB6EEB5E19A2F5B0E807.txt", methods=['GET', 'POST'])
+@app.route("/.well-known/pki-validation/F9CB136F4965BB6EEB5E19A2F5B0E807.txt", methods=['GET', 'POST'])
 def activateSSL():
     
     return render_template('F9CB136F4965BB6EEB5E19A2F5B0E807.txt')
