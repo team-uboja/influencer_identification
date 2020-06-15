@@ -52,10 +52,10 @@ def incoming_sms():
     backend.receiveMessage(request)
     return 'True'
 
-@app.route("/.well-known/pki-validation/F9CB136F4965BB6EEB5E19A2F5B0E807.txt", methods=['GET', 'POST'])
-def activateSSL():
+#@app.route("/.well-known/pki-validation/F9CB136F4965BB6EEB5E19A2F5B0E807.txt", methods=['GET', 'POST'])
+#def activateSSL():
     
-    return render_template('F9CB136F4965BB6EEB5E19A2F5B0E807.txt')
+#    return render_template('F9CB136F4965BB6EEB5E19A2F5B0E807.txt')
 
 @app.route("/demo", methods=['GET','POST'])
 @flask_login.login_required
@@ -96,15 +96,18 @@ def processCSV():
             return True
 
 @app.route("/results", methods=['GET','POST'])
+@flask_login.login_required
 def show_results():
     tools = analytics_backend.analytics_backend()
     return tools.conductAnalysis()
 
 @app.route("/getFilters", methods=['GET','POST'])
+@flask_login.login_required
 def get_filters():
     return utils.utils().fillFilters()
 
 @app.route("/getFilteredResultsTable", methods=['GET','POST'])
+@flask_login.login_required
 def get_filtered_incoming_message_data():
     filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
     restriction_dict = {}
@@ -113,6 +116,7 @@ def get_filtered_incoming_message_data():
     return jsonify(utils.utils().getSelectedDataIncoming(restriction_dict))
 
 @app.route('/getFilteredResultsBarChart', methods=['GET', 'POST'])
+@flask_login.login_required
 def getFilteredResultsBarChart():
     filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
     restriction_dict = {}
@@ -121,6 +125,7 @@ def getFilteredResultsBarChart():
     return utils.utils().filteredBarChartData(restriction_dict)
 
 @app.route('/getFilteredFile', methods=['GET', 'POST'])
+@flask_login.login_required
 def getFileFiltered():
     print('Called getFileFiltered')
     filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
@@ -146,6 +151,7 @@ def getFileFiltered():
 
 
 @app.route('/getFilteredResultsTimeseries', methods=['GET', 'POST'])
+@flask_login.login_required
 def getFilteredResultsTimeseries():
     filter_keys = ['from_', 'from_city', 'campaign_identifier', 'voted_for']
     restriction_dict = {}
@@ -219,6 +225,7 @@ def show_new_campaign_page():
     return render_template('newcampaign.html')
 
 @app.route("/outgoing", methods=['GET','POST'])
+@flask_login.login_required
 def show_new_outgoing_campaign_page():
     print('Opening New Outgoing Campaign Page')
     return render_template('newoutgoing.html')
@@ -234,6 +241,7 @@ def checkloginstatus():
 
 
 @app.route('/logout', methods=['GET', 'POST'])
+@flask_login.login_required
 def logout():
     flask_login.logout_user()
 
