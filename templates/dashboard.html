@@ -163,7 +163,8 @@
                                     <div class="card-header ">
                                         <h4 class="card-title">Campaign Results</h4>
                                         <p class="card-category">All responses (influencer votes) received from this campaign</p>
-                                        <a class="card-category text-info" href="/getFilteredFile?campaign_identifier=ALL&from_=ALL&from_city=ALL&voted_for=ALL&time_period=Time%20Period">Download All Data</a> <!--TODO: Hack-->
+                                        <a class="card-category text-info" id="download_link" onclick="downloadCSV()" >Download filtered data</a>
+
                                     </div>
                                     <div class="card-body table-full-width table-responsive">
                                         <table class="table table-hover" id="dataTable">
@@ -211,12 +212,14 @@
 
 // items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
+var columnHeaders = {"Voter":1, "City":6, "Voted For":9, "Age":10, "Cost":3, "Response":5};
+
+
 function populateTable(dataObj) {
     var tabledata = document.getElementById('dataTable');
-    var columnHeaders = {"Voter":1, "City":6, "Voted For":9, "Age":10, "Cost":3, "Response":5};
-    var headers = Object.keys(columnHeaders);
-    $("#dataTable tr").remove(); 
 
+    $("#dataTable tr").remove(); 
+    var headers = Object.keys(columnHeaders);
     var tr = tabledata.insertRow(-1);
     var th = document.createElement("th");
     th.innerHTML = "#";
@@ -428,29 +431,55 @@ function refreshDashboard() {
 
 }
 
-function downloadCSV() {
-    console.log("Refreshing Dashboard");
-    let filterValues = {};
-    var campaignIDDropdownItems = document.getElementById("campaignIDDropdownItems");
-    console.log(campaignIDDropdownItems.value);
-    filterValues["campaign_identifier"] = campaignIDDropdownItems.options[campaignIDDropdownItems.selectedIndex].value;
-    var votersDropdownItems = document.getElementById("votersDropdownItems");
-    filterValues["from_"] = votersDropdownItems.options[votersDropdownItems.selectedIndex].value;
-    var cityDropdownItems = document.getElementById("cityDropdownItems");
-    filterValues["from_city"] = cityDropdownItems.options[cityDropdownItems.selectedIndex].value;
-    var influencersDropdownItems = document.getElementById("influencersDropdownItems");
-    filterValues["voted_for"] = influencersDropdownItems.options[influencersDropdownItems.selectedIndex].value;
-    var timePeriodDropdownItems = document.getElementById("timePeriodDropdownItems");
-    filterValues["time_period"] = timePeriodDropdownItems.options[timePeriodDropdownItems.selectedIndex].value;
-    console.log(filterValues);
-
-    $.getJSON("/getFilteredFile", filterValues, function (data, status) {
-        // Inspect the data returned from the API
-        console.log(data)
-      }
-    )
+function downloadCSV(){
 
 
+
+  //ref: https://stackoverflow.com/questions/9579721/convert-html-table-to-array-in-javascript
+  var myTableArray = [];
+  $("table#dataTable").each(function() {
+
+    var tableData = $(this).find('td');
+    if (tableData.length > 0) {
+        var i = 2
+        var temp = []
+        tableData.each(function() {
+            if(i==$(this).text()){
+                myTableArray[i-2]=temp;
+                temp = [];
+                i++;
+            }
+            temp.push($(this).text());
+
+
+
+        });
+        myTableArray[i-2]=temp;
+
+    }
+    });
+
+    //ref: https://code-maven.com/create-and-download-csv-with-javascript
+    var csv = '';
+    tempHeaders = Object.keys(columnHeaders);
+    tempHeaders.unshift("Entry Number")
+
+    headerArray = [tempHeaders]
+    console.log(headerArray)
+    headerArray.forEach(function(row) {
+            csv += row.join('|');
+            csv += "\n";
+    });
+    myTableArray.forEach(function(row) {
+            csv += row.join('|');
+            csv += "\n";
+    });
+    //console.log(csv)
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'campaign_data.csv';
+    hiddenElement.click();
 }
 
 

@@ -123,19 +123,20 @@ def getFileFiltered():
     for key in filter_keys:
         restriction_dict[key] = request.args.get(key)
     data_list = utils.utils().getSelectedDataIncoming(restriction_dict)
-    f = open("/home/ubuntu/influencer_identification/campaign_results.csv", "w")
+    f = open("campaign_results.csv", "w")
     f.write("a")
     f.close()
-    os.chmod("/home/ubuntu/influencer_identification/campaign_results.csv", 0o777)
-    with open('/home/ubuntu/influencer_identification/campaign_results.csv', 'w', newline='') as csvfile:
+    os.chmod("campaign_results.csv", 0o777)
+    with open('campaign_results.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=' ',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for row in data_list:
             csv_writer.writerow(row)
             print('current row: ' + str(row))
 
-    print('csv_file ready')
-    return send_file('campaign_results.csv', mimetype='text/csv', as_attachment=True)
+    f = open("campaign_results.csv", "r")
+    return_string = f.read()
+    return return_string
 
 
 
