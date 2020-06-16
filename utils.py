@@ -360,8 +360,10 @@ class utils:
             for element in sorted_ranking:
                 if i >= 3:
                     break
-                influencer_dict[element[0]]=element[1]
-                i+=1
+                #make sure only those numbers that actually have more than 0 counts are shown
+                if (element[1]>0):
+                    influencer_dict[element[0]]=element[1]
+                    i+=1
 
             print(influencer_dict)
             return flask.jsonify(influencer_dict)
