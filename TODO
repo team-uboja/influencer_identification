@@ -5,6 +5,7 @@ Html
 - Allow downloading data from table (as spreadsheet)
 - Add send-out capability
 - Change page title based on selected component (Dashboard, Account, etc)
+- Remove hack for displaying success page when launching campaigns
 
 Not urgent
 - Add All Campaigns table view

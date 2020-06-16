@@ -176,6 +176,8 @@ function populateInfluencerTable(dataObj) {
 
     var tr = tabledata.insertRow(-1);
     var th = document.createElement("th");
+    tr.appendChild(th);
+    var th = document.createElement("th");
     th.innerHTML = "#";
     tr.appendChild(th);
     var th = document.createElement("th");
@@ -192,6 +194,13 @@ function populateInfluencerTable(dataObj) {
     for (var i = 0; i < influencers.length; i++) {
 
         tr = tabledata.insertRow(-1);
+
+        var tabCell = tr.insertCell(-1);
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = i;
+        tabCell.appendChild(cb);
+
         var tabCell = tr.insertCell(-1);
         tabCell.innerHTML = i+1;
 
@@ -256,11 +265,14 @@ function launchCampaign() {
   $("table#recipient_table").each(function() {
     var arrayOfThisRow = [];
     var tableData = $(this).find('td');
+    console.log(tableData);
     if (tableData.length > 0) {
         tableData.each(function() { arrayOfThisRow.push($(this).text()); });
         myTableArray.push(arrayOfThisRow);
     }
 });
+
+  console.log(myTableArray);
 
 
   $.getJSON("/LaunchInfoCampaign", {campaign_identifier: campaign_identifier_field.value, message: message_field.value, message_array: myTableArray}, function (data, status) {
