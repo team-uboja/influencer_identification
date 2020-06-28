@@ -124,6 +124,7 @@ def getFilteredResultsBarChart():
         restriction_dict[key] = request.args.get(key)
     return utils.utils().filteredBarChartData(restriction_dict)
 
+#ToDo: anonymize
 @app.route('/getFilteredFile', methods=['GET', 'POST'])
 @flask_login.login_required
 def getFileFiltered():

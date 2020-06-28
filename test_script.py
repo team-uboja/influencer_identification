@@ -38,5 +38,4 @@ import messaging_handler
 # restriction_dict['age'] = '24'
 #
 # print(utils.utils().getSelectedDataIncoming(restriction_dict))
-
-utils.utils().barChartData()
+#utils.utils().getAliasFromDB('+41799113009')

@@ -21,4 +21,4 @@ Steffen:
 - Error Handling (IMPORTANT)
 - Delete table for refresh on newcampaign
 - File Download
--
+- Include collision handling in alias mapping after truncation

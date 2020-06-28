@@ -9,9 +9,13 @@ import nltk
 import re
 import nltk
 from nltk.corpus import stopwords
+import hashlib
 
 
 class utils:
+
+    def __init__(self):
+        self.number_alias_mapping={}
 
     def writeIntoUserDB(self, username, password, mail):
         try:
@@ -74,6 +78,75 @@ class utils:
                 connection.close()
                 print("Connection to DB has been closed")
 
+    #get alias for phone number, if alias does not exist, insert new alias
+
+    def getAliasFromDB(self, phone_number):
+        if phone_number in self.number_alias_mapping:
+            return self.number_alias_mapping[phone_number]
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+            sql_prepared_statement = """select phone_number, alias from Number_alias_mapping"""
+
+
+            cursor.execute(sql_prepared_statement)
+            userdata = cursor.fetchall()
+            for row in userdata:
+                self.number_alias_mapping[row[0].decode('utf-8')] = row[1].decode('utf-8')
+
+            if phone_number in self.number_alias_mapping:
+                return self.number_alias_mapping[phone_number]
+            else:
+                return self.createAlias(phone_number)
+
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+
+    def createAlias(self, phone_number):
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+
+            #important: don't put variable table name into statement other than through prepared statements
+
+            sql_prepared_statement = """INSERT INTO Number_alias_mapping (phone_number, alias) VALUES  (%s,%s)"""
+            hash = hashlib.sha3_512(bytes(phone_number,'utf-8'))
+            print(hash.digest_size)
+            alias=hash.hexdigest()[:10]
+            insert_values = (phone_number, alias)
+
+            cursor.execute(sql_prepared_statement, insert_values)
+            connection.commit()
+            print('Added mapping to database')
+
+            return alias
+
+        except connector.Error as error:
+            print("Writing message into mapping DB failed")
+            print(error)
+            return False
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+
     def getAllTableData(self):
         try:
                 connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
@@ -130,6 +203,7 @@ class utils:
                 print("Connection to DB has been closed")
 
     def fillFilters(self):
+        print("fillFilters called")
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
                                            password=system_constants.AMAZON_RDS_DB1_PASSWORD \
@@ -169,6 +243,7 @@ class utils:
     # items in restriction_dict must be elements from_, to, from_city, campaign_identifier, voted_for, age
 
     def getSelectedDataIncoming(self, restriction_dict):
+        print('getSelectedDataIncoming called')
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
@@ -193,15 +268,20 @@ class utils:
             print('Command executed')
             userdata = cursor.fetchall()
             temp_list_for_json=[]
+            #index 2 is from, index 3 is to
             index_list=[1,2,3,4,5,6,13,14,15,16,17]
             for row in userdata:
                 return_values = []
                 for index in index_list:
                     try:
-                        return_values.append(row[index].decode('utf-8'))
+                        if index == 2 or index == 3 or index == 16:
+                            return_values.append(self.getAliasFromDB(row[index].decode('utf-8')))
+                        elif index == 6:
+                            return_values.append(row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8'))))
+                        else:
+                            return_values.append(row[index].decode('utf-8'))
                     except(AttributeError):
                         return_values.append(str(row[index]))
-
                 temp_list_for_json.append(return_values)
 
 
@@ -317,6 +397,7 @@ class utils:
                 print("Connection to DB has been closed")
 
     def filteredBarChartData(self, restriction_dict):
+        print('filteredBarChartData called')
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME,
                                            password=system_constants.AMAZON_RDS_DB1_PASSWORD \
@@ -362,7 +443,7 @@ class utils:
                     break
                 #make sure only those numbers that actually have more than 0 counts are shown
                 if (element[1]>0):
-                    influencer_dict[element[0]]=element[1]
+                    influencer_dict[self.getAliasFromDB(element[0])]=element[1]
                     i+=1
 
             print(influencer_dict)
@@ -380,6 +461,7 @@ class utils:
 
 
     def filteredTimeSeriesData(self, restriction_dict):
+        print('filteredTimeSeriesData called')
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
                 , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')

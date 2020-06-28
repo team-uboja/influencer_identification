@@ -5,12 +5,13 @@ import mysql.connector as connector
 import system_constants
 import csv
 import os
-
+import utils
 
 class messaging_handler:
 
     def __init__(self):
         self.backend = SMS_Twilio_backend.SMS_Twilio_backend()
+        self.utils = utils.utils()
 
     #csv file format must be phonenumber, message
     def parseSubmittedCSVFiles(self):
@@ -52,8 +53,13 @@ class messaging_handler:
 
             cursor=connection.cursor(prepared=True)
 
+            # get mapping for from and to numbers
+            status_values['from'] = self.utils.getAliasFromDB(status_values['from'])
+            status_values['to'] = self.utils.getAliasFromDB(status_values['to'])
+
             #important: don't put variable table name into statement other than through prepared statements
             if message_outgoing:
+
                 sql_prepared_statement = """INSERT INTO Outgoing_messages (from_, to_, cost, currency, content, created , sent, updated, status, error_code, error_message, campaign_identifier) VALUES  (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
                 insert_values = (status_values['from'], status_values['to'], status_values['cost'], status_values['currency'], \
                     status_values['content'], status_values['created'], status_values['sent'], status_values['updated'], \
