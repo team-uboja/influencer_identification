@@ -53,9 +53,7 @@ class messaging_handler:
 
             cursor=connection.cursor(prepared=True)
 
-            # get mapping for from and to numbers
-            status_values['from'] = self.utils.getAliasFromDB(status_values['from'])
-            status_values['to'] = self.utils.getAliasFromDB(status_values['to'])
+
 
             #important: don't put variable table name into statement other than through prepared statements
             if message_outgoing:
