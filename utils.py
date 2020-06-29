@@ -277,6 +277,8 @@ class utils:
                         if index == 2 or index == 3 or index == 16:
                             return_values.append(self.getAliasFromDB(row[index].decode('utf-8')))
                         elif index == 6:
+                            if row[16].decode('utf-8') == '+11510739753':
+                                print("Message: " + str(row[index].decode('utf-8')))
                             return_values.append(row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8'))))
                         else:
                             return_values.append(row[index].decode('utf-8'))
