@@ -10,12 +10,14 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import hashlib
+import copy
 
 
 class utils:
 
     def __init__(self):
         self.number_alias_mapping={}
+        self.setupNLTK()
 
     def writeIntoUserDB(self, username, password, mail):
         try:
@@ -278,11 +280,20 @@ class utils:
                             return_values.append(self.getAliasFromDB(row[index].decode('utf-8')))
                         elif index == 6:
                             temp_string = row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8')))
+                            print("tempstring before: " + str(temp_string))
+                            names = self.extract_names(copy.deepcopy(temp_string))
 
+
+                            for name in names:
+
+                                temp_string = temp_string.replace(name, self.getAliasFromDB(name))
                             return_values.append(temp_string)
+                            print("tempstring after: " + str(temp_string))
                         else:
                             return_values.append(row[index].decode('utf-8'))
-                    except(AttributeError):
+                    except AttributeError as e:
+                        if index == 6:
+                            print(e)
                         return_values.append(str(row[index]))
                 temp_list_for_json.append(return_values)
 
@@ -570,4 +581,5 @@ class utils:
                 if type(chunk) == nltk.tree.Tree:
                     if chunk.label() == 'PERSON':
                         names.append(' '.join([c[0] for c in chunk]))
+        print('names in extract names: ' + str(names))
         return names
