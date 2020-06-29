@@ -279,7 +279,11 @@ class utils:
                         elif index == 6:
                             if row[16].decode('utf-8') == '+11510739753':
                                 print("Message: " + str(row[index].decode('utf-8')))
-                            return_values.append(row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8'))))
+                                temp_string = row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8')))
+                                names = self.extract_names(temp_string)
+                                for name in names:
+                                    temp_string.replace(name, self.getAliasFromDB(name))
+                            return_values.append(temp_string)
                         else:
                             return_values.append(row[index].decode('utf-8'))
                     except(AttributeError):
