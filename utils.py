@@ -17,7 +17,7 @@ class utils:
 
     def __init__(self):
         self.number_alias_mapping={}
-        self.setupNLTK()
+        #self.setupNLTK()
 
     def writeIntoUserDB(self, username, password, mail):
         try:
@@ -280,15 +280,15 @@ class utils:
                             return_values.append(self.getAliasFromDB(row[index].decode('utf-8')))
                         elif index == 6:
                             temp_string = row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8')))
-                            print("tempstring before: " + str(temp_string))
-                            names = self.extract_names(copy.deepcopy(temp_string))
+                            #print("tempstring before: " + str(temp_string))
+                            #names = self.extract_names(copy.deepcopy(temp_string))
 
 
-                            for name in names:
+                            #for name in names:
 
-                                temp_string = temp_string.replace(name, self.getAliasFromDB(name))
+                                #temp_string = temp_string.replace(name, self.getAliasFromDB(name))
                             return_values.append(temp_string)
-                            print("tempstring after: " + str(temp_string))
+                            #print("tempstring after: " + str(temp_string))
                         else:
                             return_values.append(row[index].decode('utf-8'))
                     except AttributeError as e:
