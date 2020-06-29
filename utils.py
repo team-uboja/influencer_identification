@@ -277,11 +277,8 @@ class utils:
                         if index == 2 or index == 3 or index == 16:
                             return_values.append(self.getAliasFromDB(row[index].decode('utf-8')))
                         elif index == 6:
-
                             temp_string = row[index].decode('utf-8').replace(row[16].decode('utf-8'), self.getAliasFromDB(row[16].decode('utf-8')))
-                            names = self.extract_names(temp_string)
-                            for name in names:
-                                temp_string.replace(name, self.getAliasFromDB(name))
+
                             return_values.append(temp_string)
                         else:
                             return_values.append(row[index].decode('utf-8'))
