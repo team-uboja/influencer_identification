@@ -196,6 +196,9 @@ def launch_campaign():
     print('here')
     return redirect(url_for('show_success'))
 
+@app.route('/privacy_policy', methods=['GET','POST'])
+def show_privacy_policy():
+    return render_template('privacy-policy.html')
 
 @app.route('/LaunchInfoCampaign', methods=['GET','POST'])
 @flask_login.login_required
