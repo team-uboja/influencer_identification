@@ -42,7 +42,7 @@ def show_main():
     print('main test')
     print('By user' + str(flask_login.current_user))
     print('main test2')
-    return render_template('index.html')
+    return render_template('index2.html')
 
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():

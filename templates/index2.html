@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html>
-<title>Team Uboja</title>
+<title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
 
 <body onload="initializePage()">
 
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="#home" class="w3-bar-item w3-button w3-wide">TEAM UBOJA</a>
+    <a href="home" class="w3-bar-item w3-button w3-wide">UBOJA</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
       <a href="home#about" class="w3-bar-item w3-button">ABOUT</a>
-      <a href="demo" class="w3-bar-item w3-button"><i class="fa fa-th"></i> DEMO</a>
+      <!--<a href="demo" class="w3-bar-item w3-button"><i class="fa fa-th"></i> DEMO</a>-->
       <a href="dashboard" class="w3-bar-item w3-button"><i class="fa fa-th"></i> DASHBOARD</a>
       <a href="home#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> TEAM</a>
       <a href="home#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
@@ -39,7 +37,7 @@
 <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
   <a href="home#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
-  <a href="demo" onclick="w3_close()" class="w3-bar-item w3-button">DEMO</a>
+  <a href="dashboard" onclick="w3_close()" class="w3-bar-item w3-button">DASHBOARD</a>
   <a href="home#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
   <a href="home#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
 </nav>
@@ -47,49 +45,67 @@
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-    <span class="w3-jumbo w3-white w3-padding-medium w3-margin-top w3-opacity">The Team Uboja Solution</span><br>
-    <!--<span class="w3-xxlarge w3-hide-large w3-hide-medium w3-opacity">The Team Uboja Solution</span><br>-->
-    <span class="w3-large w3-white w3-padding-medium w3-margin-top w3-opacity">A local influencer identification mechanism using SMS-based community voting</span>
-    <!--<p><a href="demo" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Try our Demo here!</a></p>-->
-  </div>
+    <span class="w3-jumbo w3-hide-small w3-black w3-padding-large">The Uboja Solution</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium w3-black w3-padding-large">The Uboja Solution</span><br>
+    <span class="w3-large w3-black w3-padding-large w3-margin-top">Uboja helps agencies identify trusted community members who can effectively spread healthcare best practices.</span>
+    <p><a href="#about" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Access the Uboja Dashboard</a></p>
+  </div> 
 </header>
 
 <!-- About Section -->
-<div class="w3-container" style="padding:58px 16px" id="about">
+<div class="w3-container" style="padding:128px 16px" id="about">
+  <h3 class="w3-center"><b>Our core belief is that the most effective way to spread information is through trusted community members. This has been acknowledged by the OECD and WHO in tackling pandemics and other healthcare issues.</b></h3>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
-    <div class="w3-row-padding w3-center w3-panel w3-card-4 w3-light-grey" style="margin-top:64px">
-      <iframe width="1120" height="630" src="https://www.youtube.com/embed/JAF66oSIlic" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-
-    <div class="w3-panel w3-card-4 w3-light-grey">
-      <span class="w3-xxlarge">Our Hypothesis</span><br>
-      <span class="w3-medium">The most effective way to spread information is through trusted community members.</span><br>
-      <p class=" w3-large w3-serif">
-      <i class="fa fa-quote-right w3-xxlarge w3-text-black"></i><br>
-      <i>In the West Africa Ebola outbreak, cases began to decline when religious leaders and village chiefs started to educate people about social distancing and bringing the sick to Ebola treatment units.</i></p>
+    <div class="w3-third">
       <div class="w3-row-padding w3-center" style="margin-bottom:50px">
-        <img src="{{url_for('static', filename='images/wapo.png')}}" alt="WAPO" style="width:50%">
+        <img src="{{url_for('static', filename='images/wapo.jpeg')}}" alt="WAPO" style="width:50%">
       </div>
+      <p class="w3-large">The Washington Post</p>
+      <p><i>“ In the West Africa Ebola outbreak, cases began to decline when <b>religious leaders and village chiefs started to educate people</b> about social distancing and bringing the sick to Ebola treatment units.​ ”</i></p>
     </div>
-    <div class="w3-row-padding w3-center" style="margin-top:64px">
-      <div class="w3-half w3-column-padding" style="padding:0px 50px">
-        <h3>How can we effectively and accurately identify trusted community members (influencers) within dense, urban settings?</h3>
-        <p>Our SMS-based influencer identification mechanism utilizes the low-tech but ubiquitous access to basic cell service and involves all the relevant stakeholders - Public Health Officials, Community Influencers and the Local Community.</p>
+    <div class="w3-third">
+      <div class="w3-row-padding w3-center" style="margin-bottom:50px">
+        <img src="{{url_for('static', filename='images/who.jpeg')}}" alt="WAPO" style="width:50%">
       </div>
-      <div class="w3-half w3-card-4 w3-light-grey">
-        <img class="w3-image w3-round-large" src="{{url_for('static', filename='images/1pager.png')}}" alt="images/1pager.png" width="700" height="500">
+      <p class="w3-large">The World Health Organization</p>
+      <p><i>“ Village chiefs, neighborhood leaders and health workers have volunteered to be part of Chad’s door-to-door campaigns to sensitize the public. They are <b>mostly members of the communities</b> they are reaching out to.​ “</i></p>
+    </div>
+    <div class="w3-third">
+      <div class="w3-row-padding w3-center" style="margin-bottom:50px">
+        <img src="{{url_for('static', filename='images/OECDLogo.jpeg')}}" alt="WAPO" style="width:50%">
       </div>
+      <p class="w3-large">OECD.org</p>
+      <p><i>“ The COVID-19 pandemic shows that there is no other option but to rely on local actors and promote local initiatives during crisis management.​ “</i></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Promo Section - "We know design" -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px">
+  <h3 class="w3-center"><b>How can we identify trusted community members (influencers) in developing areas in Africa and Asia?</b></h3>
+  <div class="w3-row-padding w3-center" style="padding:16px 16px">
+    <p>While the Internet and TV are not available in many parts of developing areas, basic cell phones are ubiquitous in the developing world. Thus, we have build an SMS based influencer identification and education system to identify trusted community members and convey important best practices to counteract the spread of a disease. This solution could improve lives globally, especially for the poorest parts of the world by making knowledge accessible and well-known to parts of the population that get most of their information from a trusted source in their community or family.</p>
+    <div class="w3-row-padding w3-center" style="padding:16px 16px">
+      <span>
+        <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/ZsbNjveX0Dw' frameborder='10' allowfullscreen></iframe></div>
+      </span>
     </div>
   </div>
 </div>
 
 
 
+
+<div class="w3-row-padding w3-center" style="padding:64px 16px">
+  <h3 class="w3-center w3-xxlarge w3-padding-large"><b>How does the Uboja Solution work?</b></h3>
+  <img class="w3-image w3-round-large" src="{{url_for('static', filename='images/1pager.png')}}" alt="images/1pager.png" width="800" height="350">
+</div>
+
 <!-- Team Section -->
-<div class="w3-containerw3-row w3-center w3-dark-grey w3-padding-64" style="padding:128px 16px" id="team">
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="team">
   <h3 class="w3-center w3-xxlarge">OUR TEAM</h3>
-  <h3 class="w3-center w3-medium">MIT Africa Covid Hackathon Winning Solution</h3>
+  <h3 class="w3-center w3-medium">The Massachusetts Institute of Technology Africa Covid Hackathon Winning Team</h3>
   <img src="{{url_for('static', filename='images/mitcovid.jpeg')}}" alt="MIT Covid" style="width:100%">
   <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
     <div class="w3-col l4 m6 w3-margin-bottom">
@@ -97,6 +113,7 @@
         <img src="{{url_for('static', filename='images/team/steffen.png')}}" alt="Steffen" style="width:100%">
         <div class="w3-container">
           <h3>Steffen Schmidt</h3>
+          <p class="w3-opacity">MIT MBA '20, Electrical Engineer</p>
         </div>
       </div>
     </div>
@@ -105,6 +122,7 @@
         <img src="{{url_for('static', filename='images/team/aparna.png')}}" alt="Aparna" style="width:100%">
         <div class="w3-container">
           <h3>Aparna Pande</h3>
+          <p class="w3-opacity">MIT MBA '21, Software Engineer</p>
         </div>
       </div>
     </div>
@@ -113,6 +131,7 @@
         <img src="{{url_for('static', filename='images/team/tosin.jpeg')}}" alt="Tosin" style="width:100%">
         <div class="w3-container">
           <h3>Oluwatosin Ogunsola</h3>
+          <p class="w3-opacity">Data Analyst, NGO</p>
         </div>
       </div>
     </div>
@@ -121,6 +140,7 @@
         <img src="{{url_for('static', filename='images/team/yousif.jpeg')}}" alt="Yousif" style="width:100%">
         <div class="w3-container">
           <h3>Yousif Bunkheila</h3>
+          <p class="w3-opacity">Businss BComm</p>
         </div>
       </div>
     </div>
@@ -129,6 +149,7 @@
         <img src="{{url_for('static', filename='images/team/utkarsh.jpeg')}}" alt="Utkarsh" style="width:100%">
         <div class="w3-container">
           <h3>Utkarsh Uppal</h3>
+          <p class="w3-opacity">Biomedical Engineer</p>
         </div>
       </div>
     </div>
@@ -137,6 +158,7 @@
         <img src="{{url_for('static', filename='images/team/ritam.jpeg')}}" alt="Ritam" style="width:100%">
         <div class="w3-container">
           <h3>Ritam Priya</h3>
+          <p class="w3-opacity">VP, Quality, Healthcare Startup</p>
         </div>
       </div>
     </div>
@@ -144,8 +166,10 @@
 </div>
 
 
+
+
 <!-- Contact Section -->
-<div class="w3-center w3-container w3-light-grey" style="padding:200px 16px" id="contact">
+<div class="w3-center w3-container" style="padding:200px 16px" id="contact">
   <h3 class="w3-center">CONTACT US</h3>
   <a class="w3-center w3-large w3-button w3-black" type="submit" href="mailto:team.uboja@mit.edu">Lets get in touch. Send us a message!</a>  
 </div>
@@ -160,10 +184,16 @@
     &copy; Team Uboja 2020. All rights reserved.
   </div>
 </footer>
-
+ 
 <script>
-// Defining functions
-// ---------
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
 
 // Toggle between showing and hiding the sidebar when clicking the menu icon
 var mySidebar = document.getElementById("mySidebar");
@@ -180,6 +210,7 @@ function w3_open() {
 function w3_close() {
     mySidebar.style.display = "none";
 }
+
 
 function initializePage() {
   login_button = document.getElementById("login_button");
