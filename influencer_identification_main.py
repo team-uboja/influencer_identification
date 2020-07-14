@@ -201,7 +201,7 @@ def show_privacy_policy():
     return render_template('privacy-policy.html')
 
 @app.route('/cookie_policy', methods=['GET','POST'])
-def show_privacy_policy():
+def show_cookie_policy():
     return render_template('cookie-policy.html')
 
 @app.route('/LaunchInfoCampaign', methods=['GET','POST'])
