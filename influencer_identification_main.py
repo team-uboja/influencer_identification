@@ -200,6 +200,10 @@ def launch_campaign():
 def show_privacy_policy():
     return render_template('privacy-policy.html')
 
+@app.route('/cookie_policy', methods=['GET','POST'])
+def show_privacy_policy():
+    return render_template('cookie-policy.html')
+
 @app.route('/LaunchInfoCampaign', methods=['GET','POST'])
 @flask_login.login_required
 def launch_info_campaign():
