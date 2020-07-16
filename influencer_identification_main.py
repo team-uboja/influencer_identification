@@ -209,7 +209,7 @@ def show_cookie_policy():
 def launch_info_campaign():
     print('launch campaign')
     print(request.args)
-    messaging_handler.messaging_handler().sendOutInfoMessages(request.args.getlist('message_array[0][]'), request.args.get('campaign_identifier'),request.args.get('message'))
+    messaging_handler.messaging_handler().sendOutInfoMessages(request.args.getlist('message_array[]'), request.args.get('campaign_identifier'),request.args.get('message'))
     print('here')
     #this is a horrible hack, should redirect to 'show_success' but that does not work for some reason
     return render_template('success.html')

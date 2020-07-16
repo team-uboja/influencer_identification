@@ -273,18 +273,12 @@ function launchCampaign() {
 
   var myTableArray = [];
   //ref: https://stackoverflow.com/questions/9579721/convert-html-table-to-array-in-javascript
-  $("table#recipient_table").each(function() {
-    var arrayOfThisRow = [];
-    var tableData = $(this).find('td');
-    console.log(tableData);
-    if (tableData.length > 0) {
-        tableData.each(function() { arrayOfThisRow.push($(this).text()); });
-        myTableArray.push(arrayOfThisRow);
-    }
+  $("table#recipient_table input[type=checkbox]:checked").each(function() {
+    var row = $(this).closest("tr")[0];
+        myTableArray.push(row.cells[2].innerHTML);
 });
 
   console.log(myTableArray);
-
 
   $.getJSON("/LaunchInfoCampaign", {campaign_identifier: campaign_identifier_field.value, message: message_field.value, message_array: myTableArray}, function (data, status) {
 

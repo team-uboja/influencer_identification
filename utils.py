@@ -116,6 +116,44 @@ class utils:
                 print("Connection to DB has been closed")
 
 
+
+    #get alias for phone number, if alias does not exist, insert new alias
+
+    def getPhoneNumberFromAliasDB(self, alias):
+
+        try:
+            connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\
+                , host='ubuntu-db1.cq7wudipahsy.us-east-2.rds.amazonaws.com', port='3306', database='Ubuntu')
+
+            cursor=connection.cursor(prepared=True)
+            sql_prepared_statement = """select phone_number, alias from Number_alias_mapping WHERE alias=%s"""
+            insert_values=(alias,)
+
+            cursor.execute(sql_prepared_statement, insert_values)
+            userdata = cursor.fetchall()
+            for row in userdata:
+                return (row[0].decode('utf-8'))
+
+            if phone_number in self.number_alias_mapping:
+                return self.number_alias_mapping[phone_number]
+            else:
+                return self.createAlias(phone_number)
+
+
+
+        except connector.Error as error:
+            print("Reading from DB failed")
+            print(error)
+
+        finally:
+            if (connection.is_connected()):
+                cursor.close()
+                connection.close()
+                print("Connection to DB has been closed")
+
+
+
+
     def createAlias(self, phone_number):
         try:
             connection = connector.connect(user=system_constants.AMAZON_RDS_DB1_USERNAME, password = system_constants.AMAZON_RDS_DB1_PASSWORD\

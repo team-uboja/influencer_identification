@@ -31,8 +31,8 @@ class messaging_handler:
     def sendOutInfoMessages(self, message_array, campaign_identifier, message):
         i=0
         while i<len(message_array):
-            self.sendMessage(message_array[i+1], message, campaign_identifier)
-            i+=2
+            self.sendMessage(self.utils.getPhoneNumberFromAliasDB(message_array[i]), message, campaign_identifier)
+            i+=1
 
 
     def sendMessage(self, target_number, message_content, campaign_identifier):
