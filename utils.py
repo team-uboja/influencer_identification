@@ -600,7 +600,7 @@ class utils:
         nltk.download('words')
 
     def extract_phone_numbers(self,string):
-        r = re.compile(r'(\+\d{1-3}[-\.\s]??\d{2-5}[-\.\s]??\d{3-6}[-\.\s]??\d{0-6}??)')
+        r = re.compile(r'(\+\d{1,3}[-\.\s]??\d{2,5}[-\.\s]??\d{3,6}[-\.\s]??\d{0,6}??)')
         phone_numbers = r.findall(string)
         return [re.sub(r'\D', '', number) for number in phone_numbers]
 
