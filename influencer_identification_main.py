@@ -220,6 +220,13 @@ def show_success():
     print('success')
     return render_template('success.html')
 
+
+@app.route("/join", methods=['GET','POST'])
+def show_join():
+    print('Rendering "join the team" page')
+    return render_template('join.html')
+
+
 @app.route("/account", methods=['GET','POST'])
 @flask_login.login_required
 def show_account_info():
